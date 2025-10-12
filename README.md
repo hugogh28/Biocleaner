@@ -6,9 +6,10 @@ Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
 * Sergio Ponce
 * Lucía Andrés
 ## Resumen del Juego
-Un quokka y un narval luchan por recoger la mayor cantidad de basura posible antes de que la contaminación les consuma. El objetivo es sencillo, deben luchar por ser el primero en limpiar por completo su zona, o dicho de otro modo, se debe lograr obtener la mayor puntuación posible para ganar al rival moviéndose a través de las casillas de la pantalla. 
+Dos animales muy distintos, un quokka y un narval, se encuentran enfrentados en una lucha por la limpieza de sus ecosistemas, el objetivo del juego es simple, el jugador debe superar a su rival en puntuación, o dicho de otro modo, se pretende ser el que consiga recoger una mayor cantidad de basura para ser el que tenga ese mayor puntaje al final de la partida.
+La pantalla estará dividida en dos zonas, la de la izquierda y terrestre pertenecerá al quokka, mientras que la de la derecha y acuática será la que pertenezca al narval. Para evitar confusiones habrá una división clara entre las dos zonas para evitar que los jugadores crean que pueden pasar al campo del otro. El movimiento que tendrán los jugadores será bastante similar al de otros muchos juegos "flash" que existen en Internet, ya que la intención es que el jugador pueda moversede forma continua en dos dimensiones excluyendo toda dirección diagonal, no se pretende que se requiera una pausa notoria entre cada movimiento, ni que el quokka y el narval se muevan de forma ininterrumpida en la última dirección indicada tal y como se puede observar en juegos como el conocido **Snake**.
 ## Mecánicas
-El juego constará de dos mecánicas básicas, la limpieza de basura y el tratar de perjudicar a tu rival. Complementando a estas mecánicas, se incluirá un temporizador, que determinará la duración de la partida.
+El juego constará de varias mecánicas pero las más básicas son la limpieza de basura y el tratar de perjudicar a tu rival. Complementando a estas mecánicas, se incluirá un temporizador, que determinará la duración de la partida.
 ### Limpieza
 La limpieza es la mecánica más básica del juego y la que le da sentido a la partida, el objetivo es, que mediante aleatoriedad vaya apareciendo basura en las casillas de la zona de cada jugador, por lo que estos deberán rápidamente ir a limpiar dicha basura, lo que les agregará una puntuación en sus respectivos contadores.
 ### Perjudicar al rival
@@ -17,3 +18,4 @@ Perjudicar al rival será otro de los objetivos que se tendrá en todo momento, 
 El antes mencionado temporizador será clave a la hora de determinar el tiempo límite de una partida y será el que finalmente determinará quién ha ganado la partida.
 ### Potenciadores de puntuación
 Se incluirán objetos de aparición semialeatoria que potencien al jugador, de forma que este tenga mayores probabilidades de ganar la partida, el objetivo es que dichas ventajas las reciba mayoritariamente el jugador que se encuentre en mayor desventaja, de este modo se mantendrá una competitividad continua y se ayudará en todo momento a que aquel que tenga menor puntuación tenga al menos una posibilidad de recuperarse.
+#### 
