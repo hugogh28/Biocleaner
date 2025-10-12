@@ -1,4 +1,4 @@
-# Proyecto-Paris
+# Juego Grupo 6
 Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
 ## Integrantes
 * Lucas Joglar
