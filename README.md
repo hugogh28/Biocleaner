@@ -1,10 +1,12 @@
 # Juego Grupo 6
 Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
+
 ## Integrantes
 * Lucas Joglar
 * Hugo García
 * Sergio Ponce
 * Lucía Andrés
+
 ## Resumen del Juego
 Dos animales muy distintos, un quokka y un narval, se encuentran enfrentados en una lucha por la limpieza de sus ecosistemas, el objetivo del juego es simple, el jugador debe superar a su rival en puntuación, o dicho de otro modo, se pretende ser el que consiga recoger una mayor cantidad de basura para ser el que tenga ese mayor puntaje al final de la partida.
 
