@@ -35,8 +35,6 @@ Uno de los personajes jugables que estarán en el juego es el quokka, este peque
 
 ![Front View de un Quokka](Imagenes/quokka_front_view.png "Front View de un Quokka")
 
-
-![Back View de un Quokka](Imagenes/quokka_back_view.png "Front View de un Quokka")
 ### Narval
 El otro personaje jugable será el narval, conocido mundialmente por su "cuerno" que le dota de ese apodo de unicornio de los mares, su zona será de aguas árticas.
 
