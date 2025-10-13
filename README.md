@@ -57,7 +57,7 @@ El otro personaje jugable será el narval, conocido mundialmente por su "cuerno"
 ### Basura
 El ítem principal y más común que aparecerá durante las partidas será la basura, que será representada en forma de bolsas, recoger las mismas ofrecerá al jugador un incremento de cinco puntos en su marcador.
 
-<img src="./Imagenes/bolsa_de_basura.png" width=256 height=256>
+<img src="./Imagenes/la_bolsa_de_basura.png" width=256 height=256>
 
 ### Vertidos
 Para dar un incremento a un mayor al puntaje de cada jugador habrá momentos en los que aparezcan vertidos de químicos o compuestos contaminantes en el campo de uno de los personajes. A diferencia de las bolsas de basura estos vertidos darán al jugador que lo recoja diez puntos para su puntaje, y también, a diferencia de las bolsas de basura estos aparecerán con menor frecuencia.
