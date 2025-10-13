@@ -56,6 +56,7 @@ El otro personaje jugable será el narval, conocido mundialmente por su "cuerno"
 
 ### Basura
 El ítem principal y más común que aparecerá durante las partidas será la basura, que será representada en forma de bolsas, recoger las mismas ofrecerá al jugador un incremento de cinco puntos en su marcador.
+
 <img src="./Imagenes/bolsa_de_basura.png" width=256 height=256>
 
 ### Vertidos
