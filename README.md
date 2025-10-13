@@ -52,6 +52,7 @@ El otro personaje jugable será el narval, conocido mundialmente por su "cuerno"
 <img src="./Imagenes/narval_top_view.png" width=256 height=256>
 <img src="./Imagenes/narval_down_view.png" width=256 height=256>
 </p>
+
 ## Ítems
 
 ### Basura
