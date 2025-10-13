@@ -16,7 +16,7 @@ Dos animales muy distintos, un quokka y un narval, se encuentran enfrentados en 
 
 
 GDD
-============================================================================================
+=======
 
 ## Descripción del juego
 La pantalla estará dividida en dos zonas, la de la izquierda y terrestre pertenecerá al quokka, mientras que la de la derecha y acuática será la que pertenezca al narval. Para evitar confusiones habrá una división clara entre las dos zonas para evitar que los jugadores crean que pueden pasar al campo del otro. El movimiento que habrá será bastante similar al de otros muchos juegos "flash" que existen en Internet, ya que la intención es que el jugador pueda moverse de forma continua en dos dimensiones excluyendo toda dirección diagonal. No se pretende que se requiera una pausa notoria entre cada movimiento, ni que el quokka y el narval se muevan de forma ininterrumpida en la última dirección indicada tal y como se puede observar en juegos como el conocido **Snake**.
