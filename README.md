@@ -5,7 +5,7 @@ Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
 
 1. [Integrantes](#Integrantes)
 2. [Descripción de la temática](#Descripción-de-la-temática)
-3. [GDD](GDD)
+3. [GDD](#GDD)
 4. [Descripción del juego](#Descripción-del-juego)
 5. [Historia](#Historia)
 6. [Diseño visual](#Diseño-visual)
