@@ -2,8 +2,8 @@
 Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
 
 ## Integrantes
-| Nombre    | Apellido | Correo                           | GitHub         |
-|:---------:|:--------:|:--------------------------------|:--------------:|
+|   Nombre  | Apellido |              Correo              | GitHub         |
+|:---------:|:--------:|:---------------------------------|:--------------:|
 | Lucía     | Andrés   | l.andres.2023@alumnos.urjc.es    | LuciaAndres    |
 | Hugo      | García   | h.garciah.2023@alumnos.urjc.es   | hugogh28       |
 | Lucas     | Joglar   | l.joglar.2023@alumnos.urjc.es    | UnstableLuca   |
