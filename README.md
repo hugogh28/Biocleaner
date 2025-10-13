@@ -41,10 +41,10 @@ Se incluirán objetos de aparición semialeatoria que potencien al jugador, de f
 
 ### Quokka
 Uno de los personajes jugables que estarán en el juego es el quokka, este pequeño y contento animal estará en una zona terrestre con plantas autóctonas. 
-
+<p float="left">
 <img src="./Imagenes/quokka_front_view.png" width=256 height=256>
 <img src="./Imagenes/quokka_back_view.png" width=256 height=256>
-
+</p>
 ### Narval
 El otro personaje jugable será el narval, conocido mundialmente por su "cuerno" que le dota de ese apodo de unicornio de los mares, su zona será de aguas árticas.
 
