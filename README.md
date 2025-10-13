@@ -1,6 +1,11 @@
 # Juego Grupo 6
 Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
 
+## Índice
+
+1. [Integrantes](#Integrantes)
+2. [Items](#Ítems)
+
 ## Integrantes
 |   Nombre  | Apellido |              Correo              | GitHub         |
 |:---------:|:--------:|:--------------------------------:|:--------------:|
