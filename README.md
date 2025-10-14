@@ -126,5 +126,8 @@ Al igual que los potenciadores tendrá una probabilidad baja de aparecer, aunque
 
 Dicho pringue será lanzado al rival al ser recogido tal y como se haría con cualquier otro objeto.
 
+### Sonido
+
+## Marketing
 
 
