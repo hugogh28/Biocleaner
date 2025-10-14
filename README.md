@@ -48,7 +48,13 @@ La pantalla estará dividida en dos zonas, la de la izquierda y terrestre perten
 La vista será de tipo top-down para el quokka, mientras que para el narval será de tipo top, la necesidad de hacer estos dos tipos de perspectiva es por una simple decisión estética, ya que así el quokka y el narval tendrán un tamaño aparentemente similar, a diferencia de su tamaño real que dista mucho de ser parecido.
 
 ### Historia
-El ser humano contamina mucho .....
+Durante siglos, la Tierra fue un lugar donde la tierra y el mar convivían en armonía. Las raíces bebían del agua salada, y las olas dejaban en la arena los nutrientes que daban vida al bosque. Sin embargo, con el paso del tiempo, los restos de la civilización humana comenzaron a invadir ambos mundos. La basura se acumuló, el agua se enturbió y las hojas dejaron de brillar.
+Entre los restos, dos animales lograron mantenerse en pie: 
+   El Quokka, habitante de la tierra firme, que perdió su hogar bajo montones de basura y hojas marchitas.
+   El Narval, guardián del mar, que vio su océano volverse turbio y sin encanto.
+Op A: Ambos tienen el mismo objetivo: limpiar el mundo que una vez los abrazó, pero, el dolor y la desconfianza los separan. Cada uno culpa al otro por el desastre, haciendo así que la tierra se convierta en un campo de batalla en el que ambos animales se enfrentarán en una carrera para demostrar quién le puede devolver la vida antes al planeta. No lo hacen por gloria, ni por redención, lo hacen por temor a ser los últimos que queden.
+
+Op B: Ambos tienen el mismo objetivo: limpiar el mundo que una vez los abrazó, pero, el dolor y la desconfianza los separan. Cada uno culpa al otro por el desastre, haciendo así que la tierra se convierta en un campo de batalla en el que ambos animales se enfrentarán en una carrera para demostrar quién le puede devolver la vida antes al planeta.Así, en lugar de cooperar, compiten. Cada uno recoge los restos de la Tierra, decididos a demostrar que su ecosistema es el más fuerte, el más puro, el más digno de renacer.
 
 ### Diseño visual
 
