@@ -12,23 +12,23 @@ Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
 
     3.2. [Diagrama de flujo](#Diagrama-de-flujo)
    
-    3.2. [Historia](#Historia)
+    3.3. [Historia](#Historia)
    
-    3.3. [Imagen y diseño visual](#Imagen-y-diseño-visual)
+    3.4. [Imagen y diseño visual](#Imagen-y-diseño-visual)
    
-    3.4. [Controles](#Controles)
+    3.5. [Controles](#Controles)
 
-    3.5. [Mecánicas](#Mecánicas)
+    3.6. [Mecánicas](#Mecánicas)
    
-    3.6. [Personajes](#Personajes)
+    3.7. [Personajes](#Personajes)
    
-    3.7. [Items](#Ítems)
+    3.8. [Items](#Ítems)
    
-    3.8. [Sonido](#Sonido)
+    3.9. [Sonido](#Sonido)
 
-    3.9. [Narrativa](#Narrativa)
+    3.10. [Narrativa](#Narrativa)
 
-    3.10. [Marketing](#Marketing)
+    3.11. [Marketing](#Marketing)
 
 ## Integrantes
 |   Nombre  | Apellido |              Correo              | GitHub         |
