@@ -17,12 +17,14 @@ Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
     3.4. [Controles](#Controles)
    
     3.5. [Físicas](#Físicas)
+
+    3.6. [Mecánicas](#Mecánicas)
    
-    3.6. [Personajes](#Personajes)
+    3.7. [Personajes](#Personajes)
    
-    3.7. [Items](#Ítems)
+    3.8. [Items](#Ítems)
    
-    3.8. [Sonido](#Sonido)
+    3.9. [Sonido](#Sonido)
 5. [Marketing](#Marketing)
 
 ## Integrantes
