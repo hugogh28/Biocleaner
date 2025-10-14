@@ -1,5 +1,5 @@
 
-# Juego Grupo 6
+# BIOCLEANER
 Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
 
 ## Índice
