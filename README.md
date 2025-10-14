@@ -64,6 +64,10 @@ Entre los restos, dos animales lograron mantenerse en pie:
 Ambos tienen el mismo objetivo: limpiar el mundo que una vez los abrazó, pero, el dolor y la desconfianza los separan. Cada uno culpa al otro por el desastre, haciendo así que la tierra se convierta en un campo de batalla en el que ambos animales se enfrentarán en una carrera para demostrar quién le puede devolver la vida antes al planeta.Así, en lugar de cooperar, compiten. Cada uno recoge los restos de la Tierra, decididos a demostrar que su ecosistema es el más fuerte, el más puro, el más digno de renacer.
 
 ### Imagen y diseño visual
+El juego tendrá un estilo visual de pixel art con una cámara en 2D. Para la parte marina se usarán colores azulados y morados, mientas que para la parte terrestrew se usarán colores más verdosos y marrones. Principalmente serán tonos vivos y llamativos, pero también nos encontraremos con algún color más apagado.
+
+- #### Logotipo
+- #### Bocetos
 
 ### Controles
 Los controles para este juego son muy sencillos. Se utilizaran las teclas W,A,S,D para jugar con el Quokka y las flechas para jugar con el Narval. Para perjudiciar al rival se usará la Q en caso del Quokka y la N en caso del Narval.
