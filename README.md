@@ -3,18 +3,18 @@ Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
 
 ## Índice
 
-1. [Integrantes](#Integrantes)
-2. [Descripción de la temática](#Descripción-de-la-temática)
-3. [GDD](#GDD)
-4. -[Descripción del juego](#Descripción-del-juego)
-5. [Historia](#Historia)
-6. [Diseño visual](#Diseño-visual)
-7. [Controles](#Controles)
-8. [Físicas](#Físicas)
-9. [Personajes](#Personajes)
-10. [Items](#Ítems)
-11. [Sonido](#Sonido)
-12. [Marketing](#Marketing)
+-1. [Integrantes](#Integrantes)
+-2. [Descripción de la temática](#Descripción-de-la-temática)
+-3. [GDD](#GDD)
+ -. [Descripción del juego](#Descripción-del-juego)
+ -. [Historia](#Historia)
+ -. [Diseño visual](#Diseño-visual)
+ -. [Controles](#Controles)
+ -. [Físicas](#Físicas)
+ -. [Personajes](#Personajes)
+ -. [Items](#Ítems)
+ -. [Sonido](#Sonido)
+-4. [Marketing](#Marketing)
 
 ## Integrantes
 |   Nombre  | Apellido |              Correo              | GitHub         |
