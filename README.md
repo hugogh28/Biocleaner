@@ -1,3 +1,4 @@
+
 # Juego Grupo 6
 Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
 
@@ -6,15 +7,23 @@ Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
 1. [Integrantes](#Integrantes)
 2. [Descripción de la temática](#Descripción-de-la-temática)
 3. [GDD](#GDD)
-4. [Descripción del juego](#Descripción-del-juego)
-5. [Historia](#Historia)
-6. [Diseño visual](#Diseño-visual)
-7. [Controles](#Controles)
-8. [Físicas](#Físicas)
-9. [Personajes](#Personajes)
-10. [Items](#Ítems)
-11. [Sonido](#Sonido)
-12. [Marketing](#Marketing)
+   
+    3.1. [Descripción del juego](#Descripción-del-juego)
+   
+    3.2. [Historia](#Historia)
+   
+    3.3. [Diseño visual](#Diseño-visual)
+   
+    3.4. [Controles](#Controles)
+   
+    3.5. [Físicas](#Físicas)
+   
+    3.6. [Personajes](#Personajes)
+   
+    3.7. [Items](#Ítems)
+   
+    3.8. [Sonido](#Sonido)
+5. [Marketing](#Marketing)
 
 ## Integrantes
 |   Nombre  | Apellido |              Correo              | GitHub         |
@@ -101,7 +110,11 @@ Como es mencionado en el apartado de mecánicas, existirán dos ítems que poten
 
 Estos objetos tendrán aún menor probabilidad de aparición que los vertidos, aunque no solo dependerán de un porcentaje de aparición fijo, siempre se regirán por el puntaje de ambos jugadores, es decir, su probabilidad dependerá mayoritariamente de cómo fluya la partida.
 
+
 #### Pringue
 Al igual que los potenciadores tendrá una probabilidad baja de aparecer, aunque a diferencia de estos, tendrá un funcionamiento mucho más fijo, es decir, no dependerá tanto del puntaje de los jugadores para efectuar su aparición.
 
 Dicho pringue será lanzado al rival al ser recogido tal y como se haría con cualquier otro objeto.
+
+
+
