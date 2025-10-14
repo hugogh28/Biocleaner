@@ -136,5 +136,10 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
 ### Sonido
 
 ## Marketing
+Se tomarán dentro del plan de marketing varias estrategias. Una de las principales será llegar a nuestro público a través de youtubers y streamers, ya que, al ser el juego orientado hacia un público más infantil, una de las mejores formas de llegar a este hoy en día es mediante las redes sociales. Junto a dicha estrategia, se promocionará el juego mediante anuncios in-game y en las redes sociales, ya que, al igual que nuestro público presta gran atención a gente influyente dentro de las redes, también suele moverse mucho en las redes y en juegos para móviles por lo que, una manera aún mejor de captarlo es no solo a través de sus creadores de contenido favoritos, sino también a través de su entretenimiento favorito. 
 
+Junto con esas dos estrategias mencionadas, el equipo contará con varias redes sociales para no solo promocionar el juego mediante anuncios y patrocinios, sino también de forma directa a través de una cuenta oficial. El contenido que se publicará en dichas cuentas sería cuidadosamente elaborado para vender el producto de la mejor forma a nuestro público.
+Al ser además este un juego similar a los que existen en Internet en formato web, una forma también idónea para promocionar el producto será a través de páginas web dedicadas o al menos relacionadas con contenido y/o juegos que suele visitar nuestro público.
+
+Siguiendo este plan el equipo logrará llegar al público objetivo. A futuro se podrían implementar otras estrategias, aunque siempre de forma complementaria y tratando de priorizar en todo momento aquellas que se tiene conocimiento de su eficacia.
 
