@@ -23,7 +23,10 @@ Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
     3.7. [Items](#Ítems)
    
     3.8. [Sonido](#Sonido)
-5. [Marketing](#Marketing)
+
+    3.9. [Narrativa](#Narrativa)
+
+    3.10. [Marketing](#Marketing)
 
 ## Integrantes
 |   Nombre  | Apellido |              Correo              | GitHub         |
@@ -135,7 +138,12 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
 
 ### Sonido
 
-## Marketing
+### Narrativa
+La narrativa del juego es sencilla, ya que la historia que cuenta este juego se centra en eventos que podrían suceder en la vida real con el leve giro del enfrentamiento entre el quokka y el narval.
+
+La historia que puede contar este juego se podría decir que es no más que un reflejo de la dura realidad que viven día a día miles de animales en el mundo, la contaminación de su hábitat. La decisión de centrar este juego en dos animales tan opuestos como un quokka y un narval es pues por la necesidad de que dicho reflejo de lo que es el mundo hoy en día llegue a nuestro público infantil, los dos animales protagonistas son conocidos mundialmente por el cariño que mucha gente les tiene, en el caso del quokka por parecer estar muy feliz todo el tiempo y en el caso del narval por ser conocido como el "unicornio de los mares". Así que, siendo ellos algo con lo que gran parte de nuestro público puede empatizar, son la mejor elección posible para que los niños entiendan la importancia de cuidar del hábitat de estos dos animales a través de un juego que, aunque incita a la competitivad también insta al mantenimiento del hogar de todos los animales, sin limitarse a los representados.
+
+### Marketing
 Se tomarán dentro del plan de marketing varias estrategias. Una de las principales será llegar a nuestro público a través de youtubers y streamers, ya que, al ser el juego orientado hacia un público más infantil, una de las mejores formas de llegar a este hoy en día es mediante las redes sociales. Junto a dicha estrategia, se promocionará el juego mediante anuncios in-game y en las redes sociales, ya que, al igual que nuestro público presta gran atención a gente influyente dentro de las redes, también suele moverse mucho en las redes y en juegos para móviles por lo que, una manera aún mejor de captarlo es no solo a través de sus creadores de contenido favoritos, sino también a través de su entretenimiento favorito. 
 
 Junto con esas dos estrategias mencionadas, el equipo contará con varias redes sociales para no solo promocionar el juego mediante anuncios y patrocinios, sino también de forma directa a través de una cuenta oficial. El contenido que se publicará en dichas cuentas sería cuidadosamente elaborado para vender el producto de la mejor forma a nuestro público.
