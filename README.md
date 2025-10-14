@@ -70,6 +70,9 @@ Ambos tienen el mismo objetivo: limpiar el mundo que una vez los abrazó, pero, 
 El juego tendrá un estilo visual de pixel art con una cámara en 2D. Para la parte marina se usarán colores azulados y morados, mientas que para la parte terrestrew se usarán colores más verdosos y marrones. Principalmente serán tonos vivos y llamativos, pero también nos encontraremos con algún color más apagado.
 
 - #### Logotipo
+  
+<img src="./Imagenes/logo.png" width=256 height=256>
+
 - #### Bocetos
 
 ### Controles
