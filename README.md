@@ -9,6 +9,8 @@ Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
 3. [GDD](#GDD)
    
     3.1. [Descripción del juego](#Descripción-del-juego)
+
+    3.2. [Diagrama de flujo](#Diagrama-de-flujo)
    
     3.2. [Historia](#Historia)
    
