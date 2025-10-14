@@ -12,19 +12,17 @@ Juego para la asignatura juegos en Red de la Universidad Rey Juan Carlos
    
     3.2. [Historia](#Historia)
    
-    3.3. [Diseño visual](#Diseño-visual)
+    3.3. [Imagen y diseño visual](#Imagen-y-diseño-visual)
    
     3.4. [Controles](#Controles)
-   
-    3.5. [Físicas](#Físicas)
 
-    3.6. [Mecánicas](#Mecánicas)
+    3.5. [Mecánicas](#Mecánicas)
    
-    3.7. [Personajes](#Personajes)
+    3.6. [Personajes](#Personajes)
    
-    3.8. [Items](#Ítems)
+    3.7. [Items](#Ítems)
    
-    3.9. [Sonido](#Sonido)
+    3.8. [Sonido](#Sonido)
 5. [Marketing](#Marketing)
 
 ## Integrantes
@@ -49,6 +47,11 @@ La pantalla estará dividida en dos zonas, la de la izquierda y terrestre perten
 
 La vista será de tipo top-down para el quokka, mientras que para el narval será de tipo top, la necesidad de hacer estos dos tipos de perspectiva es por una simple decisión estética, ya que así el quokka y el narval tendrán un tamaño aparentemente similar, a diferencia de su tamaño real que dista mucho de ser parecido.
 
+El juego es del género AAAAAAAAAAA y está orientado para todo tipo de edades, pero es preferewnte para niños. Está pensado para jugarlo de forma online en una web.
+
+
+### Diagrama de flujo
+
 ### Historia
 Durante siglos, la Tierra fue un lugar donde la tierra y el mar convivían en armonía. Las raíces bebían del agua salada, y las olas dejaban en la arena los nutrientes que daban vida al bosque. Sin embargo, con el paso del tiempo, los restos de la civilización humana comenzaron a invadir ambos mundos. La basura se acumuló, el agua se enturbió y las hojas dejaron de brillar.
 
@@ -60,12 +63,11 @@ Entre los restos, dos animales lograron mantenerse en pie:
    
 Ambos tienen el mismo objetivo: limpiar el mundo que una vez los abrazó, pero, el dolor y la desconfianza los separan. Cada uno culpa al otro por el desastre, haciendo así que la tierra se convierta en un campo de batalla en el que ambos animales se enfrentarán en una carrera para demostrar quién le puede devolver la vida antes al planeta.Así, en lugar de cooperar, compiten. Cada uno recoge los restos de la Tierra, decididos a demostrar que su ecosistema es el más fuerte, el más puro, el más digno de renacer.
 
-### Diseño visual
+### Imagen y diseño visual
 
 ### Controles
 Los controles para este juego son muy sencillos. Se utilizaran las teclas W,A,S,D para jugar con el Quokka y las flechas para jugar con el Narval. Para perjudiciar al rival se usará la Q en caso del Quokka y la N en caso del Narval.
 
-### Físicas
 ### Mecánicas
 El juego constará de varias mecánicas pero las más básicas son la limpieza de basura y el tratar de perjudicar a tu rival. Complementando a estas mecánicas, se incluirá un temporizador, que determinará la duración de la partida.
 
