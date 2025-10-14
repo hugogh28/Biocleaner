@@ -50,7 +50,7 @@ La pantalla estará dividida en dos zonas, la de la izquierda y terrestre perten
 
 La vista será de tipo top-down para el quokka, mientras que para el narval será de tipo top, la necesidad de hacer estos dos tipos de perspectiva es por una simple decisión estética, ya que así el quokka y el narval tendrán un tamaño aparentemente similar, a diferencia de su tamaño real que dista mucho de ser parecido.
 
-El juego es del género AAAAAAAAAAA y está orientado para todo tipo de edades, pero es preferewnte para niños. Está pensado para jugarlo de forma online en una web.
+El juego es del género arcade competitivo 2D con subgéneros como party game y educativo ambiental. Está orientado para todo tipo de edades, pero es preferewnte para niños. Está pensado para jugarlo de forma online en una web.
 
 
 ### Diagrama de flujo
