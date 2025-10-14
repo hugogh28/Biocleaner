@@ -119,7 +119,7 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
 <img src="./Imagenes/bayas.png" width=256 height=256>
 <img src="./Imagenes/pez.png" width=256 height=256>
 </p>
--  Estos objetos tendrán aún menor probabilidad de aparición que los vertidos, aunque no solo dependerán de un porcentaje de aparición fijo, siempre se regirán por el puntaje de ambos jugadores, es decir, su probabilidad dependerá mayoritariamente de cómo fluya la partida.
+ - Estos objetos tendrán aún menor probabilidad de aparición que los vertidos, aunque no solo dependerán de un porcentaje de aparición fijo, siempre se regirán por el puntaje de ambos jugadores, es decir, su probabilidad dependerá mayoritariamente de cómo fluya la partida.
 
 
 - #### Pringue
