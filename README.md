@@ -149,6 +149,18 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
   Dicho pringue será lanzado al rival al ser recogido tal y como se haría con cualquier otro objeto.
 
 ### Sonido
+La banda sonora será animada y rítmica, con un tono alegre para que el jugador disfrute jugando y no se estrese. En los últimos segundos de partida, la música incrementará su ritmo para aumentar la tensión y la emoción competitiva.
+
+- #### Efectos de sonido (SFX):
+
+  Recolección de basura "plop"
+
+  Lanzamiento de pringue "peaugh"
+
+  Activación de potenciadores "tin"
+
+  Fin de partida
+
 
 ### Narrativa
 La narrativa del juego es sencilla, ya que la historia que cuenta este juego se centra en eventos que podrían suceder en la vida real con el leve giro del enfrentamiento entre el quokka y el narval.
