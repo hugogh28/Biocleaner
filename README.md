@@ -56,7 +56,9 @@ El juego es del género arcade competitivo 2D con subgéneros como party game y 
 
 
 ### Diagrama de flujo
-
+<p float="left">
+<img src="./Imagenes/_Diagrama de flujo.png" >
+</p>
 ### Historia
 Durante siglos, la Tierra fue un lugar donde la tierra y el mar convivían en armonía. Las raíces bebían del agua salada, y las olas dejaban en la arena los nutrientes que daban vida al bosque. Sin embargo, con el paso del tiempo, los restos de la civilización humana comenzaron a invadir ambos mundos. La basura se acumuló, el agua se enturbió y las hojas dejaron de brillar.
 
