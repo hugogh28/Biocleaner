@@ -57,7 +57,7 @@ El juego es del género arcade competitivo 2D con subgéneros como party game y 
 
 ### Diagrama de flujo
 <p float="left">
-<img src="./Imagenes/_Diagrama de flujo.png" >
+<img src="./Biocleaner/src/assets/Imagenes/_Diagrama de flujo.png" >
 </p>
 
 ### Historia
@@ -76,12 +76,12 @@ El juego tendrá un estilo visual de pixel art con una cámara en 2D. Para la pa
 
 - #### Logotipo
   
-<img src="./Imagenes/logo.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/logo.png" width=256 height=256>
 
 - #### Bocetos
 <p float="left">
-<img src="./Imagenes/la_bolsa_de_basura.png" width=256 height=256>
-<img src="./Imagenes/logo_boceto.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/la_bolsa_de_basura.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/logo_boceto.png" width=256 height=256>
 </p>
 
 ### Controles
@@ -107,15 +107,15 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
 - #### Quokka
   Uno de los personajes jugables que estarán en el juego es el quokka, este pequeño y contento animal estará en una zona terrestre con plantas autóctonas. 
 <p float="left">
-<img src="./Imagenes/quokka_front_view.png" width=256 height=256>
-<img src="./Imagenes/quokka_back_view.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/quokka_front_view.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/quokka_back_view.png" width=256 height=256>
 </p>
 
 - #### Narval
   El otro personaje jugable será el narval, conocido mundialmente por su "cuerno" que le dota de ese apodo de unicornio de los mares, su zona será de aguas árticas.
 <p float="left">
-<img src="./Imagenes/narval_top_view.png" width=256 height=256>
-<img src="./Imagenes/narval_down_view.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/narval_top_view.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/narval_down_view.png" width=256 height=256>
 </p>
 
 ### Ítems
@@ -123,13 +123,13 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
 - #### Basura
   El ítem principal y más común que aparecerá durante las partidas será la basura, que será representada en forma de bolsas, recoger las mismas ofrecerá al jugador un incremento de cinco puntos en su marcador.
 
-<img src="./Imagenes/basura.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/basura.png" width=256 height=256>
 
 - #### Vertidos
   Para dar un incremento aún mayor al puntaje de cada jugador habrá momentos en los que aparezcan vertidos de químicos o compuestos contaminantes en el campo de uno de los personajes. A diferencia de las bolsas   de basura estos vertidos darán al jugador que lo recoja diez puntos para su puntaje, y también, a diferencia de las bolsas de basura estos aparecerán con menor frecuencia.
 <p float="left">
-<img src="./Imagenes/residuo_toxico_agua.png" width=256 height=256>
-<img src="./Imagenes/basura_tierra1.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/residuo_toxico_agua.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/basura_tierra1.png" width=256 height=256>
 </p>
 
 - #### Potenciadores
@@ -137,8 +137,8 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
 
   Estos objetos tendrán aún menor probabilidad de aparición que los vertidos, aunque no solo dependerán de un porcentaje de aparición fijo, siempre se regirán por el puntaje de ambos jugadores, es decir, su probabilidad dependerá mayoritariamente de cómo fluya la partida.
 <p float="left">
-<img src="./Imagenes/bayas.png" width=256 height=256>
-<img src="./Imagenes/pez.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/bayas.png" width=256 height=256>
+<img src="./Biocleaner/src/assets/Imagenes/pez.png" width=256 height=256>
 </p>
  
 
