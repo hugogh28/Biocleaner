@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biocleaner</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: rgb(44, 145, 188);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      #game-container {
+        box-shadow: 0 0 20px rgb(177, 207, 41);
+        animation: cambiarSombra 10s infinite alternate;
+      }
+      @keyframes cambiarSombra {
+        0% {
+          box-shadow: 0 0 20px rgb(97, 114, 20); 
+        } 
+        100% {
+          box-shadow: 0 0 20px rgb(0, 140, 255); 
+        }sddw
+      }
+      
+  </style> 
+  </head>
+  <body>
+    <div id="game-container"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/3.70.0/phaser.min.js"></script>
+    <script src="bundle.js"></script>
+  </body>
+</html>

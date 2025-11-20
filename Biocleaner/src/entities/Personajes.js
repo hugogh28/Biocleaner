@@ -1,0 +1,23 @@
+export class Personajes {
+
+    constructor(scene, id, x, y) {
+        this.id = id;
+        this.scene = scene;
+        this.score = 0;
+
+        this.baseHeight = 40;
+        this.baseWidth = 40;
+        this.baseSpeed = 300;
+
+        const graphics = this.scene.add.graphics();
+        graphics.fillStyle(0xffffffff);
+        graphics.fillRect(0, 0, this.baseWidth, this.baseHeight);
+        graphics.generateTexture(`personaje-${id}`, this.baseWidth, this.baseHeight);
+        graphics.destroy();
+
+        this.sprite = this.scene.physics.add.sprite(x, y, `personaje-${id}`);
+        this.sprite.setImmovable(true);
+        this.sprite.setCollideWorldBounds(true);
+        this.sprite.body.allowGravity = false;
+    }
+}
