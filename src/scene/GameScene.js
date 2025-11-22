@@ -10,10 +10,13 @@ export class GameScene extends Phaser.Scene{
         //Quokka
         this.load.image('quokaFrente', 'assets/quokka_front_view.png');
         this.load.image('quokaAtras', 'assets/quokka_back_view.png');
+        
 
         //Narval
         this.load.image('narvalFrente', 'assets/narval_top_view.png');
         this.load.image('narvalAtras', 'assets/narval_down_view.png');
+        this.load.image('narvalIzquierda', 'assets/narval_izquierda_view.png');
+        this.load.image('narvalDerecha', 'assets/narval_derecha_view.png');
     }
 
     init() {
@@ -179,13 +182,12 @@ export class GameScene extends Phaser.Scene{
             }else if(mapping.leftKeyObj.isDown){
                 Personajes.sprite.setVelocityX(-Personajes.baseSpeed);
                 Personajes.sprite.setVelocityY(0);
-                Personajes.setSprite("side");
+                Personajes.setSprite("left");
             }else if(mapping.rightKeyObj.isDown){
                 Personajes.sprite.setVelocityX(+Personajes.baseSpeed);
                 Personajes.sprite.setVelocityY(0);
-                Personajes.setSprite("side");
+                Personajes.setSprite("right");
             }else{
-                // Idle -> usa down por defecto
                 Personajes.sprite.setVelocity(0,0);
                 Personajes.setSprite("down");
             }

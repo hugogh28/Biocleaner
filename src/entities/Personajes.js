@@ -38,6 +38,12 @@ export class Personajes {
             else if(direction === "down"){
                 texture = "narvalAtras";
             }
+            else if(direction === "left"){
+                texture = "narvalIzquierda";
+            }
+            else if(direction === "right"){
+                texture = "narvalDerecha";
+            }
             else {
                 texture = "narvalFrente";
             }
