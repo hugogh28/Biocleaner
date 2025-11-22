@@ -21,7 +21,7 @@ const config = {
     },
 
     scene: [MenuScene, GameScene, PauseScene, Creditos, Ajustes],
-    backgroundColor: '#876f00ff'
+    backgroundColor: '#876f00'
 }
 
 const game = new Phaser.Game(config);

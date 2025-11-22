@@ -4,8 +4,12 @@ export class MenuScene extends Phaser.Scene {
     constructor() {
         super('MenuScene')
     }
-
+    preload() {
+        this.load.image('fondoMenu', 'assets/pez.png');
+    }
     create() {
+
+         this.add.image(400, 300, 'fondoMenu').setOrigin(0.5);
         this.add.text(400,100, 'Biocleaner',
         {   fontSize: '64px',
             color: '#903e00ff'
