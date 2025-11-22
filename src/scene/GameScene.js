@@ -44,6 +44,34 @@ export class GameScene extends Phaser.Scene{
 
 
         this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
+
+        //Temporizador de 2 minutos
+        this.timeLeft = 120; // 2 minutos
+        this.timerText = this.add.text(300, 20, "Tiempo: 120", {
+            fontSize: "32px",
+            color: "#ffffffff"
+        });
+
+        // Evento que se ejecuta cada segundo
+        this.timerEvent = this.time.addEvent({
+            delay: 1000,
+            callback: this.updateTimer,
+            callbackScope: this,
+            loop: true
+        });
+    }
+
+
+    updateTimer() {
+        this.timeLeft--;
+
+        this.timerText.setText("Tiempo: " + this.timeLeft);
+
+        if (this.timeLeft <= 0) {
+            this.timerEvent.remove(false);
+            this.endGame();
+        }
     }
 
     setUpPLayers() {
