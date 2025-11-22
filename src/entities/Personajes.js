@@ -9,15 +9,40 @@ export class Personajes {
         this.baseWidth = 40;
         this.baseSpeed = 300;
 
-        const graphics = this.scene.add.graphics();
-        graphics.fillStyle(0xffffffff);
-        graphics.fillRect(0, 0, this.baseWidth, this.baseHeight);
-        graphics.generateTexture(`personaje-${id}`, this.baseWidth, this.baseHeight);
-        graphics.destroy();
+        // Sprite inicial
+        const texture = (id === "player1") ? "quoka_down" : "narval_down";
 
-        this.sprite = this.scene.physics.add.sprite(x, y, `personaje-${id}`);
-        this.sprite.setImmovable(true);
+        this.sprite = this.scene.physics.add.sprite(x, y, texture);
+        this.sprite.setScale(0.7)
         this.sprite.setCollideWorldBounds(true);
         this.sprite.body.allowGravity = false;
+    }
+
+    setSprite(direction){
+        let texture;
+
+        if(this.id === "player1"){
+            if(direction === "up"){
+                texture = "quokaAtras";
+            }
+            else if(direction === "down"){
+                texture = "quokaFrente";
+            }
+            else {
+                texture = "quokaFrente";
+            }
+        } else {
+            if(direction === "up"){
+                texture = "narvalFrente";
+            }
+            else if(direction === "down"){
+                texture = "narvalAtras";
+            }
+            else {
+                texture = "narvalFrente";
+            }
+        }
+
+        this.sprite.setTexture(texture);
     }
 }

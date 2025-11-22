@@ -6,6 +6,16 @@ export class GameScene extends Phaser.Scene{
         super('GameScene')
     }
 
+    preload() {
+        //Quokka
+        this.load.image('quokaFrente', 'assets/quokka_front_view.png');
+        this.load.image('quokaAtras', 'assets/quokka_back_view.png');
+
+        //Narval
+        this.load.image('narvalFrente', 'assets/narval_top_view.png');
+        this.load.image('narvalAtras', 'assets/narval_down_view.png');
+    }
+
     init() {
         this.players = new Map();
         this.inputsMapping = [];
@@ -15,10 +25,7 @@ export class GameScene extends Phaser.Scene{
     } 
 
     create() {
-        for (let i = 0; i < 17;i++){
-            this.add.rectangle(400, i * 50 + 25, 10, 50, 0xffffffff);
-        }
-
+       
         // Score texts
         this.scoreQuoka = this.add.text(100, 50, '0', {
             fontSize: '48px',
@@ -163,20 +170,26 @@ export class GameScene extends Phaser.Scene{
             const Personajes = this.players.get(mapping.playerId);
             if(mapping.upKeyObj.isDown){
                 Personajes.sprite.setVelocityY(-Personajes.baseSpeed);
-                Personajes.sprite.setVelocityX(0); //Bloquea el movimiento para evitar que el personaje vaya en diagonal
+                Personajes.sprite.setVelocityX(0);
+                Personajes.setSprite("up");
             }else if(mapping.downKeyObj.isDown){
                 Personajes.sprite.setVelocityY(+Personajes.baseSpeed);
                 Personajes.sprite.setVelocityX(0);
+                Personajes.setSprite("down");
             }else if(mapping.leftKeyObj.isDown){
                 Personajes.sprite.setVelocityX(-Personajes.baseSpeed);
                 Personajes.sprite.setVelocityY(0);
+                Personajes.setSprite("side");
             }else if(mapping.rightKeyObj.isDown){
                 Personajes.sprite.setVelocityX(+Personajes.baseSpeed);
                 Personajes.sprite.setVelocityY(0);
+                Personajes.setSprite("side");
             }else{
-                Personajes.sprite.setVelocityY(0);
-                Personajes.sprite.setVelocityX(0);
+                // Idle -> usa down por defecto
+                Personajes.sprite.setVelocity(0,0);
+                Personajes.setSprite("down");
             }
+
 
             //Limitamos el movimiento a la mitad de la pantalla para que no puedan pasar al otro lado
             if (mapping.playerId === "player1") {
