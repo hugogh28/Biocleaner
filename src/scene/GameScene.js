@@ -157,7 +157,8 @@ export class GameScene extends Phaser.Scene{
         });
         this.physics.pause();
 
-        const winnerText = winnerID === 'player1' ? 'Gana Quoka!' : 'Gana Narval';
+        this.scene.start('GameOverScene');
+        /*const winnerText = winnerID === 'player1' ? 'Gana Quoka!' : 'Gana Narval';
 
         this.add.text(400,250, winnerText, {
             fontSize: '64px',
@@ -173,7 +174,7 @@ export class GameScene extends Phaser.Scene{
         .on('pointerout', () => menuBtn.setColor('#434ddeff'))
         .on('pointerdown', () =>{
             this.scene.start('MenuScene');
-        });
+        });*/
 
     }
 

@@ -13,7 +13,7 @@ export class Personajes {
         const texture = (id === "player1") ? "quoka_down" : "narval_down";
 
         this.sprite = this.scene.physics.add.sprite(x, y, texture);
-        this.sprite.setScale(0.7)
+        this.sprite.setScale(0.5)
         this.sprite.setCollideWorldBounds(true);
         this.sprite.body.allowGravity = false;
     }
