@@ -7,6 +7,9 @@ import { Creditos} from './scene/Creditos.js';
 import { Ajustes} from './scene/Ajustes.js';
 import { GameOverScene } from './scene/GameOverScene.js';
 
+import GlobalSettingsPlugin from "./GlobalSettingPlugin.js";
+import BrightnessPlugin  from "./BrightnessPlugin.js";
+
 const config = {
     type: Phaser.AUTO,
     width: 800,
@@ -19,9 +22,20 @@ const config = {
             debug: false
         } 
     },
+    plugins: {
+        global: [
+            { key: "GlobalSettings", plugin: GlobalSettingsPlugin, start: true },
+            { key: "Brightness", plugin: BrightnessPlugin, start: true }
+        ]
+    },
 
-    scene: [MenuScene, GameScene, PauseScene, Creditos, Ajustes, GameOverScene],
-    backgroundColor: '#876f00'
-}
+
+        scene: [MenuScene, GameScene, PauseScene, Creditos, Ajustes, GameOverScene],
+        backgroundColor: '#876f00'
+    }
 
 const game = new Phaser.Game(config);
+
+
+
+export { game };

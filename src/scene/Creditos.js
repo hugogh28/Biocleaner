@@ -6,6 +6,10 @@ export class Creditos extends Phaser.Scene {
         super('Creditos');
     }
      create() {
+        
+        const brightness = this.plugins.get("Brightness");
+        brightness.applyToScene(this);
+
         this.add.text(400,100, 'Créditos',
         {   fontSize: '64px',
             color: '#903e00ff'
@@ -22,5 +26,10 @@ export class Creditos extends Phaser.Scene {
             this.scene.start('MenuScene');
         });
 
+    }
+
+    update() {
+        const brightness = this.plugins.get("Brightness");
+        brightness.updateOverlay(this);
     }
 }

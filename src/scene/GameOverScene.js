@@ -12,11 +12,20 @@ export class GameOverScene extends Phaser.Scene{
     }
 
     create(){
+
+        const brightness = this.plugins.get("Brightness");
+        brightness.applyToScene(this);
+
         this.add.image(400, 300, 'fondo').setOrigin(0.5);
 
-        const volverMenu = this.add.text(200, 150, 'Volver al menú ', {
+        this.add.text(200,100, 'Fin del Juego', {
+            fontSize: '34px',
+            color: '#61e03aff'
+        }).setOrigin(0.5);
+
+        const volverMenu = this.add.text(200, 250, 'Volver al menú ', {
             fontSize: '24px', 
-            color: '#903e00ff'
+            color: '#ca31c0ff'
         }).setOrigin(0.5)
         .setInteractive({useHandCursor: true})
         .on('pointerover', () => volverMenu.setColor('#05ff1aff'))
@@ -24,5 +33,10 @@ export class GameOverScene extends Phaser.Scene{
         .on('pointerdown', () =>{
             this.scene.start('MenuScene');
         });
+    }
+
+    update() {
+        const brightness = this.plugins.get("Brightness");
+        brightness.updateOverlay(this);
     }
 }

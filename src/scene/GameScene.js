@@ -17,6 +17,9 @@ export class GameScene extends Phaser.Scene{
         this.load.image('narvalAtras', 'assets/narval_down_view.png');
         this.load.image('narvalIzquierda', 'assets/narval_izquierda_view.png');
         this.load.image('narvalDerecha', 'assets/narval_derecha_view.png');
+
+
+        
     }
 
     init() {
@@ -28,7 +31,9 @@ export class GameScene extends Phaser.Scene{
     } 
 
     create() {
-       
+       const brightness = this.plugins.get("Brightness");
+        brightness.applyToScene(this);
+
         // Score texts
         this.scoreQuoka = this.add.text(100, 50, '0', {
             fontSize: '48px',
@@ -60,8 +65,8 @@ export class GameScene extends Phaser.Scene{
             callbackScope: this,
             loop: true
         });
-    }
 
+    }
 
     updateTimer() {
         this.timeLeft--;
@@ -242,5 +247,8 @@ export class GameScene extends Phaser.Scene{
             }
         
         });
+
+        const brightness = this.plugins.get("Brightness");
+        brightness.updateOverlay(this);
     }
 }

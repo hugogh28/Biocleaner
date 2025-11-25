@@ -9,8 +9,30 @@ export class MenuScene extends Phaser.Scene {
         this.load.image('botonJugar', 'assets/basura.png');
         this.load.image('botonAjustes', 'assets/bayas.png');
         this.load.image('botonCreditos', 'assets/logo.png');
+
+        //Música
+        this.load.audio('musica_fondo', 'assets/musica_fondo.ogg');
     }
     create() {
+
+        const settings = this.plugins.get("GlobalSettings");
+
+        const brightness = this.plugins.get("Brightness");
+        brightness.applyToScene(this);
+
+        if (!this.sound.get("musica_fondo")) {
+            // Solo crear la música si NO existe
+            this.musica = this.sound.add("musica_fondo", {
+                volume: settings.getMusicVolume(),
+                loop: true
+            });
+            this.musica.play();
+        } else {
+            // Si ya existe, solo actualiza el volumen
+            this.sound.get("musica_fondo").setVolume(settings.getMusicVolume());
+        }
+
+
 
         this.add.image(400, 300, 'fondoMenu').setOrigin(0.5);
         this.add.text(400,100, 'Biocleaner',
@@ -20,27 +42,26 @@ export class MenuScene extends Phaser.Scene {
 
         const localBtn = this.add.image(200, 250, 'botonJugar').setOrigin(0.5)
         .setInteractive({useHandCursor: true})
-        /*.on('pointerover', () => localBtn.setImgae('#05ff1aff'))
-        .on('pointerout', () => localBtn.setColor('#903e00ff'))*/
         .on('pointerdown', () =>{
             this.scene.start('GameScene');
         });
 
         const creditos = this.add.image(400, 400, 'botonCreditos').setOrigin(0.5)
         .setInteractive({useHandCursor: true})
-        /*.on('pointerover', () => creditos.setColor('#05ff1aff'))
-        .on('pointerout', () => creditos.setColor('#903e00ff'))*/
         .on('pointerdown', () =>{
             this.scene.start('Creditos');
         });
 
         const ajustes = this.add.image(600, 300, 'botonAjustes').setOrigin(0.5)
         .setInteractive({useHandCursor: true})
-        /*.on('pointerover', () => ajustes.setColor('#05ff1aff'))
-        .on('pointerout', () => ajustes.setColor('#903e00ff'))*/
-        .on('pointerdown', () =>{
-            this.scene.start('Ajustes');
+        .on('pointerdown', () => {
+            this.scene.start("Ajustes", { previousScene: "MenuScene" });
         });
 
+    }
+
+    update() {
+        const brightness = this.plugins.get("Brightness");
+        brightness.updateOverlay(this);
     }
 }
