@@ -10,6 +10,9 @@ export class GameScene extends Phaser.Scene{
         //Quokka
         this.load.image('quokaFrente', 'assets/quokka_front_view.png');
         this.load.image('quokaAtras', 'assets/quokka_back_view.png');
+        this.load.image('quokaIzquierda', 'assets/quokka_side1_view.png');
+        this.load.image('quokaDerecha', 'assets/quokka_side_view.png');
+        
         
 
         //Narval

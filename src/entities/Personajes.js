@@ -28,6 +28,12 @@ export class Personajes {
             else if(direction === "down"){
                 texture = "quokaFrente";
             }
+            else if(direction === "left"){
+                texture = "quokaIzquierda";
+            }
+            else if(direction === "right"){
+                texture = "quokaDerecha";
+            }
             else {
                 texture = "quokaFrente";
             }
