@@ -36,7 +36,9 @@ export class MenuScene extends Phaser.Scene {
 
         this.add.image(400, 300, 'fondoMenu').setOrigin(0.5);
         this.add.text(400,100, 'Biocleaner',
-        {   fontSize: '64px',
+        {   
+            fontFamily: "aaaaa",
+            fontSize: '64px',
             color: '#903e00ff'
         }).setOrigin(0.5);
 

@@ -16,7 +16,9 @@ export class Creditos extends Phaser.Scene {
         brightness.applyToScene(this);
 
         this.add.text(400,100, 'Créditos',
-        {   fontSize: '64px',
+        {   
+            fontFamily: "aaaaa",
+            fontSize: '64px',
             color: '#903e00ff'
         }).setOrigin(0.5);
         

@@ -44,11 +44,13 @@ export class GameScene extends Phaser.Scene{
 
         // Score texts
         this.scoreQuoka = this.add.text(100, 13, '0', {
+            fontFamily: "aaaaa",
             fontSize: '48px',
             color: '#ffffffff'
         })
 
         this.scoreNarval = this.add.text(700, 13, '0', {
+            fontFamily: "aaaaa",
             fontSize: '48px',
             color: '#ffffffff'
         })
@@ -62,6 +64,7 @@ export class GameScene extends Phaser.Scene{
         //Temporizador de 2 minutos
         this.timeLeft = 120; // 2 minutos
         this.timerText = this.add.text(300, 13, "Tiempo: 120", {
+            fontFamily: "aaaaa",
             fontSize: "32px",
             color: "#ffffffff"
         });
@@ -237,20 +240,32 @@ export class GameScene extends Phaser.Scene{
 
             //Limitamos el movimiento a la mitad de la pantalla para que no puedan pasar al otro lado
             if (mapping.playerId === "player1") {
-                if (Personajes.sprite.x < 0) {
-                    Personajes.sprite.x = 0;
+                if (Personajes.sprite.x < -2) {
+                    Personajes.sprite.x = -2;
                 }
                 if (Personajes.sprite.x > 400) {
                     Personajes.sprite.x = 400;
                 }
+                if (Personajes.sprite.y < 115) {
+                    Personajes.sprite.y = 115;
+                }
+                if (Personajes.sprite.y > 555) {
+                    Personajes.sprite.y = 555;
+                }
             }
 
             if (mapping.playerId === "player2") {
-                if (Personajes.sprite.x < 400) {
+                if (Personajes.sprite.x < 400 ) {
                     Personajes.sprite.x = 400;
                 }
-                if (Personajes.sprite.x > 800) {
-                    Personajes.sprite.x = 800;
+                if (Personajes.sprite.x > 755) {
+                    Personajes.sprite.x = 755;
+                }
+                if (Personajes.sprite.y < 115 ) {
+                    Personajes.sprite.y = 115;
+                }
+                if (Personajes.sprite.y > 555) {
+                    Personajes.sprite.y = 555;
                 }
             }
         

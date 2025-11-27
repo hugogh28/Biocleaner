@@ -19,11 +19,13 @@ export class GameOverScene extends Phaser.Scene{
         this.add.image(400, 300, 'fondo').setOrigin(0.5);
 
         this.add.text(200,100, 'Fin del Juego', {
+            fontFamily: "aaaaa",
             fontSize: '34px',
             color: '#61e03aff'
         }).setOrigin(0.5);
 
         const volverMenu = this.add.text(200, 250, 'Volver al menú ', {
+            fontFamily: "aaaaa",
             fontSize: '24px', 
             color: '#ca31c0ff'
         }).setOrigin(0.5)

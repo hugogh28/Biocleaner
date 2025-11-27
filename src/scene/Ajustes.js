@@ -21,11 +21,13 @@ export class Ajustes extends Phaser.Scene {
         brightnessPlugin.applyToScene(this);
 
         this.add.text(300, 40, "AJUSTES", {
+            fontFamily: "aaaaa",
             fontSize: "40px",
             color: "#ffffff"
         });
 
         this.add.text(100, 150, "Brillo", {
+            fontFamily: "aaaaa",
             fontSize: "24px",
             color: "#ffffff"
         });
@@ -62,6 +64,7 @@ export class Ajustes extends Phaser.Scene {
         this.input.setDraggable(this.brilloHandle);
 
         this.add.text(100, 300, "Volumen música", {
+            fontFamily: "aaaaa",
             fontSize: "24px",
             color: "#ffffff"
         });
