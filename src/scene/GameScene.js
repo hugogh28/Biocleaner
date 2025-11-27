@@ -7,6 +7,10 @@ export class GameScene extends Phaser.Scene{
     }
 
     preload() {
+
+        //Fondo
+        this.load.image('fondo', 'assets/fondo_juego.png');
+
         //Quokka
         this.load.image('quokaFrente', 'assets/quokka_front_view.png');
         this.load.image('quokaAtras', 'assets/quokka_back_view.png');
@@ -34,16 +38,17 @@ export class GameScene extends Phaser.Scene{
     } 
 
     create() {
+        this.add.image(400, 300, 'fondo').setOrigin(0.5);
        const brightness = this.plugins.get("Brightness");
         brightness.applyToScene(this);
 
         // Score texts
-        this.scoreQuoka = this.add.text(100, 50, '0', {
+        this.scoreQuoka = this.add.text(100, 13, '0', {
             fontSize: '48px',
             color: '#ffffffff'
         })
 
-        this.scoreNarval = this.add.text(700, 50, '0', {
+        this.scoreNarval = this.add.text(700, 13, '0', {
             fontSize: '48px',
             color: '#ffffffff'
         })
@@ -56,7 +61,7 @@ export class GameScene extends Phaser.Scene{
 
         //Temporizador de 2 minutos
         this.timeLeft = 120; // 2 minutos
-        this.timerText = this.add.text(300, 20, "Tiempo: 120", {
+        this.timerText = this.add.text(300, 13, "Tiempo: 120", {
             fontSize: "32px",
             color: "#ffffffff"
         });
