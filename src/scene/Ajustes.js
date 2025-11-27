@@ -5,6 +5,9 @@ export class Ajustes extends Phaser.Scene {
         super("Ajustes");
     }
 
+    preload(){
+            this.load.image('botonVolver', 'assets/volver.png');
+        }
 
     init(data) {
         this.previousScene = data?.previousScene || "MenuScene";
@@ -115,10 +118,7 @@ export class Ajustes extends Phaser.Scene {
         });
 
 
-        this.add.text(350, 500, "Volver", {
-            fontSize: "32px",
-            color: "#ffaaaa"
-        })
+        this.add.image(400, 400, "botonVolver",)
         .setInteractive()
         .on("pointerdown", () => {
              this.scene.stop();

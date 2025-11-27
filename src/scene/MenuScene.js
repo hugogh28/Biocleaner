@@ -6,9 +6,9 @@ export class MenuScene extends Phaser.Scene {
     }
     preload() {
         this.load.image('fondoMenu', 'assets/fondo.png');
-        this.load.image('botonJugar', 'assets/basura.png');
-        this.load.image('botonAjustes', 'assets/bayas.png');
-        this.load.image('botonCreditos', 'assets/logo.png');
+        this.load.image('botonJugar', 'assets/empezar.png');
+        this.load.image('botonAjustes', 'assets/ajustes.png');
+        this.load.image('botonCreditos', 'assets/creditos.png');
 
         //Música
         this.load.audio('musica_fondo', 'assets/musica_fondo.ogg');

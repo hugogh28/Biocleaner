@@ -5,6 +5,11 @@ export class Creditos extends Phaser.Scene {
     constructor(){
         super('Creditos');
     }
+
+    preload(){
+        this.load.image('botonVolver', 'assets/volver.png');
+    }
+
      create() {
         
         const brightness = this.plugins.get("Brightness");
@@ -15,13 +20,8 @@ export class Creditos extends Phaser.Scene {
             color: '#903e00ff'
         }).setOrigin(0.5);
         
-        const volverMenu = this.add.text(400, 400, 'Volver al menú ', {
-            fontSize: '24px', 
-            color: '#903e00ff'
-        }).setOrigin(0.5)
+        const volverMenu = this.add.image(400, 400, 'botonVolver',).setOrigin(0.5)
         .setInteractive({useHandCursor: true})
-        .on('pointerover', () => volverMenu.setColor('#05ff1aff'))
-        .on('pointerout', () => volverMenu.setColor('#434ddeff'))
         .on('pointerdown', () =>{
             this.scene.start('MenuScene');
         });
