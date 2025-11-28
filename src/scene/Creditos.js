@@ -19,10 +19,11 @@ export class Creditos extends Phaser.Scene {
         {   
             fontFamily: "aaaaa",
             fontSize: '64px',
-            color: '#903e00ff'
+            color: '#e1e674'
         }).setOrigin(0.5);
         
         const volverMenu = this.add.image(400, 400, 'botonVolver',).setOrigin(0.5)
+        .setDisplaySize(300, 150)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () =>{
             this.scene.start('MenuScene');

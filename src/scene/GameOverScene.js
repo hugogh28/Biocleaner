@@ -8,7 +8,8 @@ export class GameOverScene extends Phaser.Scene{
     }
 
     preload(){
-        this.load.image('fondo', 'assets/fondo.png');
+        this.load.image('fondo', 'assets/fondo.png'); 
+        this.load.image('botonVolver', 'assets/volver.png');
     }
 
     create(){
@@ -18,20 +19,15 @@ export class GameOverScene extends Phaser.Scene{
 
         this.add.image(400, 300, 'fondo').setOrigin(0.5);
 
-        this.add.text(200,100, 'Fin del Juego', {
+        this.add.text(400, 23, 'Fin del Juego', {
             fontFamily: "aaaaa",
-            fontSize: '34px',
-            color: '#61e03aff'
+            fontSize: '22px',
+            color: '#e1e674'
         }).setOrigin(0.5);
 
-        const volverMenu = this.add.text(200, 250, 'Volver al menú ', {
-            fontFamily: "aaaaa",
-            fontSize: '24px', 
-            color: '#ca31c0ff'
-        }).setOrigin(0.5)
+        const volverMenu = this.add.image(400, 400, 'botonVolver',).setOrigin(0.5)
         .setInteractive({useHandCursor: true})
-        .on('pointerover', () => volverMenu.setColor('#05ff1aff'))
-        .on('pointerout', () => volverMenu.setColor('#434ddeff'))
+        .setDisplaySize(300, 150)
         .on('pointerdown', () =>{
             this.scene.start('MenuScene');
         });

@@ -5,17 +5,23 @@ export class Personajes {
         this.scene = scene;
         this.score = 0;
 
-        this.baseHeight = 40;
-        this.baseWidth = 40;
         this.baseSpeed = 300;
 
-        // Sprite inicial
-        const texture = (id === "player1") ? "quoka_down" : "narval_down";
+        const texture = (id === "player1") ? "quokaFrente" : "narvalFrente";
 
         this.sprite = this.scene.physics.add.sprite(x, y, texture);
-        this.sprite.setScale(0.5)
+
+        this.sprite.setScale(0.5);
+
+        this.updateHitbox();
+
         this.sprite.setCollideWorldBounds(true);
         this.sprite.body.allowGravity = false;
+    }
+
+    updateHitbox() {
+        const body = this.sprite.body;
+        body.setSize(this.sprite.width, this.sprite.height, true); 
     }
 
     setSprite(direction){
@@ -56,5 +62,7 @@ export class Personajes {
         }
 
         this.sprite.setTexture(texture);
+        this.sprite.setScale(0.5);
+        this.updateHitbox();
     }
 }

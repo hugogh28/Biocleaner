@@ -23,13 +23,13 @@ export class Ajustes extends Phaser.Scene {
         this.add.text(300, 40, "AJUSTES", {
             fontFamily: "aaaaa",
             fontSize: "40px",
-            color: "#ffffff"
+            color: "#e1e674"
         });
 
         this.add.text(100, 150, "Brillo", {
             fontFamily: "aaaaa",
             fontSize: "24px",
-            color: "#ffffff"
+            color: "#e1e674"
         });
 
         const brilloMin = 0.2;
@@ -66,7 +66,7 @@ export class Ajustes extends Phaser.Scene {
         this.add.text(100, 300, "Volumen música", {
             fontFamily: "aaaaa",
             fontSize: "24px",
-            color: "#ffffff"
+            color: "#e1e674"
         });
 
         const trackYVol = 350;
@@ -121,8 +121,9 @@ export class Ajustes extends Phaser.Scene {
         });
 
 
-        this.add.image(400, 400, "botonVolver",)
+        this.add.image(400, 500, "botonVolver",)
         .setInteractive()
+        .setDisplaySize(300, 150)
         .on("pointerdown", () => {
              this.scene.stop();
 
