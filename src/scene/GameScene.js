@@ -44,6 +44,17 @@ export class GameScene extends Phaser.Scene{
         this.moving = false;
         this.trashGroup = null;
         this.trashSpawnTimer = null;
+        this.powerUpActive = {
+            player1: false,
+            player2: false
+        };
+
+        this.powerUpTimers = {
+            player1: null,
+            player2: null
+        };
+        this.powerUpGroup = null;
+
     } 
 
     create() {
@@ -92,6 +103,15 @@ export class GameScene extends Phaser.Scene{
         this.trashSpawnTimer = this.time.addEvent({
             delay: 500,
             callback: this.spawnTrash,
+            callbackScope: this,
+            loop: true
+        });
+
+        this.powerUpGroup = this.physics.add.group();
+
+        this.time.addEvent({
+            delay: 5000, 
+            callback: this.trySpawnPowerUp,
             callbackScope: this,
             loop: true
         });
@@ -181,15 +201,113 @@ export class GameScene extends Phaser.Scene{
 
         trash.destroy();
 
-        if (playerNumber === 1) {
-            const player1 = this.players.get('player1');
-            player1.score = player1.score + 5 ;
-            this.scoreQuoka.setText(player1.score.toString());
-        } else {
-            const player2 = this.players.get('player2');
-            player2.score = player2.score + 5;
-            this.scoreNarval.setText(player2.score.toString());
+        const player = playerNumber === 1
+            ? this.players.get('player1')
+            : this.players.get('player2');
+
+        const id = playerNumber === 1 ? "player1" : "player2";
+
+        const multiplier = this.powerUpActive[id] ? 2 : 1;
+
+        player.score += 5 * multiplier;
+
+        if (id === "player1") this.scoreQuoka.setText(player.score);
+        else this.scoreNarval.setText(player.score);
+    }
+
+    trySpawnPowerUp() {
+        const p1 = this.players.get('player1').score;
+        const p2 = this.players.get('player2').score;
+
+        let target = null; 
+        let chance = 10; 
+
+        if (p1 < p2 - 1) {
+            target = "player1";
+            chance = 70; 
+        } 
+        else if (p2 < p1 - 1) {
+            target = "player2";
+            chance = 70; 
+        } 
+        else {
+            chance = 10; 
+            target = Phaser.Math.Between(0, 1) === 0 ? "player1" : "player2";
         }
+        if (this.powerUpActive[target]) {
+            return;
+        }
+        const exists = this.powerUpGroup.getChildren().some(obj => obj.targetPlayer === target);
+        if (exists) {
+            return;
+        }
+
+        const roll = Phaser.Math.Between(1, 100);
+        if (roll <= chance) {
+            this.spawnPowerUp(target);
+        }
+    }
+
+    spawnPowerUp(playerId) {
+
+        const exists = this.powerUpGroup.getChildren().some(obj => obj.targetPlayer === playerId);
+        if (exists) {
+            return;
+        }
+
+        let x, y, key;
+
+        if (playerId === "player1") {
+            key = "powerQuoka"; 
+            x = Phaser.Math.Between(50, 350);
+        } else {
+            key = "powerNarval";
+            x = Phaser.Math.Between(450, 750);
+        }
+
+        y = Phaser.Math.Between(150, 550);
+
+        const item = this.physics.add.sprite(x, y, key);
+
+        // Escala visual
+        item.setScale(0.6);
+        item.targetPlayer = playerId;
+
+        this.powerUpGroup.add(item);
+
+        // Escala física 
+        item.body.setSize(item.displayWidth, item.displayHeight, true);
+
+
+        // Tiempo en pantalla SIN recoger
+        item.lifetime = this.time.delayedCall(15000, () => {
+            if (item.active) item.destroy();
+        });
+
+        // Colisiones
+        const p1 = this.players.get("player1").sprite;
+        const p2 = this.players.get("player2").sprite;
+
+        this.physics.add.overlap(p1, item, () => this.pickPowerUp(item, "player1"));
+        this.physics.add.overlap(p2, item, () => this.pickPowerUp(item, "player2"));
+    }
+
+    pickPowerUp(powerUp, playerId) {
+        if (!powerUp.active) return;
+
+        powerUp.destroy();
+
+        // Activar el efecto
+        this.powerUpActive[playerId] = true;
+
+        // Cancelar un efecto previo si ya tenía uno
+        if (this.powerUpTimers[playerId]) {
+            this.powerUpTimers[playerId].remove(false);
+        }
+
+        this.powerUpTimers[playerId] = this.time.delayedCall(10000, () => {
+            this.powerUpActive[playerId] = false;
+        });
     }
 
     createBounds() {
