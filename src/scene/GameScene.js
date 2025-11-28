@@ -45,7 +45,10 @@ export class GameScene extends Phaser.Scene{
         this.trashGroup = null;
         this.trashSpawnTimer = null;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
         this.powerUpActive = {
             player1: false,
             player2: false
@@ -57,6 +60,9 @@ export class GameScene extends Phaser.Scene{
         };
         this.powerUpGroup = null;
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     } 
 
@@ -111,7 +117,10 @@ export class GameScene extends Phaser.Scene{
         });
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
         this.powerUpGroup = this.physics.add.group();
 
         this.time.addEvent({
@@ -121,6 +130,9 @@ export class GameScene extends Phaser.Scene{
             loop: true
         });
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 
@@ -180,6 +192,8 @@ export class GameScene extends Phaser.Scene{
         } else {
             x = Phaser.Math.Between(450, 770);  // Zona derecha
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
 =======
         }
         y = Phaser.Math.Between(150, 550);
@@ -226,6 +240,143 @@ export class GameScene extends Phaser.Scene{
     trySpawnPowerUp() {
         const p1 = this.players.get('player1').score;
         const p2 = this.players.get('player2').score;
+
+        let target = null; 
+        let chance = 10; 
+
+        if (p1 < p2 - 1) {
+            target = "player1";
+            chance = 70; 
+        } 
+        else if (p2 < p1 - 1) {
+            target = "player2";
+            chance = 70; 
+        } 
+        else {
+            chance = 10; 
+            target = Phaser.Math.Between(0, 1) === 0 ? "player1" : "player2";
+        }
+        if (this.powerUpActive[target]) {
+            return;
+        }
+        const exists = this.powerUpGroup.getChildren().some(obj => obj.targetPlayer === target);
+        if (exists) {
+            return;
+        }
+
+        const roll = Phaser.Math.Between(1, 100);
+        if (roll <= chance) {
+            this.spawnPowerUp(target);
+>>>>>>> Stashed changes
+        }
+        y = Phaser.Math.Between(150, 550);
+
+        // Crear basura
+        const trash = this.physics.add.sprite(x, y, 'basura');
+        
+        trash.setDisplaySize(40, 40);
+        trash.targetPlayer = targetPlayer;
+
+        this.trashGroup.add(trash);
+
+        this.time.delayedCall(7000, () => {
+            if (trash.active) trash.destroy();
+        });
+
+        // Colisión basura con cada jugador
+        const p1 = this.players.get("player1").sprite;
+        const p2 = this.players.get("player2").sprite;
+
+        this.physics.add.overlap(p1, trash, () => this.collectTrash(trash, 1));
+        this.physics.add.overlap(p2, trash, () => this.collectTrash(trash, 2));
+    }
+
+<<<<<<< Updated upstream
+    collectTrash(trash, playerNumber) {
+        if (!trash.active) return;
+
+        trash.destroy();
+
+        const player = playerNumber === 1
+            ? this.players.get('player1')
+            : this.players.get('player2');
+
+        const id = playerNumber === 1 ? "player1" : "player2";
+
+        const multiplier = this.powerUpActive[id] ? 2 : 1;
+
+        player.score += 5 * multiplier;
+
+        if (id === "player1") this.scoreQuoka.setText(player.score);
+        else this.scoreNarval.setText(player.score);
+    }
+
+    trySpawnPowerUp() {
+        const p1 = this.players.get('player1').score;
+        const p2 = this.players.get('player2').score;
+=======
+    spawnPowerUp(playerId) {
+
+        const exists = this.powerUpGroup.getChildren().some(obj => obj.targetPlayer === playerId);
+        if (exists) {
+            return;
+        }
+
+        let x, y, key;
+
+        if (playerId === "player1") {
+            key = "powerQuoka"; 
+            x = Phaser.Math.Between(50, 350);
+        } else {
+            key = "powerNarval";
+            x = Phaser.Math.Between(450, 750);
+        }
+
+        y = Phaser.Math.Between(150, 550);
+
+        const item = this.physics.add.sprite(x, y, key);
+
+        // Escala visual
+        item.setScale(0.6);
+        item.targetPlayer = playerId;
+
+        this.powerUpGroup.add(item);
+
+        // Escala física 
+        item.body.setSize(item.displayWidth, item.displayHeight, true);
+
+
+        // Tiempo en pantalla SIN recoger
+        item.lifetime = this.time.delayedCall(15000, () => {
+            if (item.active) item.destroy();
+        });
+
+        // Colisiones
+        const p1 = this.players.get("player1").sprite;
+        const p2 = this.players.get("player2").sprite;
+
+        this.physics.add.overlap(p1, item, () => this.pickPowerUp(item, "player1"));
+        this.physics.add.overlap(p2, item, () => this.pickPowerUp(item, "player2"));
+    }
+
+    pickPowerUp(powerUp, playerId) {
+        if (!powerUp.active) return;
+
+        powerUp.destroy();
+
+        // Activar el efecto
+        this.powerUpActive[playerId] = true;
+
+        // Cancelar un efecto previo si ya tenía uno
+        if (this.powerUpTimers[playerId]) {
+            this.powerUpTimers[playerId].remove(false);
+        }
+
+        this.powerUpTimers[playerId] = this.time.delayedCall(10000, () => {
+            this.powerUpActive[playerId] = false;
+        });
+    }
+>>>>>>> Stashed changes
 
         let target = null; 
         let chance = 10; 
