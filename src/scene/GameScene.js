@@ -9,14 +9,7 @@ export class GameScene extends Phaser.Scene{
     preload() {
 
         //Fondo
-        this.load.image('fondo', 'assets/fondo_juego.png'); 
-
-        //Items
-        this.load.image('basura', 'assets/basura.png');
-        this.load.image('powerQuoka', 'assets/bayas.png');
-        this.load.image('powerNarval', 'assets/pez.png');
-        this.load.image('toxicAgua', 'assets/residuo_toxico_agua.png');
-        this.load.image('toxicoTierra', 'basura_tierra1.png');
+        this.load.image('fondo', 'assets/fondo_juego.png');
 
         //Quokka
         this.load.image('quokaFrente', 'assets/quokka_front_view.png');
@@ -42,6 +35,7 @@ export class GameScene extends Phaser.Scene{
         this.isPaused = false;
         this.escWasDown = false;
         this.moving = false;
+<<<<<<< HEAD
         this.trashGroup = null;
         this.trashSpawnTimer = null;
 <<<<<<< Updated upstream
@@ -70,6 +64,8 @@ export class GameScene extends Phaser.Scene{
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> parent of 5efad39 (Reescalado de botones, hitboxes y tipografía añadida.)
     } 
 
     create() {
@@ -78,16 +74,16 @@ export class GameScene extends Phaser.Scene{
         brightness.applyToScene(this);
 
         // Score texts
-        this.scoreQuoka = this.add.text(100, 11, '0', {
+        this.scoreQuoka = this.add.text(100, 13, '0', {
             fontFamily: "aaaaa",
-            fontSize: '38px',
-            color: '#d9df5dff'
+            fontSize: '48px',
+            color: '#ffffffff'
         })
 
-        this.scoreNarval = this.add.text(700, 11, '0', {
+        this.scoreNarval = this.add.text(700, 13, '0', {
             fontFamily: "aaaaa",
-            fontSize: '38px',
-            color: '#d9df5dff'
+            fontSize: '48px',
+            color: '#ffffffff'
         })
         this.createBounds();
         this.setUpPLayers();
@@ -98,10 +94,10 @@ export class GameScene extends Phaser.Scene{
 
         //Temporizador de 2 minutos
         this.timeLeft = 120; // 2 minutos
-        this.timerText = this.add.text(278, 17, "Tiempo: 120", {
+        this.timerText = this.add.text(300, 13, "Tiempo: 120", {
             fontFamily: "aaaaa",
-            fontSize: "24px",
-            color: "#9da23cff"
+            fontSize: "32px",
+            color: "#ffffffff"
         });
 
         // Evento que se ejecuta cada segundo
@@ -112,6 +108,7 @@ export class GameScene extends Phaser.Scene{
             loop: true
         });
 
+<<<<<<< HEAD
         
         this.trashGroup = this.physics.add.group();
 
@@ -146,6 +143,8 @@ export class GameScene extends Phaser.Scene{
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> parent of 5efad39 (Reescalado de botones, hitboxes y tipografía añadida.)
     }
 
     updateTimer() {
@@ -193,6 +192,7 @@ export class GameScene extends Phaser.Scene{
         });
     }
 
+<<<<<<< HEAD
     spawnTrash() {
         // Selección aleatoria de jugador (1 o 2)
         const targetPlayer = Phaser.Math.Between(1, 2);
@@ -599,6 +599,18 @@ export class GameScene extends Phaser.Scene{
         const exists = this.powerUpGroup.getChildren().some(obj => obj.targetPlayer === playerId);
         if (exists) {
             return;
+=======
+    scoreNarvalGoal() {
+        if(!this.moving){
+            return;
+        }
+        const player2 = this.players.get('player2');
+        player2.score += 1;
+        this.scoreNarval.setText(player2.score.toString());
+        this.moving=false;
+        if(player2.score >= 2){
+            this.endGame("player2");
+>>>>>>> parent of 5efad39 (Reescalado de botones, hitboxes y tipografía añadida.)
         }
 
         let x, y, key;
@@ -639,6 +651,7 @@ export class GameScene extends Phaser.Scene{
         this.physics.add.overlap(p2, item, () => this.pickPowerUp(item, "player2"));
     }
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
     pickPowerUp(powerUp, playerId) {
@@ -660,6 +673,22 @@ export class GameScene extends Phaser.Scene{
     }
 
 >>>>>>> Stashed changes
+=======
+    scoreQuokaGoal() {
+        if(!this.moving){
+            return;
+        }
+        const player1 = this.players.get('player1');
+        player1.score += 1;
+        this.scoreQuoka.setText(player1.score.toString());
+        this.moving=false;
+        if(player1.score >= 2){
+            this.endGame("player1");
+        }
+    }
+
+
+>>>>>>> parent of 5efad39 (Reescalado de botones, hitboxes y tipografía añadida.)
     createBounds() {
         this.QuokaGoal = this.physics.add.sprite(0, 300, null);
         this.QuokaGoal.setDisplaySize(10, 600);
@@ -674,13 +703,13 @@ export class GameScene extends Phaser.Scene{
         this.NarvalGoal.setVisible(false);
     }
 
+   
+
     endGame(winnerID){
         this.players.forEach(Personajes =>{
             Personajes.sprite.setVelocity(0,0);
         });
         this.physics.pause();
-        if (this.trashSpawnTimer) this.trashSpawnTimer.remove(false);
-        this.trashGroup.clear(true, true);  
 
         this.scene.start('GameOverScene');
         /*const winnerText = winnerID === 'player1' ? 'Gana Quoka!' : 'Gana Narval';
