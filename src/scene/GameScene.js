@@ -23,6 +23,11 @@ export class GameScene extends Phaser.Scene{
         this.load.image('quokaAtras', 'assets/quokka_back_view.png');
         this.load.image('quokaIzquierda', 'assets/quokka_side1_view.png');
         this.load.image('quokaDerecha', 'assets/quokka_side_view.png');
+        //Con PowerUps
+        this.load.image('quokaFrenteP', 'assets/quokka_front_viewG.png');
+        this.load.image('quokaAtrasP', 'assets/quokka_back_viewG.png');
+        this.load.image('quokaIzquierdaP', 'assets/quokka_side1_viewG.png');
+        this.load.image('quokaDerechaP', 'assets/quokka_side_viewG.png');
         
         
 
@@ -31,6 +36,11 @@ export class GameScene extends Phaser.Scene{
         this.load.image('narvalAtras', 'assets/narval_down_view.png');
         this.load.image('narvalIzquierda', 'assets/narval_izquierda_view.png');
         this.load.image('narvalDerecha', 'assets/narval_derecha_view.png');
+        //Con PowerUps
+        this.load.image('narvalFrenteP', 'assets/narval_top_viewG.png');
+        this.load.image('narvalAtrasP', 'assets/narval_down_viewG.png');
+        this.load.image('narvalIzquierdaP', 'assets/narval_izquierda_viewG.png');
+        this.load.image('narvalDerechaP', 'assets/narval_derecha_viewG.png');
 
 
         
