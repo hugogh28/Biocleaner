@@ -24,45 +24,47 @@ export class Personajes {
         body.setSize(this.sprite.width, this.sprite.height, true); 
     }
 
-    setSprite(direction){
+    setSprite(direction) {
         let texture;
 
-        if(this.id === "player1"){
-            if(direction === "up"){
-                texture = "quokaAtras";
+        const boosted = this.scene.powerUpActive[this.id];
+
+        if (this.id === "player1") { 
+            if (!boosted) {
+                // SPRITES NORMALES
+                if (direction === "up") texture = "quokaAtras";
+                else if (direction === "down") texture = "quokaFrente";
+                else if (direction === "left") texture = "quokaIzquierda";
+                else if (direction === "right") texture = "quokaDerecha";
+                else texture = "quokaFrente";
+            } else {
+                // SPRITES DE POWER UP
+                if (direction === "up") texture = "quokaAtrasP";
+                else if (direction === "down") texture = "quokaFrenteP";
+                else if (direction === "left") texture = "quokaIzquierdaP";
+                else if (direction === "right") texture = "quokaDerechaP";
+                else texture = "quokaFrenteP";
             }
-            else if(direction === "down"){
-                texture = "quokaFrente";
-            }
-            else if(direction === "left"){
-                texture = "quokaIzquierda";
-            }
-            else if(direction === "right"){
-                texture = "quokaDerecha";
-            }
-            else {
-                texture = "quokaFrente";
-            }
-        } else {
-            if(direction === "up"){
-                texture = "narvalFrente";
-            }
-            else if(direction === "down"){
-                texture = "narvalAtras";
-            }
-            else if(direction === "left"){
-                texture = "narvalIzquierda";
-            }
-            else if(direction === "right"){
-                texture = "narvalDerecha";
-            }
-            else {
-                texture = "narvalFrente";
+
+        } else { 
+            if (!boosted) {
+                // SPRITES NORMALES
+                if (direction === "up") texture = "narvalFrente";
+                else if (direction === "down") texture = "narvalAtras";
+                else if (direction === "left") texture = "narvalIzquierda";
+                else if (direction === "right") texture = "narvalDerecha";
+                else texture = "narvalFrente";
+            } else {
+                // SPRITES DE POWER UP
+                if (direction === "up") texture = "narvalFrenteP";
+                else if (direction === "down") texture = "narvalAtrasP";
+                else if (direction === "left") texture = "narvalIzquierdaP";
+                else if (direction === "right") texture = "narvalDerechaP";
+                else texture = "narvalFrenteP";
             }
         }
 
         this.sprite.setTexture(texture);
-        this.sprite.setScale(0.5);
-        this.updateHitbox();
     }
+
 }

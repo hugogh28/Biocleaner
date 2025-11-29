@@ -23,6 +23,7 @@ export class GameScene extends Phaser.Scene{
         this.load.image('quokaAtras', 'assets/quokka_back_view.png');
         this.load.image('quokaIzquierda', 'assets/quokka_side1_view.png');
         this.load.image('quokaDerecha', 'assets/quokka_side_view.png');
+
         //Con PowerUps
         this.load.image('quokaFrenteP', 'assets/quokka_front_viewG.png');
         this.load.image('quokaAtrasP', 'assets/quokka_back_viewG.png');
@@ -73,17 +74,22 @@ export class GameScene extends Phaser.Scene{
         brightness.applyToScene(this);
 
         // Score texts
-        this.scoreQuoka = this.add.text(100, 11, '0', {
+        this.scoreQuoka = this.add.text(100, 30, '0', {
             fontFamily: "aaaaa",
             fontSize: '38px',
-            color: '#d9df5dff'
-        })
+            color: '#d9df5dff',
+            fixedWidth: 120,
+            align: 'left'
+        }).setOrigin(0, 0.5);
 
-        this.scoreNarval = this.add.text(700, 11, '0', {
+        this.scoreNarval = this.add.text(700, 30, '0', {
             fontFamily: "aaaaa",
             fontSize: '38px',
-            color: '#d9df5dff'
-        })
+            color: '#d9df5dff',
+            fixedWidth: 120,
+            align: 'right'
+        }).setOrigin(1, 0.5);
+
         this.createBounds();
         this.setUpPLayers();
 
@@ -111,7 +117,7 @@ export class GameScene extends Phaser.Scene{
         this.trashGroup = this.physics.add.group();
 
         this.trashSpawnTimer = this.time.addEvent({
-            delay: 500,
+            delay: 700,
             callback: this.spawnTrash,
             callbackScope: this,
             loop: true
@@ -317,7 +323,9 @@ export class GameScene extends Phaser.Scene{
 
         this.powerUpTimers[playerId] = this.time.delayedCall(10000, () => {
             this.powerUpActive[playerId] = false;
+            this.players.get(playerId).setSprite("down");
         });
+        this.players.get(playerId).setSprite("down");
     }
 
     createBounds() {
