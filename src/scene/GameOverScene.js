@@ -12,13 +12,13 @@ export class GameOverScene extends Phaser.Scene{
         this.winnerID = data.winnerID;
     }
     preload(){
-        this.load.image('draw_b', 'assets/fondo.png'); 
-        this.load.image('quokka_loser_b', 'assets/quokka_looser.png'); 
-        this.load.image('narval_loser_b', 'assets/narval_looser.png'); 
+        this.load.image('empate_f', 'assets/fondo.png'); 
+        this.load.image('quokka_perdedor_f', 'assets/quokka_perdedor.png'); 
+        this.load.image('narval_perdedor_f', 'assets/narval_perdedor.png'); 
         this.load.image('botonVolver', 'assets/volver.png');
-        this.load.image('quoka_loser', 'assets/basura_tierra2.png');
-        this.load.image('narval_loser', 'assets/residuo_toxico_aguaN.png');
-        this.load.image('draw', 'assets/quokka_narval.png');
+        this.load.image('quokka_perdedor', 'assets/basura_tierra2.png');
+        this.load.image('narval_perdedor', 'assets/residuo_toxico_aguaN.png');
+        this.load.image('empate', 'assets/quokka_narval.png');
         this.load.image('botonMenu', 'assets/menu.png');
     }
     create(){
@@ -27,9 +27,9 @@ export class GameOverScene extends Phaser.Scene{
         brightness.applyToScene(this);
 
         const bakcgroundWinner = 
-        this.winnerID === 'player1' ? 'narval_loser_b' :
-        this.winnerID === 'player2' ? 'quokka_loser_b' :
-        'draw_b';
+        this.winnerID === 'player1' ? 'narval_perdedor_f' :
+        this.winnerID === 'player2' ? 'quokka_perdedor_f' :
+        'empate_f';
         
         this.add.image(400, 300, bakcgroundWinner).setOrigin(0.5);
         
@@ -39,9 +39,9 @@ export class GameOverScene extends Phaser.Scene{
         '¡Empate!';
 
         const winner = 
-        this.winnerID === 'player1' ? 'narval_loser' : 
-        this.winnerID === 'player2' ? 'quoka_loser' :
-        'draw';
+        this.winnerID === 'player1' ? 'narval_perdedor' : 
+        this.winnerID === 'player2' ? 'quokka_perdedor' :
+        'empate';
 
         this.add.image(400, 450, winner).setOrigin(0.5);
 
