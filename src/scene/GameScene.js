@@ -98,7 +98,7 @@ export class GameScene extends Phaser.Scene{
 
 
         //Temporizador de 2 minutos
-        this.timeLeft = 120; // 2 minutos
+        this.timeLeft = 5; // 2 minutos
         this.timerText = this.add.text(278, 17, "Tiempo: 120", {
             fontFamily: "aaaaa",
             fontSize: "24px",
@@ -131,7 +131,6 @@ export class GameScene extends Phaser.Scene{
             callbackScope: this,
             loop: true
         });
-
     }
 
     updateTimer() {
@@ -342,33 +341,21 @@ export class GameScene extends Phaser.Scene{
         this.NarvalGoal.setVisible(false);
     }
 
-    endGame(winnerID){
+    getWinner(){
+        if(this.players.get("player1").score > this.players.get("player2").score) return "player1";
+        else if(this.players.get("player2").score > this.players.get("player1").score) return "player2";
+        return "draw";
+    }
+
+    endGame(){
+        const winnerID = this.getWinner();
         this.players.forEach(Personajes =>{
             Personajes.sprite.setVelocity(0,0);
         });
         this.physics.pause();
         if (this.trashSpawnTimer) this.trashSpawnTimer.remove(false);
-        this.trashGroup.clear(true, true);  
-
-        this.scene.start('GameOverScene');
-        /*const winnerText = winnerID === 'player1' ? 'Gana Quoka!' : 'Gana Narval';
-
-        this.add.text(400,250, winnerText, {
-            fontSize: '64px',
-            color: '#9f6e04ff',
-        }).setOrigin(0.5);
-
-        const menuBtn = this.add.text(400,300, 'Volver al menu', {
-            fontSize: '32px',
-            color: '#9f6e04ff',
-        }).setOrigin(0.5)
-        .setInteractive({useHandCursor : true})
-        .on('pointerover', () => menuBtn.setColor('#05ff1aff'))
-        .on('pointerout', () => menuBtn.setColor('#434ddeff'))
-        .on('pointerdown', () =>{
-            this.scene.start('MenuScene');
-        });*/
-
+        this.trashGroup.clear(true, true);
+        this.scene.start('GameOverScene', {winnerID});
     }
 
     setPauseState(isPaused){
@@ -445,7 +432,6 @@ export class GameScene extends Phaser.Scene{
                     Personajes.sprite.y = 555;
                 }
             }
-        
         });
 
         const brightness = this.plugins.get("Brightness");
