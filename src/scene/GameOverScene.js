@@ -12,16 +12,19 @@ export class GameOverScene extends Phaser.Scene{
         this.winnerID = data.winnerID;
     }
     preload(){
-        this.load.image('fondo', 'assets/fondo.png'); 
+        this.load.image('fondo1', 'assets/fondo.png'); 
         this.load.image('botonVolver', 'assets/volver.png');
-    }
+        this.load.image('quoka_winner', 'assets/basura_tierra2.png');
+        this.load.image('narval_winner', 'assets/residuo_toxico_aguaN.png');
+        this.load.image('draw', 'assets/.png') //Falta añadir la imagen del empate
 
+    }
     create(){
 
         const brightness = this.plugins.get("Brightness");
         brightness.applyToScene(this);
 
-        this.add.image(400, 300, 'fondo').setOrigin(0.5);
+        this.add.image(400, 300, 'fondo1').setOrigin(0.5);
 
         this.add.text(400, 23, 'Fin del Juego', {
             fontFamily: "aaaaa",
@@ -33,6 +36,13 @@ export class GameOverScene extends Phaser.Scene{
         this.winnerID === 'player1' ? '¡Gana Quokka!' : 
         this.winnerID === 'player2' ? '¡Gana Narval!' : 
         '¡Empate!';
+
+        const winner = 
+        this.winnerID === 'player1' ? 'quoka_winner' : 
+        this.winnerID === 'player2' ? 'narval_winner' :
+        'draw'; //Falta aún una imagen para esto
+
+        this.add.image(400, 450, winner).setOrigin(0.5);
 
         this.add.text(400,250, winnerText, {
             fontSize: '64px',

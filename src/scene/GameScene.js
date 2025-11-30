@@ -98,7 +98,7 @@ export class GameScene extends Phaser.Scene{
 
 
         //Temporizador de 2 minutos
-        this.timeLeft = 5; // 2 minutos
+        this.timeLeft = 120; // 2 minutos
         this.timerText = this.add.text(278, 17, "Tiempo: 120", {
             fontFamily: "aaaaa",
             fontSize: "24px",
