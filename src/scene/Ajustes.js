@@ -123,7 +123,6 @@ export class Ajustes extends Phaser.Scene {
 
         this.add.image(400, 500, "botonVolver",)
         .setInteractive()
-        .setDisplaySize(300, 150)
         .on("pointerdown", () => {
              this.scene.stop();
 

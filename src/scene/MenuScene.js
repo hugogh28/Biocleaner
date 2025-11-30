@@ -43,21 +43,18 @@ export class MenuScene extends Phaser.Scene {
         }).setOrigin(0.5);
 
         const localBtn = this.add.image(200, 250, 'botonJugar').setOrigin(0.5)
-        .setDisplaySize(300, 150)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () =>{
             this.scene.start('GameScene');
         });
 
         const creditos = this.add.image(350, 500, 'botonCreditos').setOrigin(0.5)
-        .setDisplaySize(300, 150)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () =>{
             this.scene.start('Creditos');
         });
 
         const ajustes = this.add.image(600, 350, 'botonAjustes').setOrigin(0.5)
-        .setDisplaySize(300, 150)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () => {
             this.scene.start("Ajustes", { previousScene: "MenuScene" });

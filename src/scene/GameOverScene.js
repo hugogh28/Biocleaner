@@ -27,7 +27,6 @@ export class GameOverScene extends Phaser.Scene{
 
         const volverMenu = this.add.image(400, 400, 'botonVolver',).setOrigin(0.5)
         .setInteractive({useHandCursor: true})
-        .setDisplaySize(300, 150)
         .on('pointerdown', () =>{
             this.scene.start('MenuScene');
         });
