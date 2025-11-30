@@ -12,25 +12,26 @@ export class GameOverScene extends Phaser.Scene{
         this.winnerID = data.winnerID;
     }
     preload(){
-        this.load.image('fondo1', 'assets/fondo.png'); 
+        this.load.image('draw_b', 'assets/fondo.png'); 
+        this.load.image('quokka_loser_b', 'assets/quokka_looser.png'); 
+        this.load.image('narval_loser_b', 'assets/narval_looser.png'); 
         this.load.image('botonVolver', 'assets/volver.png');
-        this.load.image('quoka_winner', 'assets/basura_tierra2.png');
-        this.load.image('narval_winner', 'assets/residuo_toxico_aguaN.png');
-        this.load.image('draw', 'assets/.png') //Falta añadir la imagen del empate
-
+        this.load.image('quoka_loser', 'assets/basura_tierra2.png');
+        this.load.image('narval_loser', 'assets/residuo_toxico_aguaN.png');
+        this.load.image('draw', 'assets/quokka_narval.png');
+        this.load.image('botonMenu', 'assets/menu.png');
     }
     create(){
 
         const brightness = this.plugins.get("Brightness");
         brightness.applyToScene(this);
 
-        this.add.image(400, 300, 'fondo1').setOrigin(0.5);
-
-        this.add.text(400, 23, 'Fin del Juego', {
-            fontFamily: "aaaaa",
-            fontSize: '22px',
-            color: '#e1e674'
-        }).setOrigin(0.5);
+        const bakcgroundWinner = 
+        this.winnerID === 'player1' ? 'narval_loser_b' :
+        this.winnerID === 'player2' ? 'quokka_loser_b' :
+        'draw_b';
+        
+        this.add.image(400, 300, bakcgroundWinner).setOrigin(0.5);
         
         const winnerText = 
         this.winnerID === 'player1' ? '¡Gana Quokka!' : 
@@ -38,24 +39,20 @@ export class GameOverScene extends Phaser.Scene{
         '¡Empate!';
 
         const winner = 
-        this.winnerID === 'player1' ? 'quoka_winner' : 
-        this.winnerID === 'player2' ? 'narval_winner' :
-        'draw'; //Falta aún una imagen para esto
+        this.winnerID === 'player1' ? 'narval_loser' : 
+        this.winnerID === 'player2' ? 'quoka_loser' :
+        'draw';
 
         this.add.image(400, 450, winner).setOrigin(0.5);
 
-        this.add.text(400,250, winnerText, {
+        this.add.text(400,50, winnerText, {
+            fontFamily: "aaaaa",
             fontSize: '64px',
-            color: '#9f6e04ff',
+            color: '#e1e674',
         }).setOrigin(0.5);
 
-        const menuBtn = this.add.text(400,300, 'Volver al menu', {
-            fontSize: '32px',
-            color: '#9f6e04ff',
-        }).setOrigin(0.5)
-        .setInteractive({useHandCursor : true})
-        .on('pointerover', () => menuBtn.setColor('#05ff1aff'))
-        .on('pointerout', () => menuBtn.setColor('#434ddeff'))
+        const volverMenu = this.add.image(420, 150, 'botonMenu',).setOrigin(0.5)
+        .setInteractive({useHandCursor: true})
         .on('pointerdown', () =>{
             this.scene.start('MenuScene');
         });

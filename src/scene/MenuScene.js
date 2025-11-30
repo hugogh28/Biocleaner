@@ -12,6 +12,13 @@ export class MenuScene extends Phaser.Scene {
 
         //Música
         this.load.audio('musica_fondo', 'assets/musica_fondo.ogg');
+
+        this.add.text(400,100, 'Biocleaner',
+        {   
+            fontFamily: "aaaaa",
+            fontSize: '64px',
+            color: '#e1e674'
+        }).setOrigin(0.5);
     }
     create() {
 
@@ -31,8 +38,6 @@ export class MenuScene extends Phaser.Scene {
             // Si ya existe, solo actualiza el volumen
             this.sound.get("musica_fondo").setVolume(settings.getMusicVolume());
         }
-
-
 
         this.add.image(400, 300, 'fondoMenu').setOrigin(0.5);
         this.add.text(400,100, 'Biocleaner',
