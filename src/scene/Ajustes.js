@@ -20,7 +20,7 @@ export class Ajustes extends Phaser.Scene {
 
         brightnessPlugin.applyToScene(this);
 
-        this.add.text(300, 40, "AJUSTES", {
+        this.add.text(275, 40, "AJUSTES", {
             fontFamily: "aaaaa",
             fontSize: "40px",
             color: "#e1e674"
