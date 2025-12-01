@@ -13,6 +13,7 @@ export class GameScene extends Phaser.Scene{
 
         //Items
         this.load.image('basura', 'assets/basura.png');
+        this.load.image('pringue', 'assets/.png');
         this.load.image('powerQuoka', 'assets/bayas.png');
         this.load.image('powerNarval', 'assets/pez.png');
         this.load.image('toxicAgua', 'assets/residuo_toxico_agua.png');
@@ -55,6 +56,15 @@ export class GameScene extends Phaser.Scene{
         this.moving = false;
         this.trashGroup = null;
         this.trashSpawnTimer = null;
+        this.stickySpawnTimer = {
+            player1: null,
+            player2: null
+        };
+        this.stickyGroup = null;
+        this.stickyActive = {
+            player1: false,
+            player2: false
+        };
         this.powerUpActive = {
             player1: false,
             player2: false
@@ -98,7 +108,7 @@ export class GameScene extends Phaser.Scene{
 
 
         //Temporizador de 2 minutos
-        this.timeLeft = 5; // 2 minutos
+        this.timeLeft = 120; // 2 minutos
         this.timerText = this.add.text(278, 17, "Tiempo: 120", {
             fontFamily: "aaaaa",
             fontSize: "24px",
@@ -113,6 +123,14 @@ export class GameScene extends Phaser.Scene{
             loop: true
         });
 
+        this.stickyGroup = this.physics.add.group();
+
+        this.stickySpawnTimer = this.time.addEvent({
+            delay: 10000,
+            callback: this.spawnSticky,
+            callbackScope: this,
+            loop: true
+        })
         
         this.trashGroup = this.physics.add.group();
 
@@ -176,6 +194,96 @@ export class GameScene extends Phaser.Scene{
                 rightKeyObj: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes[config.rightKey]),
             }
         });
+    }
+
+    trySpawnSticky() {
+        const p1 = this.players.get('player1').score;
+        const p2 = this.players.get('player2').score;
+
+        let target = null;
+        let chance = 10;
+
+        if(p1 < p2-1 || p2 < p1-1){
+            chance = 50;
+        }else{
+            chance = 10;
+        }
+
+        if(this.stickyActive){
+            return;
+        }
+        const exists = this.stickyGroup.getChildren().some(obj => obj.targetPlayer === target); //Corrige esto para que no funcione por targets
+        if(exists){
+            return;
+        }
+
+        const roll = Phaser.Math.Between(1, 100);
+        if(roll <= chance){
+            this.spawnSticky();
+        }
+
+        
+
+    }
+
+    spawnSticky(){
+        let x, y;
+        x = 400;
+        y = Phaser.Math.Between(150, 550);
+
+        //Creamos el objeto que hará de pringue y lo añadimos a su grupo
+        const sticky = this.physics.add.sprite(x, y, 'pringue');
+
+        sticky.setDisplaySize(40,40);
+        
+        this.stickyGroup.add(sticky);
+
+        //Destruimos el objeto tras un tiempo si no se ha interactuado con él
+        this.time.delayedCall(7000, () => {
+            if(sticky.active) sticky.destroy();
+        });
+
+        //Colisión del pringue con cada jugador
+        const p1 = this.players.get("player1").sprite;
+        const p2 = this.players.get("player2").sprite;
+
+        this.physics.add.overlap(p1, sticky, () => this.throwSticky(sticky, 2));
+        this.physics.add.overlap(p2, sticky, () => this.throwSticky(sticky, 1));
+    }
+
+    throwSticky(sticky, playerNumber){
+        if(!sticky.active) return;
+
+        sticky.destroy();
+
+        const player = playerNumber === 1 ? this.players.get('player1') : this.players.get('player2');
+
+        const id = playerNumber === 1 ? "player1" : "player2";
+
+        this.stickyActive[id] = true;
+
+
+        if(player.score >= 10){
+        player.score -= 10;
+        }
+        if(this.powerUpActive[id]){
+            this.powerUpActive[id] = false;
+            this.stickyActive[id] = false;
+        }
+
+        //this.inputsMapping.pause();
+        //player.sprite.setVelocity(0,0);
+
+        if(id === "player1") this.scoreQuoka.setText(player.score);
+        else this.scoreNarval.setText(player.score);
+        
+
+        this.stickySpawnTimer[id] = this.time.delayedCall(2000, () => {
+            this.stickyActive[id] = false;
+            //this.inputsMapping.resume();
+            this.players.get(id).setSprite("down");
+        });
+        this.players.get(id).setSprite("down");
     }
 
     spawnTrash() {
