@@ -56,8 +56,8 @@ El juego es del género arcade competitivo 2D con subgéneros como party game y 
 
 
 ### Diagrama de flujo
-<p float="left">
-<img src="public/assets/Diagrama_de_flujo.jpg" >
+<p>
+<img src="public/assets/Diagrama_de_flujo.png">
 </p>
 
 ### Historia
@@ -76,13 +76,7 @@ El juego tendrá un estilo visual de pixel art con una cámara en 2D. Para la pa
 
 - #### Logotipo
   
-<img src="public/assets/logo.png" width=256 height=256>
-
-- #### Bocetos
-<p float="left">
-<img src="public/assets/Items/la_bolsa_de_basura.png" width=256 height=256>
-<img src="public/assets/Items/logo_boceto.png" width=256 height=256>
-</p>
+<img src="public/assets/Items/logo.png" width=224 height=224>
 
 ### Controles
 Los controles para este juego son muy sencillos. Se utilizarán las teclas W,A,S,D para jugar con el quokka y las flechas para jugar con el narval. Para perjudicar al rival se usará la Q en caso del Quokka y la N en caso del Narval.
@@ -107,17 +101,40 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
 - #### Quokka
   Uno de los personajes jugables que estarán en el juego es el quokka, este pequeño y contento animal estará en una zona terrestre con plantas autóctonas. 
 <p float="left">
-<img src="public/assets/Quokka/quokka_front_view.png" width=256 height=256>
-<img src="public/assets/Quokka/quokka_back_view.png" width=256 height=256>
+<img src="public/assets/Quokka/quokka_front_view.png" width=108 height=164>
+<img src="public/assets/Quokka/quokka_back_view.png" width=108 height=164>
+<img src="public/assets/Quokka/quokka_side_view.png" width=132 height=164>
+<img src="public/assets/Quokka/quokka_side1_view.png" width=132 height=164>
+<img src="public/assets/Quokka/basura_tierra2.png" width=160 height=160>
+<img src="public/assets/Quokka/basura_tierra3.png" width=165 height=148>
+</p>
+
+- #### Quokka con Powerups
+<p float="left">
+<img src="public/assets/Quokka/quokka_front_viewG.png" width=152 height=164>
+<img src="public/assets/Quokka/quokka_back_viewG.png" width=152 height=164>
+<img src="public/assets/Quokka/quokka_side_viewG.png" width=161 height=164>
+<img src="public/assets/Quokka/quokka_side1_viewG.png" width=161 height=164>
 </p>
 
 - #### Narval
   El otro personaje jugable será el narval, conocido mundialmente por su "cuerno" que le dota de ese apodo de unicornio de los mares, su zona será de aguas árticas.
 <p float="left">
-<img src="public/assets/Narval/narval_top_view.png" width=256 height=256>
-<img src="public/assets/Narval/narval_down_view.png" width=256 height=256>
+<img src="public/assets/Narval/narval_top_view.png" width=123 height=164>
+<img src="public/assets/Narval/narval_down_view.png" width=123 height=164>
+<img src="public/assets/Narval/narval_derecha_view.png" width=164 height=123>
+<img src="public/assets/Narval/narval_izquierda_view.png" width=164 height=123>
+<img src="public/assets/Narval/residuo_toxico_aguaN.png" width=640 height=640>
+<img src="public/assets/Narval/residuo_toxico_aguaS.png" width=182 height=168>
 </p>
 
+- #### Narval con Powerups
+<p float="left">
+<img src="public/assets/Narval/narval_top_viewG.png" width=124 height=164>
+<img src="public/assets/Narval/narval_down_viewG.png" width=124 height=164>
+<img src="public/assets/Narval/narval_derecha_viewG.png" width=164 height=124>
+<img src="public/assets/Narval/narval_izquierda_viewG.png" width=164 height=124>
+</p>
 ### Ítems
 
 - #### Basura
