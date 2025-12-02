@@ -85,7 +85,6 @@ export class GameScene extends Phaser.Scene{
             player2: null
         };
         this.powerUpGroup = null;
-
     } 
 
     create() {
@@ -269,15 +268,27 @@ export class GameScene extends Phaser.Scene{
         if(roll <= chance){
             this.spawnSticky();
         }
-
-        
-
     }
 
     spawnSticky(){
         let x, y;
-        x = 400;
-        y = Phaser.Math.Between(150, 550);
+        do{
+            x = 400;
+            y = Phaser.Math.Between(150, 550);
+            var overlapTrash = this.trashGroup.getChildren().some(child =>{
+                return(
+                    Math.abs(child.x-x)<40 &&
+                    Math.abs(child.y-y)<40
+                    );
+                });
+
+            var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
+                return(
+                    Math.abs(child.x-x)<40 &&
+                    Math.abs(child.y-y)<40
+                    );
+                });
+        }while(overlapTrash || overlapPowerUp);
 
         //Creamos el objeto que hará de pringue y lo añadimos a su grupo
         const sticky = this.physics.add.sprite(x, y, 'pringue');
@@ -341,12 +352,61 @@ export class GameScene extends Phaser.Scene{
 
         // Zona del jugador
         let x, y;
-        if (targetPlayer === 1) {
-            x = Phaser.Math.Between(30, 350);   // Zona izquierda
-        } else {
-            x = Phaser.Math.Between(450, 770);  // Zona derecha
+        //let attempts = 0;
+        //let maxAttempts = 30;
+
+        if(targetPlayer===1){
+            do{
+                x = Phaser.Math.Between(30, 350);   // Zona izquierda
+                y = Phaser.Math.Between(150, 550);
+
+                //attempts++;
+
+                var overlapTrash = this.trashGroup.getChildren().some(child =>{
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+
+                var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                        );
+                });
+            }while((overlapTrash || overlapPowerUp) /*&& attempts < maxAttempts*/);
+        }else{
+            do{
+                x = Phaser.Math.Between(450, 770);  // Zona derecha
+                y = Phaser.Math.Between(150, 550);
+
+                //attempts++;
+
+                var overlapTrash = this.trashGroup.getChildren().some(child =>{
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+
+                var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+
+                var overlapSticky = this.stickyGroup.getChildren().some(child => {
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+            }while((overlapTrash || overlapPowerUp || overlapSticky) /*&& attempts < maxAttempts*/);
         }
-        y = Phaser.Math.Between(150, 550);
+
+        //if(overlapTrash || overlapPowerUp) return;
 
         // Crear basura
         const trash = this.physics.add.sprite(x, y, 'basura');
@@ -429,16 +489,38 @@ export class GameScene extends Phaser.Scene{
         }
 
         let x, y, key;
+        do{
+            if (playerId === "player1") {
+                key = "powerQuoka"; 
+                x = Phaser.Math.Between(50, 350);
+            } else {
+                key = "powerNarval";
+                x = Phaser.Math.Between(450, 750);
+            }
 
-        if (playerId === "player1") {
-            key = "powerQuoka"; 
-            x = Phaser.Math.Between(50, 350);
-        } else {
-            key = "powerNarval";
-            x = Phaser.Math.Between(450, 750);
-        }
+            y = Phaser.Math.Between(150, 550);
 
-        y = Phaser.Math.Between(150, 550);
+            var overlapTrash = this.trashGroup.getChildren().some(child =>{
+                return(
+                    Math.abs(child.x-x)<40 &&
+                    Math.abs(child.y-y)<40
+                );
+            });
+
+            var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
+                return(
+                    Math.abs(child.x-x)<40 &&
+                    Math.abs(child.y-y)<40
+                );
+            });
+
+            var overlapSticky = this.stickyGroup.getChildren().some(child => {
+                return(
+                    Math.abs(child.x-x)<40 &&
+                    Math.abs(child.y-y)<40
+                );
+            });
+        }while(overlapTrash || overlapPowerUp || overlapSticky);
 
         const item = this.physics.add.sprite(x, y, key);
 

@@ -57,7 +57,7 @@ El juego es del género arcade competitivo 2D con subgéneros como party game y 
 
 ### Diagrama de flujo
 <p float="left">
-<img src="public/assets/_Diagrama de flujo.png" >
+<img src="public/assets/Diagrama_de_flujo.jpg" >
 </p>
 
 ### Historia

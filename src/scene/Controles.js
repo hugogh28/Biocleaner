@@ -79,7 +79,7 @@ export class Controles extends Phaser.Scene {
             }
         ).setOrigin(0.5);
         
-        this.add.text(600, 225, 'Izquierda: ',
+        this.add.text(600, 225, 'Izquierda: "←"',
             {
                 fontFamily: "aaaaa",
                 fontSize: '12px',
@@ -87,15 +87,7 @@ export class Controles extends Phaser.Scene {
             }
         ).setOrigin(0.5);
         
-        this.add.text(600, 275, 'Derecha:',
-            {
-                fontFamily: "aaaaa",
-                fontSize: '20px',
-                color: '#e1e674'
-            }
-        ).setOrigin(0.5);
-
-        this.add.text(600, 325, 'Arriba:',
+        this.add.text(600, 275, 'Derecha: "→"',
             {
                 fontFamily: "aaaaa",
                 fontSize: '12px',
@@ -103,7 +95,15 @@ export class Controles extends Phaser.Scene {
             }
         ).setOrigin(0.5);
 
-        this.add.text(600, 375, 'Abajo:',
+        this.add.text(600, 325, 'Arriba: "↑"',
+            {
+                fontFamily: "aaaaa",
+                fontSize: '12px',
+                color: '#e1e674'
+            }
+        ).setOrigin(0.5);
+
+        this.add.text(600, 375, 'Abajo: "↓"',
             {
                 fontFamily: "aaaaa",
                 fontSize: '12px',
