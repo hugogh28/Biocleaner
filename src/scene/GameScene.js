@@ -58,6 +58,7 @@ export class GameScene extends Phaser.Scene{
         this.load.audio('pleugh2', 'assets/Sonido/pluh.mp3');
         this.load.audio('powerUpSound', 'assets/Sonido/powerUp.mp3');
         this.load.audio('finTemporizador', 'assets/Sonido/temp2.mp3');
+        this.load.audio('gaviota', 'assets/Sonido/gaviota.mp3');
     }
 
     init() {
@@ -166,11 +167,18 @@ export class GameScene extends Phaser.Scene{
         this.spillGroup = this.physics.add.group();
 
         this.spillSpawnTimer = this.time.addEvent({
-            delay: 1400,
+            delay: 5000,
             callback: this.spawnSpill,
             callbackScope: this,
             loop: true
         });
+
+        this.seagullSoundTimer = this.time.addEvent({
+            delay: 15000,
+            callback: this.tryPlaySound,
+            callbackScope: this,
+            loop: true
+        })
 
 
         /// Efectos de sonido
@@ -197,6 +205,10 @@ export class GameScene extends Phaser.Scene{
             volume: sfxVol,
             loop: false
         });
+        this.gaviota = this.sound.add('gaviota',{
+            volume: sfxVol/20,
+            loop: false
+        });
 
         this.events.on("resume", () => {
             const settings = this.plugins.get("GlobalSettings");
@@ -207,6 +219,7 @@ export class GameScene extends Phaser.Scene{
             this.pleugh2.setVolume(v);
             this.powerUpSound.setVolume(v);
             this.tiempoMuerto.setVolume(v);
+            this.gaviota.setVolume(v/20);
         });
         
     }
@@ -254,6 +267,14 @@ export class GameScene extends Phaser.Scene{
                 rightKeyObj: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes[config.rightKey]),
             }
         });
+    }
+
+    tryPlaySound(){
+        let chance = 20;
+        const roll = Phaser.Math.Between(1, 100);
+        if(roll <= chance){
+            this.gaviota.play();
+        }
     }
 
     trySpawnSticky() {
@@ -395,7 +416,14 @@ export class GameScene extends Phaser.Scene{
                         Math.abs(child.y-y)<40
                     );
                 });
-            }while((overlapTrash || overlapPowerUp || overlapSticky) /*&& attempts < maxAttempts*/);
+
+                var overlapSpill = this.spillGroup.getChildren().some(child => {
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+            }while(overlapTrash || overlapPowerUp || overlapSticky || overlapSpill);
         }else{
             do{
                 x = Phaser.Math.Between(450, 770);  // Zona derecha
@@ -423,10 +451,15 @@ export class GameScene extends Phaser.Scene{
                         Math.abs(child.y-y)<40
                     );
                 });
-            }while((overlapTrash || overlapPowerUp || overlapSticky) /*&& attempts < maxAttempts*/);
-        }
 
-        //if(overlapTrash || overlapPowerUp) return;
+                var overlapSpill = this.spillGroup.getChildren().some(child => {
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+            }while(overlapTrash || overlapPowerUp || overlapSticky || overlapSpill);
+        }
 
         // Crear basura
         const trash = this.physics.add.sprite(x, y, 'basura');
@@ -484,7 +517,30 @@ export class GameScene extends Phaser.Scene{
                         Math.abs(child.y-y)<40
                     );
                 });
-            }while((overlapTrash || overlapPowerUp || overlapSticky) /*&& attempts < maxAttempts*/);
+
+                var overlapSpill = this.spillGroup.getChildren().some(child => {
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+            }while((overlapTrash || overlapPowerUp || overlapSticky || overlapSpill) /*&& attempts < maxAttempts*/);
+
+            const spill = this.physics.add.sprite(x,y,'vertido');
+
+            spill.setDisplaySize(80, 80);
+            spill.targetPlayer = targetPlayer;
+
+            this.spillGroup.add(spill);
+
+            this.time.delayedCall(7000, () => {
+                if (spill.active) spill.destroy();
+            });
+
+            // Colisión basura con cada jugador
+            const p1 = this.players.get("player1").sprite;
+
+            this.physics.add.overlap(p1, spill, () => this.collectSpill(spill, 1));
         }else{
             do{
                 x = Phaser.Math.Between(450, 770);  // Zona derecha
@@ -512,33 +568,33 @@ export class GameScene extends Phaser.Scene{
                         Math.abs(child.y-y)<40
                     );
                 });
-            }while((overlapTrash || overlapPowerUp || overlapSticky) /*&& attempts < maxAttempts*/);
+
+                var overlapSpill = this.spillGroup.getChildren().some(child => {
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+            }while((overlapTrash || overlapPowerUp || overlapSticky || overlapSpill) /*&& attempts < maxAttempts*/);
+            const spill = this.physics.add.sprite(x,y,'vertido1');
+
+            spill.setDisplaySize(80, 80);
+            spill.targetPlayer = targetPlayer;
+
+            this.spillGroup.add(spill);
+
+            this.time.delayedCall(7000, () => {
+                if (spill.active) spill.destroy();
+            });
+
+            // Colisión basura con cada jugador
+            const p2 = this.players.get("player2").sprite;
+
+            this.physics.add.overlap(p2, spill, () => this.collectSpill(spill, 2));
         }
 
         //if(overlapTrash || overlapPowerUp) return;
-
         // Crear basura
-        if(targetPlayer === 1){
-            const spill = this.physics.add.sprite(x, y, 'vertido');
-        }else{
-            const spill = this.physics.add.sprite(x,y,'vertido1');
-        }
-        
-        spill.setDisplaySize(40, 40);
-        spill.targetPlayer = targetPlayer;
-
-        this.spillGroup.add(spill);
-
-        this.time.delayedCall(7000, () => {
-            if (spill.active) spill.destroy();
-        });
-
-        // Colisión basura con cada jugador
-        const p1 = this.players.get("player1").sprite;
-        const p2 = this.players.get("player2").sprite;
-
-        this.physics.add.overlap(p1, spill, () => this.collectTrash(spill, 1));
-        this.physics.add.overlap(p2, spill, () => this.collectTrash(spill, 2));
     }
 
     collectSpill(spill, playerNumber) {
@@ -653,7 +709,14 @@ export class GameScene extends Phaser.Scene{
                     Math.abs(child.y-y)<40
                 );
             });
-        }while(overlapTrash || overlapPowerUp || overlapSticky);
+
+            var overlapSpill = this.spillGroup.getChildren().some(child => {
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+        }while(overlapTrash || overlapPowerUp || overlapSticky || overlapSpill);
 
         const item = this.physics.add.sprite(x, y, key);
 
