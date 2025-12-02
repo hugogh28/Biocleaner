@@ -13,6 +13,8 @@ export class GameScene extends Phaser.Scene{
 
         //Items
         this.load.image('basura', 'assets/Items/basura.png');
+        this.load.image('vertido', 'assets/Items/basura_tierra1.png');
+        this.load.image('vertido1', 'assets/Items/residuo_toxico_agua.png');
         this.load.image('pringue', 'assets/.png');
         this.load.image('powerQuoka', 'assets/Items/bayas.png');
         this.load.image('powerNarval', 'assets/Items/pez.png');
@@ -64,6 +66,8 @@ export class GameScene extends Phaser.Scene{
         this.isPaused = false;
         this.escWasDown = false;
         this.moving = false;
+        this.spillGroup = null;
+        this.spillSpawnTimer = null;
         this.trashGroup = null;
         this.trashSpawnTimer = null;
         this.stickySpawnTimer = {
@@ -158,6 +162,15 @@ export class GameScene extends Phaser.Scene{
             callbackScope: this,
             loop: true
         }); 
+
+        this.spillGroup = this.physics.add.group();
+
+        this.spillSpawnTimer = this.time.addEvent({
+            delay: 1400,
+            callback: this.spawnSpill,
+            callbackScope: this,
+            loop: true
+        });
 
 
         /// Efectos de sonido
@@ -375,7 +388,14 @@ export class GameScene extends Phaser.Scene{
                         Math.abs(child.y-y)<40
                         );
                 });
-            }while((overlapTrash || overlapPowerUp) /*&& attempts < maxAttempts*/);
+
+                var overlapSticky = this.stickyGroup.getChildren().some(child => {
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+            }while((overlapTrash || overlapPowerUp || overlapSticky) /*&& attempts < maxAttempts*/);
         }else{
             do{
                 x = Phaser.Math.Between(450, 770);  // Zona derecha
@@ -426,6 +446,119 @@ export class GameScene extends Phaser.Scene{
 
         this.physics.add.overlap(p1, trash, () => this.collectTrash(trash, 1));
         this.physics.add.overlap(p2, trash, () => this.collectTrash(trash, 2));
+    }
+
+    spawnSpill() {
+        // Selección aleatoria de jugador (1 o 2)
+        const targetPlayer = Phaser.Math.Between(1, 2);
+
+        // Zona del jugador
+        let x, y;
+        //let attempts = 0;
+        //let maxAttempts = 30;
+
+        if(targetPlayer===1){
+            do{
+                x = Phaser.Math.Between(30, 350);   // Zona izquierda
+                y = Phaser.Math.Between(150, 550);
+
+                //attempts++;
+
+                var overlapTrash = this.trashGroup.getChildren().some(child =>{
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+
+                var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                        );
+                });
+
+                var overlapSticky = this.stickyGroup.getChildren().some(child => {
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+            }while((overlapTrash || overlapPowerUp || overlapSticky) /*&& attempts < maxAttempts*/);
+        }else{
+            do{
+                x = Phaser.Math.Between(450, 770);  // Zona derecha
+                y = Phaser.Math.Between(150, 550);
+
+                //attempts++;
+
+                var overlapTrash = this.trashGroup.getChildren().some(child =>{
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+
+                var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+
+                var overlapSticky = this.stickyGroup.getChildren().some(child => {
+                    return(
+                        Math.abs(child.x-x)<40 &&
+                        Math.abs(child.y-y)<40
+                    );
+                });
+            }while((overlapTrash || overlapPowerUp || overlapSticky) /*&& attempts < maxAttempts*/);
+        }
+
+        //if(overlapTrash || overlapPowerUp) return;
+
+        // Crear basura
+        if(targetPlayer === 1){
+            const spill = this.physics.add.sprite(x, y, 'vertido');
+        }else{
+            const spill = this.physics.add.sprite(x,y,'vertido1');
+        }
+        
+        spill.setDisplaySize(40, 40);
+        spill.targetPlayer = targetPlayer;
+
+        this.spillGroup.add(spill);
+
+        this.time.delayedCall(7000, () => {
+            if (spill.active) spill.destroy();
+        });
+
+        // Colisión basura con cada jugador
+        const p1 = this.players.get("player1").sprite;
+        const p2 = this.players.get("player2").sprite;
+
+        this.physics.add.overlap(p1, spill, () => this.collectTrash(spill, 1));
+        this.physics.add.overlap(p2, spill, () => this.collectTrash(spill, 2));
+    }
+
+    collectSpill(spill, playerNumber) {
+        if (!spill.active) return;
+
+        this.recogerBasura.play();
+        spill.destroy();
+
+        const player = playerNumber === 1
+            ? this.players.get('player1')
+            : this.players.get('player2');
+
+        const id = playerNumber === 1 ? "player1" : "player2";
+
+        const multiplier = this.powerUpActive[id] ? 2 : 1;
+
+        player.score += 10 * multiplier;
+
+        if (id === "player1") this.scoreQuoka.setText(player.score);
+        else this.scoreNarval.setText(player.score);
     }
 
     collectTrash(trash, playerNumber) {
