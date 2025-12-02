@@ -15,7 +15,7 @@ export class GameScene extends Phaser.Scene{
         this.load.image('basura', 'assets/Items/basura.png');
         this.load.image('vertido', 'assets/Items/basura_tierra1.png');
         this.load.image('vertido1', 'assets/Items/residuo_toxico_agua.png');
-        this.load.image('pringue', 'assets/.png');
+        this.load.image('pringue', 'assets/Items/cubo.png');
         this.load.image('powerQuoka', 'assets/Items/bayas.png');
         this.load.image('powerNarval', 'assets/Items/pez.png');
         this.load.image('toxicAgua', 'assets/Items/residuo_toxico_agua.png');
@@ -34,7 +34,7 @@ export class GameScene extends Phaser.Scene{
         this.load.image('quokaDerechaP', 'assets/Quokka/quokka_side_viewG.png');
 
         //Afectado por el pringue
-        this.load.image('pringueQuokka', 'assets/Quokka/basura_tierra2.png');
+        this.load.image('pringueQuokka', 'assets/Quokka/basura_tierra3.png');
                 
 
         //Narval
@@ -50,7 +50,7 @@ export class GameScene extends Phaser.Scene{
         this.load.image('narvalDerechaP', 'assets/Narval/narval_derecha_viewG.png');
 
         //Afectado por el pringue
-        this.load.image('pringueNarval', 'assets/Narval/residuo_toxico_aguaN.png');
+        this.load.image('pringueNarval', 'assets/Narval/residuo_toxico_aguaS.png');
 
         //Efectos de sonido
         this.load.audio('recogerBasura', 'assets/Sonido/recogerBasura.mp3');
