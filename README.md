@@ -178,8 +178,7 @@ La banda sonora será animada y rítmica, con un tono alegre para que el jugador
 
 - #### Efectos de sonido (SFX):
 
-  Recolección de basura "plop" <audio controls src="public/assets/Sonido/recogerBasura.mp3"></audio>
-
+  Recolección de basura "plop" 
 
   Lanzamiento de pringue "peaugh"
 
