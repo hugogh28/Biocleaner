@@ -57,7 +57,7 @@ El juego es del género arcade competitivo 2D con subgéneros como party game y 
 
 ### Diagrama de flujo
 <p>
-<img src="public/assets/Diagrama_de_flujo.png">
+<img src="public/assets/Diagrama_de_flujo.jpg">
 </p>
 
 ### Historia
@@ -73,11 +73,17 @@ Ambos tienen el mismo objetivo: limpiar el mundo que una vez los abrazó, pero, 
 
 ### Imagen y diseño visual
 El juego tendrá un estilo visual de pixel art con una cámara en 2D. Para la parte marina se usarán colores azulados y morados, mientras que para la parte terrestre se usarán colores más verdosos y marrones. Principalmente serán tonos vivos y llamativos, pero también nos encontraremos con algunos más apagados.
-
+- #### Bocetos
+  Aqui estan algun boceto del juego en sus estados iniciales. El primero es el boceto del logo y el segundo de la basura.
+  <p float="left">
+   <img src="public/assets/Items/logo_boceto.png" width=224 height=224>
+   <img src="public/assets/Items/la_bolsa_de_basura.png" width=256 height=256>
+  </p>
 - #### Logotipo
-  
-<img src="public/assets/Items/logo.png" width=224 height=224>
-
+  El logotipo del juego.
+  <p float="left">
+   <img src="public/assets/Items/logo.png" width=224 height=224>
+ </p>
 ### Controles
 Los controles para este juego son muy sencillos. Se utilizarán las teclas W,A,S,D para jugar con el quokka y las flechas para jugar con el narval. Para perjudicar al rival se usará la Q en caso del Quokka y la N en caso del Narval.
 
@@ -124,7 +130,7 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
 <img src="public/assets/Narval/narval_down_view.png" width=123 height=164>
 <img src="public/assets/Narval/narval_derecha_view.png" width=164 height=123>
 <img src="public/assets/Narval/narval_izquierda_view.png" width=164 height=123>
-<img src="public/assets/Narval/residuo_toxico_aguaN.png" width=640 height=640>
+<img src="public/assets/Narval/residuo_toxico_aguaN.png" width=160 height=160>
 <img src="public/assets/Narval/residuo_toxico_aguaS.png" width=182 height=168>
 </p>
 
@@ -164,13 +170,16 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
   Al igual que los potenciadores tendrá una probabilidad baja de aparecer, aunque a diferencia de estos, tendrá un funcionamiento mucho más fijo, es decir, no dependerá tanto del puntaje de los jugadores para      efectuar su aparición.
 
   Dicho pringue será lanzado al rival al ser recogido tal y como se haría con cualquier otro objeto.
-
+  <p>
+  <img src="public/assets/Items/cubo.png" width=120 height=128>
+  </p>
 ### Sonido
 La banda sonora será animada y rítmica, con un tono alegre para que el jugador disfrute jugando y no se estrese. En los últimos segundos de partida, la música incrementará su ritmo para aumentar la tensión y la emoción competitiva.
 
 - #### Efectos de sonido (SFX):
 
-  Recolección de basura "plop"
+  Recolección de basura "plop" <audio controls src="public/assets/Sonido/recogerBasura.mp3"></audio>
+
 
   Lanzamiento de pringue "peaugh"
 
