@@ -4,8 +4,8 @@ export default class GlobalSettingPlugin extends Phaser.Plugins.BasePlugin {
         super(pluginManager);
 
         this.settings = {
-            brightness: 1,   
-            musicVolume: 1  
+            musicVolume: 1 , 
+            sfxVolume: 1
         };
     }
 
@@ -14,5 +14,12 @@ export default class GlobalSettingPlugin extends Phaser.Plugins.BasePlugin {
     }
     getMusicVolume() {
         return this.settings.musicVolume;
+    }
+
+    setSfxVolume(v) {
+        this.settings.sfxVolume = v;
+    }
+    getSfxVolume() {
+        return this.settings.sfxVolume;
     }
 }

@@ -6,6 +6,7 @@ import { PauseScene} from './scene/PauseScene.js';
 import { Creditos} from './scene/Creditos.js';
 import { Ajustes} from './scene/Ajustes.js';
 import { GameOverScene } from './scene/GameOverScene.js';
+import { Controles } from './scene/Controles.js';
 
 import GlobalSettingsPlugin from "./GlobalSettingPlugin.js";
 import BrightnessPlugin  from "./BrightnessPlugin.js";
@@ -30,7 +31,7 @@ const config = {
     },
 
 
-        scene: [MenuScene, GameScene, PauseScene, Creditos, Ajustes, GameOverScene],
+        scene: [MenuScene, GameScene, PauseScene, Creditos, Ajustes, GameOverScene, Controles],
         backgroundColor: '#876f00'
     }
 

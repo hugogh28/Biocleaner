@@ -7,9 +7,10 @@ export class PauseScene extends Phaser.Scene {
     }
 
      preload(){
-        this.load.image('botonAjustes', 'assets/ajustes.png');
-        this.load.image('botonContinuar', 'assets/continuar.png');
-        this.load.image('botonMenu', 'assets/menu.png');
+        this.load.image('botonAjustes', 'assets/Botones/ajustes.png');
+        this.load.image('botonControles', 'assets/Botones/ajustes.png');
+        this.load.image('botonContinuar', 'assets/Botones/continuar.png');
+        this.load.image('botonMenu', 'assets/Botones/menu.png');
     }
 
 
@@ -34,13 +35,22 @@ export class PauseScene extends Phaser.Scene {
             this.scene.get(data.originalScene).resume();
         });
 
-        const ajustesBtn = this.add.image(400, 350, 'botonAjustes', ).setOrigin(0.5)
+        const ajustesBtn = this.add.image(400, 300, 'botonAjustes', ).setOrigin(0.5)
         .setInteractive({ useHandCursor: true })
         .on('pointerdown', () => {
 
             this.scene.setVisible(false);
             this.scene.setVisible(false, "GameScene");
             this.scene.launch("Ajustes", { previousScene: "PauseScene" });
+        });
+
+        const controlesBtn = this.add.image(400, 400, 'botonControles', ).setOrigin(0.5)
+        .setInteractive({ useHandCursor: true })
+        .on('pointerdown', () => {
+
+            this.scene.setVisible(false);
+            this.scene.setVisible(false, "GameScene");
+            this.scene.launch("Controles", { previousScene: "PauseScene" });
         });
 
         const menuBtn = this.add.image(400, 500, 'botonMenu',).setOrigin(0.5)

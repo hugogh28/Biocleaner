@@ -5,13 +5,14 @@ export class MenuScene extends Phaser.Scene {
         super('MenuScene')
     }
     preload() {
-        this.load.image('fondoMenu', 'assets/fondo.png');
-        this.load.image('botonJugar', 'assets/empezar.png');
-        this.load.image('botonAjustes', 'assets/ajustes.png');
-        this.load.image('botonCreditos', 'assets/creditos.png');
+        this.load.image('fondoMenu', 'assets/Fondos/fondo.png');
+        this.load.image('botonJugar', 'assets/Botones/empezar.png');
+        this.load.image('botonAjustes', 'assets/Botones/ajustes.png');
+        this.load.image('botonControles', 'assets/Botones/ajustes.png');
+        this.load.image('botonCreditos', 'assets/Botones/creditos.png');
 
         //Música
-        this.load.audio('musica_fondo', 'assets/musica_fondo.ogg');
+        this.load.audio('musica_fondo', 'assets/Sonido/musica_fondo.ogg');
 
         this.add.text(400,100, 'Biocleaner',
         {   
@@ -47,22 +48,28 @@ export class MenuScene extends Phaser.Scene {
             color: '#e1e674'
         }).setOrigin(0.5);
 
-        const localBtn = this.add.image(200, 250, 'botonJugar').setOrigin(0.5)
+        const localBtn = this.add.image(350, 200, 'botonJugar').setOrigin(0.5)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () =>{
             this.scene.start('GameScene');
         });
 
-        const creditos = this.add.image(350, 500, 'botonCreditos').setOrigin(0.5)
+        const creditos = this.add.image(350, 400, 'botonCreditos').setOrigin(0.5)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () =>{
             this.scene.start('Creditos');
         });
 
-        const ajustes = this.add.image(600, 350, 'botonAjustes').setOrigin(0.5)
+        const ajustes = this.add.image(450, 300, 'botonAjustes').setOrigin(0.5)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () => {
             this.scene.start("Ajustes", { previousScene: "MenuScene" });
+        });
+
+        const controles = this.add.image(450, 500, 'botonControles').setOrigin(0.5)
+        .setInteractive({useHandCursor: true})
+        .on('pointerdown', () => {
+            this.scene.start("Controles", { previousScene: "MenuScene" });
         });
 
     }

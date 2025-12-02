@@ -9,43 +9,53 @@ export class GameScene extends Phaser.Scene{
     preload() {
 
         //Fondo
-        this.load.image('fondo', 'assets/fondo_juego.png'); 
+        this.load.image('fondo', 'assets/Fondos/fondo_juego.png'); 
 
         //Items
-        this.load.image('basura', 'assets/basura.png');
+        this.load.image('basura', 'assets/Items/basura.png');
         this.load.image('pringue', 'assets/.png');
-        this.load.image('powerQuoka', 'assets/bayas.png');
-        this.load.image('powerNarval', 'assets/pez.png');
-        this.load.image('toxicAgua', 'assets/residuo_toxico_agua.png');
-        this.load.image('toxicoTierra', 'basura_tierra1.png');
+        this.load.image('powerQuoka', 'assets/Items/bayas.png');
+        this.load.image('powerNarval', 'assets/Items/pez.png');
+        this.load.image('toxicAgua', 'assets/Items/residuo_toxico_agua.png');
+        this.load.image('toxicoTierra', 'assets/Items/basura_tierra1.png');
 
         //Quokka
-        this.load.image('quokaFrente', 'assets/quokka_front_view.png');
-        this.load.image('quokaAtras', 'assets/quokka_back_view.png');
-        this.load.image('quokaIzquierda', 'assets/quokka_side1_view.png');
-        this.load.image('quokaDerecha', 'assets/quokka_side_view.png');
+        this.load.image('quokaFrente', 'assets/Quokka/quokka_front_view.png');
+        this.load.image('quokaAtras', 'assets/Quokka/quokka_back_view.png');
+        this.load.image('quokaIzquierda', 'assets/Quokka/quokka_side1_view.png');
+        this.load.image('quokaDerecha', 'assets/Quokka/quokka_side_view.png');
 
         //Con PowerUps
-        this.load.image('quokaFrenteP', 'assets/quokka_front_viewG.png');
-        this.load.image('quokaAtrasP', 'assets/quokka_back_viewG.png');
-        this.load.image('quokaIzquierdaP', 'assets/quokka_side1_viewG.png');
-        this.load.image('quokaDerechaP', 'assets/quokka_side_viewG.png');
-        
-        
+        this.load.image('quokaFrenteP', 'assets/Quokka/quokka_front_viewG.png');
+        this.load.image('quokaAtrasP', 'assets/Quokka/quokka_back_viewG.png');
+        this.load.image('quokaIzquierdaP', 'assets/Quokka/quokka_side1_viewG.png');
+        this.load.image('quokaDerechaP', 'assets/Quokka/quokka_side_viewG.png');
+
+        //Afectado por el pringue
+        this.load.image('pringueQuokka', 'assets/Quokka/basura_tierra2.png');
+                
 
         //Narval
-        this.load.image('narvalFrente', 'assets/narval_top_view.png');
-        this.load.image('narvalAtras', 'assets/narval_down_view.png');
-        this.load.image('narvalIzquierda', 'assets/narval_izquierda_view.png');
-        this.load.image('narvalDerecha', 'assets/narval_derecha_view.png');
+        this.load.image('narvalFrente', 'assets/Narval/narval_top_view.png');
+        this.load.image('narvalAtras', 'assets/Narval/narval_down_view.png');
+        this.load.image('narvalIzquierda', 'assets/Narval/narval_izquierda_view.png');
+        this.load.image('narvalDerecha', 'assets/Narval/narval_derecha_view.png');
+
         //Con PowerUps
-        this.load.image('narvalFrenteP', 'assets/narval_top_viewG.png');
-        this.load.image('narvalAtrasP', 'assets/narval_down_viewG.png');
-        this.load.image('narvalIzquierdaP', 'assets/narval_izquierda_viewG.png');
-        this.load.image('narvalDerechaP', 'assets/narval_derecha_viewG.png');
+        this.load.image('narvalFrenteP', 'assets/Narval/narval_top_viewG.png');
+        this.load.image('narvalAtrasP', 'assets/Narval/narval_down_viewG.png');
+        this.load.image('narvalIzquierdaP', 'assets/Narval/narval_izquierda_viewG.png');
+        this.load.image('narvalDerechaP', 'assets/Narval/narval_derecha_viewG.png');
 
+        //Afectado por el pringue
+        this.load.image('pringueNarval', 'assets/Narval/residuo_toxico_aguaN.png');
 
-        
+        //Efectos de sonido
+        this.load.audio('recogerBasura', 'assets/Sonido/recogerBasura.mp3');
+        this.load.audio('pleugh1', 'assets/Sonido/pleugh.mp3');
+        this.load.audio('pleugh2', 'assets/Sonido/pluh.mp3');
+        this.load.audio('powerUpSound', 'assets/Sonido/powerUp.mp3');
+        this.load.audio('finTemporizador', 'assets/Sonido/temp2.mp3');
     }
 
     init() {
@@ -148,7 +158,45 @@ export class GameScene extends Phaser.Scene{
             callback: this.trySpawnPowerUp,
             callbackScope: this,
             loop: true
+        }); 
+
+
+        /// Efectos de sonido
+        const settings = this.plugins.get("GlobalSettings");
+        const sfxVol = settings.getSfxVolume();
+
+        this.recogerBasura = this.sound.add('recogerBasura', {
+            volume: sfxVol,
+            loop: false
         });
+        this.pleugh1 = this.sound.add('pleugh1', {
+            volume: sfxVol,
+            loop: false
+        });
+        this.pleugh2 = this.sound.add('pleugh2', {
+            volume: sfxVol,
+            loop: false
+        });
+        this.powerUpSound = this.sound.add('powerUpSound', {
+            volume: sfxVol,
+            loop: false
+        });
+        this.tiempoMuerto = this.sound.add('finTemporizador', {
+            volume: sfxVol,
+            loop: false
+        });
+
+        this.events.on("resume", () => {
+            const settings = this.plugins.get("GlobalSettings");
+            const v = settings.getSfxVolume();
+
+            this.recogerBasura.setVolume(v);
+            this.pleugh1.setVolume(v);
+            this.pleugh2.setVolume(v);
+            this.powerUpSound.setVolume(v);
+            this.tiempoMuerto.setVolume(v);
+        });
+        
     }
 
     updateTimer() {
@@ -254,6 +302,7 @@ export class GameScene extends Phaser.Scene{
     throwSticky(sticky, playerNumber){
         if(!sticky.active) return;
 
+        this.pleugh2.play();
         sticky.destroy();
 
         const player = playerNumber === 1 ? this.players.get('player1') : this.players.get('player2');
@@ -322,6 +371,7 @@ export class GameScene extends Phaser.Scene{
     collectTrash(trash, playerNumber) {
         if (!trash.active) return;
 
+        this.recogerBasura.play();
         trash.destroy();
 
         const player = playerNumber === 1
@@ -418,6 +468,7 @@ export class GameScene extends Phaser.Scene{
     pickPowerUp(powerUp, playerId) {
         if (!powerUp.active) return;
 
+        this.powerUpSound.play();
         powerUp.destroy();
 
         // Activar el efecto
@@ -456,6 +507,8 @@ export class GameScene extends Phaser.Scene{
     }
 
     endGame(){
+
+        this.tiempoMuerto.play();
         const winnerID = this.getWinner();
         this.players.forEach(Personajes =>{
             Personajes.sprite.setVelocity(0,0);

@@ -48,6 +48,7 @@ export class Personajes {
             }if(!rooted){
                 this.baseSpeed = 300
             }else if(rooted){
+                texture = 'pringueQuokka';
                 this.baseSpeed = 0;
             }
         } else { 
@@ -68,6 +69,7 @@ export class Personajes {
             }if(!rooted){
                 this.baseSpeed = 300;
             }else if(rooted){
+                texture = 'pringueNarval';
                 this.baseSpeed = 0;
             }
         }

@@ -12,14 +12,14 @@ export class GameOverScene extends Phaser.Scene{
         this.winnerID = data.winnerID;
     }
     preload(){
-        this.load.image('empate_f', 'assets/fondo.png'); 
-        this.load.image('quokka_perdedor_f', 'assets/quokka_perdedor.png'); 
-        this.load.image('narval_perdedor_f', 'assets/narval_perdedor.png'); 
-        this.load.image('botonVolver', 'assets/volver.png');
-        this.load.image('quokka_perdedor', 'assets/basura_tierra2.png');
-        this.load.image('narval_perdedor', 'assets/residuo_toxico_aguaN.png');
+        this.load.image('empate_f', 'assets/Fondos/fondo.png'); 
+        this.load.image('quokka_perdedor_f', 'assets/Fondos/quokka_perdedor.png'); 
+        this.load.image('narval_perdedor_f', 'assets/Fondos/narval_perdedor.png'); 
+        this.load.image('botonVolver', 'assets/Botones/volver.png');
+        this.load.image('quokka_perdedor', 'assets/Quokka/basura_tierra2.png');
+        this.load.image('narval_perdedor', 'assets/Narval/residuo_toxico_aguaN.png');
         this.load.image('empate', 'assets/quokka_narval.png');
-        this.load.image('botonMenu', 'assets/menu.png');
+        this.load.image('botonMenu', 'assets/Botones/menu.png');
     }
     create(){
 
