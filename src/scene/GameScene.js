@@ -63,6 +63,7 @@ export class GameScene extends Phaser.Scene{
     }
 
     init() {
+        //Iniciar variables
         this.players = new Map();
         this.inputsMapping = [];
         this.isPaused = false;
@@ -94,11 +95,12 @@ export class GameScene extends Phaser.Scene{
     } 
 
     create() {
+        //añadir fondo y su brillo
         this.add.image(400, 300, 'fondo').setOrigin(0.5);
        const brightness = this.plugins.get("Brightness");
         brightness.applyToScene(this);
 
-        // Score texts
+        // Texto Puntuacion
         this.scoreQuoka = this.add.text(100, 30, '0', {
             fontFamily: "aaaaa",
             fontSize: '38px',
@@ -115,6 +117,7 @@ export class GameScene extends Phaser.Scene{
             align: 'right'
         }).setOrigin(1, 0.5);
 
+        //crear limites de los jugadores y preparar dichos jugadores
         this.createBounds();
         this.setUpPLayers();
 
@@ -138,6 +141,7 @@ export class GameScene extends Phaser.Scene{
             loop: true
         });
 
+        //Generación de pringue
         this.stickyGroup = this.physics.add.group();
 
         this.stickySpawnTimer = this.time.addEvent({
@@ -147,6 +151,7 @@ export class GameScene extends Phaser.Scene{
             loop: true
         })
         
+        //Generación de basura
         this.trashGroup = this.physics.add.group();
 
         this.trashSpawnTimer = this.time.addEvent({
@@ -156,6 +161,7 @@ export class GameScene extends Phaser.Scene{
             loop: true
         });
 
+        //Generación de Power Ups
         this.powerUpGroup = this.physics.add.group();
 
         this.time.addEvent({
@@ -165,6 +171,7 @@ export class GameScene extends Phaser.Scene{
             loop: true
         }); 
 
+        //Generación de vertidos
         this.spillGroup = this.physics.add.group();
 
         this.spillSpawnTimer = this.time.addEvent({
@@ -174,6 +181,7 @@ export class GameScene extends Phaser.Scene{
             loop: true
         });
 
+        //Sonido de gaviota
         this.seagullSoundTimer = this.time.addEvent({
             delay: 15000,
             callback: this.tryPlaySound,
@@ -269,7 +277,7 @@ export class GameScene extends Phaser.Scene{
         const narval = new Personajes(this, 'player2', 750, 300);
         this.players.set('player1', quoka);
         this.players.set('player2', narval);
-
+        //Los inputs de cada jugador
         const InputConfig = [
             {
                 playerId: 'player1',
@@ -312,7 +320,7 @@ export class GameScene extends Phaser.Scene{
 
         let target = null;
         let chance = 10;
-
+        //Ajusta la probabilidad dependiendo de la diferencia de puntuaciones
         if(p1 < p2-1 || p2 < p1-1){
             chance = 50;
         }else{
@@ -322,11 +330,11 @@ export class GameScene extends Phaser.Scene{
         if(this.stickyActive){
             return;
         }
-        const exists = this.stickyGroup.getChildren().some(obj => obj.targetPlayer === target); //Corrige esto para que no funcione por targets
+        const exists = this.stickyGroup.getChildren().some(obj => obj.targetPlayer === target);
         if(exists){
             return;
         }
-
+        //Si la probabildad es mayor o igual al numero aparece un pringue 
         const roll = Phaser.Math.Between(1, 100);
         if(roll <= chance){
             this.spawnSticky();
@@ -379,13 +387,14 @@ export class GameScene extends Phaser.Scene{
         this.pleugh2.play();
         sticky.destroy();
 
+        //Consigue que jugador la lanza
         const player = playerNumber === 1 ? this.players.get('player1') : this.players.get('player2');
 
         const id = playerNumber === 1 ? "player1" : "player2";
 
         this.stickyActive[id] = true;
 
-
+        //Quita puntuacion
         if(player.score >= 10){
         player.score -= 10;
         }
@@ -393,9 +402,6 @@ export class GameScene extends Phaser.Scene{
             this.powerUpActive[id] = false;
             this.stickyActive[id] = false;
         }
-
-        //this.inputsMapping.pause();
-        //player.sprite.setVelocity(0,0);
 
         if(id === "player1") this.scoreQuoka.setText(player.score);
         else this.scoreNarval.setText(player.score);
@@ -415,8 +421,7 @@ export class GameScene extends Phaser.Scene{
 
         // Zona del jugador
         let x, y;
-        //let attempts = 0;
-        //let maxAttempts = 30;
+
 
         if(targetPlayer===1){
             do{
@@ -424,7 +429,7 @@ export class GameScene extends Phaser.Scene{
                 y = Phaser.Math.Between(150, 550);
 
                 //attempts++;
-
+                //Mirar si la basura aparece dentro de otros grupos
                 var overlapTrash = this.trashGroup.getChildren().some(child =>{
                     return(
                         Math.abs(child.x-x)<40 &&
@@ -457,8 +462,6 @@ export class GameScene extends Phaser.Scene{
             do{
                 x = Phaser.Math.Between(450, 770);  // Zona derecha
                 y = Phaser.Math.Between(150, 550);
-
-                //attempts++;
 
                 var overlapTrash = this.trashGroup.getChildren().some(child =>{
                     return(
@@ -516,15 +519,14 @@ export class GameScene extends Phaser.Scene{
 
         // Zona del jugador
         let x, y;
-        //let attempts = 0;
-        //let maxAttempts = 30;
+
 
         if(targetPlayer===1){
             do{
                 x = Phaser.Math.Between(30, 350);   // Zona izquierda
                 y = Phaser.Math.Between(150, 550);
 
-                //attempts++;
+
 
                 var overlapTrash = this.trashGroup.getChildren().some(child =>{
                     return(
@@ -553,7 +555,7 @@ export class GameScene extends Phaser.Scene{
                         Math.abs(child.y-y)<40
                     );
                 });
-            }while((overlapTrash || overlapPowerUp || overlapSticky || overlapSpill) /*&& attempts < maxAttempts*/);
+            }while((overlapTrash || overlapPowerUp || overlapSticky || overlapSpill));
 
             const spill = this.physics.add.sprite(x,y,'vertido');
 
@@ -575,7 +577,6 @@ export class GameScene extends Phaser.Scene{
                 x = Phaser.Math.Between(450, 770);  // Zona derecha
                 y = Phaser.Math.Between(150, 550);
 
-                //attempts++;
 
                 var overlapTrash = this.trashGroup.getChildren().some(child =>{
                     return(
@@ -622,13 +623,12 @@ export class GameScene extends Phaser.Scene{
             this.physics.add.overlap(p2, spill, () => this.collectSpill(spill, 2));
         }
 
-        //if(overlapTrash || overlapPowerUp) return;
         // Crear basura
     }
 
     collectSpill(spill, playerNumber) {
         if (!spill.active) return;
-
+        //Recoge el residuo y da la puntuacion correcta
         this.recogerBasura.play();
         spill.destroy();
 
@@ -645,7 +645,7 @@ export class GameScene extends Phaser.Scene{
         if (id === "player1") this.scoreQuoka.setText(player.score);
         else this.scoreNarval.setText(player.score);
     }
-
+    //Igual que la funcion de arriba
     collectTrash(trash, playerNumber) {
         if (!trash.active) return;
 
@@ -665,7 +665,7 @@ export class GameScene extends Phaser.Scene{
         if (id === "player1") this.scoreQuoka.setText(player.score);
         else this.scoreNarval.setText(player.score);
     }
-
+    //Los trySpawn y los spawnPowerUp son iguales en base solo cambia el tipo de objeto
     trySpawnPowerUp() {
         const p1 = this.players.get('player1').score;
         const p2 = this.players.get('player2').score;
@@ -792,7 +792,7 @@ export class GameScene extends Phaser.Scene{
         });
         this.players.get(playerId).setSprite("down");
     }
-
+    //Zona que puedan ir cada jugador
     createBounds() {
         this.QuokaGoal = this.physics.add.sprite(0, 300, null);
         this.QuokaGoal.setDisplaySize(10, 600);
@@ -812,7 +812,7 @@ export class GameScene extends Phaser.Scene{
         else if(this.players.get("player2").score > this.players.get("player1").score) return "player2";
         return "draw";
     }
-
+    //Finalizar el juego
     endGame(){
 
         this.tiempoMuerto.play();
@@ -825,7 +825,7 @@ export class GameScene extends Phaser.Scene{
         this.trashGroup.clear(true, true);
         this.scene.start('GameOverScene', {winnerID});
     }
-
+    
     setPauseState(isPaused){
         this.isPaused  = isPaused;
 
