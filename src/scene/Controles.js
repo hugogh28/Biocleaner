@@ -16,14 +16,16 @@ export class Controles extends Phaser.Scene {
     }
 
     create() {
+
         
-        const brightness = this.plugins.get("Brightness");
+        const brightness = this.plugins.get("Brightness");  //Ajustes de brillo
         brightness.applyToScene(this);
 
         this.add.image(400, 300, 'fondoControles').setOrigin(0.5);
 
-        this.add.rectangle(400, 300, 700, 500, 0xaa99b0, 0.7 );
+        this.add.rectangle(400, 300, 700, 500, 0xaa99b0, 0.7 ); //Fondo para que se vea la letra
 
+        //Texto 
         this.add.text(400,100, 'Controles',
         {   
             fontFamily: "aaaaa",
@@ -112,6 +114,7 @@ export class Controles extends Phaser.Scene {
         ).setOrigin(0.5);
 
        
+        //botón para volver
 
         this.add.image(400, 500, "botonVolver",)
         .setInteractive()

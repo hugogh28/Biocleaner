@@ -59,6 +59,7 @@ export class GameScene extends Phaser.Scene{
         this.load.audio('powerUpSound', 'assets/Sonido/powerUp.mp3');
         this.load.audio('finTemporizador', 'assets/Sonido/temp2.mp3');
         this.load.audio('gaviota', 'assets/Sonido/gaviota.mp3');
+        this.load.audio('musica_juego', 'assets/Sonido/Audio Juego.m4a');
     }
 
     init() {
@@ -210,6 +211,8 @@ export class GameScene extends Phaser.Scene{
             loop: false
         });
 
+
+        
         this.events.on("resume", () => {
             const settings = this.plugins.get("GlobalSettings");
             const v = settings.getSfxVolume();
@@ -221,7 +224,33 @@ export class GameScene extends Phaser.Scene{
             this.tiempoMuerto.setVolume(v);
             this.gaviota.setVolume(v/20);
         });
-        
+
+        //Musica de fondo
+
+        this.musica = this.sound.add("musica_juego", {
+            volume: settings.getMusicVolume(),
+            loop: false
+        });
+        this.musica.play();  
+        this.events.on("resume", () => {
+        const settings = this.plugins.get("GlobalSettings");
+        const v = settings.getMusicVolume();
+
+        // Busca TODAS las músicas en la escena
+        this.sound.sounds.forEach(sound => {
+                if (sound.key.includes("musica")) {
+                    sound.setVolume(v);
+                }
+            });
+        });
+
+        this.events.on('shutdown', () => {
+            if (this.musica) {
+                this.musica.stop();
+                this.musica.destroy();
+            }
+        });
+                
     }
 
     updateTimer() {

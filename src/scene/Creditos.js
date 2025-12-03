@@ -13,12 +13,14 @@ export class Creditos extends Phaser.Scene {
 
      create() {
         
-        const brightness = this.plugins.get("Brightness");
+        const brightness = this.plugins.get("Brightness");  //Ajustes  brillo
         brightness.applyToScene(this);
 
-        this.add.image(400, 300, 'fondoCreditos').setOrigin(0.5);
+        this.add.image(400, 300, 'fondoCreditos').setOrigin(0.5); 
 
-        this.add.rectangle(400, 300, 700, 500, 0xaa99b0, 0.7 );
+        this.add.rectangle(400, 300, 700, 500, 0xaa99b0, 0.7 );  //Fondo para que se vea la letra
+
+        //Texto
 
         this.add.text(400,100, 'Créditos',
         {   
@@ -115,6 +117,8 @@ export class Creditos extends Phaser.Scene {
             }
         ).setOrigin(0.5);
 
+        //Boton volver
+
         const volverMenu = this.add.image(400, 500, 'botonVolver',).setOrigin(0.5)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () =>{
@@ -124,6 +128,7 @@ export class Creditos extends Phaser.Scene {
         
     }
 
+        //En el update se actualiza el brillo en función del slider
     update() {
         const brightness = this.plugins.get("Brightness");
         brightness.updateOverlay(this);

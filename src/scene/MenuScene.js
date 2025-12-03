@@ -5,76 +5,109 @@ export class MenuScene extends Phaser.Scene {
         super('MenuScene')
     }
     preload() {
+
+        //Música
+        this.load.audio('musica_fondo', 'assets/Sonido/musicaMenu.mp3');
+
+        //Assets
         this.load.image('fondoMenu', 'assets/Fondos/fondo.png');
         this.load.image('botonJugar', 'assets/Botones/empezar.png');
         this.load.image('botonAjustes', 'assets/Botones/ajustes.png');
         this.load.image('botonControles', 'assets/Botones/controles.png');
         this.load.image('botonCreditos', 'assets/Botones/creditos.png');
+        this.load.image('quokka', 'assets/Quokka/quokka_front_view.png');
+        this.load.image('narval', 'assets/Narval/narval_top_view.png');
+        this.load.image('logo', 'assets/Items/logo.png')
 
-        //Música
-        this.load.audio('musica_fondo', 'assets/Sonido/musica_fondo.ogg');
+        
 
-        this.add.text(400,100, 'Biocleaner',
-        {   
-            fontFamily: "aaaaa",
-            fontSize: '64px',
-            color: '#e1e674'
-        }).setOrigin(0.5);
+       
     }
     create() {
 
-        const settings = this.plugins.get("GlobalSettings");
+        const settings = this.plugins.get("GlobalSettings");   //Los scripts para controlar el brillo y la música
 
         const brightness = this.plugins.get("Brightness");
         brightness.applyToScene(this);
 
-        if (!this.sound.get("musica_fondo")) {
-            // Solo crear la música si NO existe
-            this.musica = this.sound.add("musica_fondo", {
-                volume: settings.getMusicVolume(),
-                loop: true
-            });
-            this.musica.play();
-        } else {
-            // Si ya existe, solo actualiza el volumen
-            this.sound.get("musica_fondo").setVolume(settings.getMusicVolume());
-        }
+        //Música
+        this.musica = this.sound.add("musica_fondo", {
+            volume: settings.getMusicVolume(),
+            loop: true
+        });
 
-        this.add.image(400, 300, 'fondoMenu').setOrigin(0.5);
-        this.add.text(400,100, 'Biocleaner',
+        this.musica.play();
+        this.events.on("shutdown", () => {
+            if (this.musica) {
+                this.musica.stop();
+                this.musica.destroy();
+            }
+        });
+
+        this.events.on("resume", () => {
+            const v = settings.getMusicVolume();
+            if (this.musica) this.musica.setVolume(v);
+        });
+
+       //A veces no sale la fuente correcta hasta quese recarga la escena (entrando y saliendo a otra escena distinta) entonces forzamos la recarga de la página hasta que carge la fuente
+        document.fonts.ready.then(() => {
+            if (!this.fontReady) {
+                this.fontReady = true;
+                this.scene.restart();
+            }
+        });
+
+        this.add.image(400, 300, 'fondoMenu').setOrigin(0.5); //Añadimos un fondo
+
+        this.add.text(400,50, 'Biocleaner',    //Nombre del juego
         {   
             fontFamily: "aaaaa",
             fontSize: '64px',
             color: '#e1e674'
         }).setOrigin(0.5);
 
-        const localBtn = this.add.image(350, 200, 'botonJugar').setOrigin(0.5)
+        this.add.text(400,125, 'La carreda de Quokka VS Narval',        //Eslogan
+        {   
+            fontFamily: "aaaaa",
+            fontSize: '18px',
+            color: '#e1e674'
+        }).setOrigin(0.5);
+
+
+        const localBtn = this.add.image(350, 200, 'botonJugar').setOrigin(0.5)     //Botón que lleva a la pantalla de juego
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () =>{
             this.scene.start('GameScene');
         });
 
-        const creditos = this.add.image(350, 400, 'botonCreditos').setOrigin(0.5)
+        const creditos = this.add.image(350, 400, 'botonCreditos').setOrigin(0.5)   //Botón que lleva a la pantalla de créditos
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () =>{
             this.scene.start('Creditos');
         });
 
-        const ajustes = this.add.image(450, 300, 'botonAjustes').setOrigin(0.5)
+        const ajustes = this.add.image(450, 300, 'botonAjustes').setOrigin(0.5)     //Botón que lleva a la pantalla de ajustes
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () => {
             this.scene.start("Ajustes", { previousScene: "MenuScene" });
         });
 
-        const controles = this.add.image(450, 500, 'botonControles').setOrigin(0.5)
+        const controles = this.add.image(450, 500, 'botonControles').setOrigin(0.5)     //Botón que lleva a la pantalla de controles
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () => {
             this.scene.start("Controles", { previousScene: "MenuScene" });
         });
 
+
+        //Decoración
+        this.add.image(10, 550, 'quokka').setOrigin(0.5).setDisplaySize(300,400);
+        this.add.image(790, 450, 'narval').setOrigin(0.5).setDisplaySize(300,400);
+        this.add.image(700, 200, 'logo');
+   
+
     }
 
-    update() {
+    update() { //En este update se actualiza el brillo
         const brightness = this.plugins.get("Brightness");
         brightness.updateOverlay(this);
     }

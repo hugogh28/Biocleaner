@@ -6,13 +6,15 @@ export class Ajustes extends Phaser.Scene {
     }
 
     preload() {
+        // Se cargan las imágenes necesarias
         this.load.image('botonVolver', 'assets/Botones/volver.png');
         this.load.image('fondo_Ajustes', 'assets/Fondos/quokka_perdedor.png');
-        this.load.image('pez', 'assets/Items/pez.png');     // brillo
-        this.load.image('bayas', 'assets/Items/bayas.png'); // música y sfx
+        this.load.image('pez', 'assets/Items/pez.png');     
+        this.load.image('bayas', 'assets/Items/bayas.png'); 
     }
 
     init(data) {
+        // Se guarda la escena previa
         this.previousScene = data?.previousScene || "MenuScene";
     }
 
@@ -20,23 +22,23 @@ export class Ajustes extends Phaser.Scene {
         const settings = this.plugins.get("GlobalSettings");
         const brightnessPlugin = this.plugins.get("Brightness");
 
-        brightnessPlugin.applyToScene(this);
+        brightnessPlugin.applyToScene(this); // Se aplica el brillo
 
+        // Se dibuja el fondo y panel central
         this.add.image(400, 300, 'fondo_Ajustes').setOrigin(0.5);
         this.add.rectangle(400, 300, 700, 500, 0x444b3c, 0.7);
 
+        // Se muestra el título
         this.add.text(275, 100, "AJUSTES", {
             fontFamily: "aaaaa",
             fontSize: "40px",
             color: "#e1e674"
         });
 
-
-        // Slider brillo
-
         const trackX = 100;
         const trackWidth = 600;
 
+        //Brillo
         this.add.text(100, 150, "Brillo", {
             fontFamily: "aaaaa",
             fontSize: "24px",
@@ -55,9 +57,7 @@ export class Ajustes extends Phaser.Scene {
 
         this.brilloHandle = this.add.image(handleBrX, trackYBrillo, 'pez').setInteractive({ draggable: true });
 
-
-        //Slider música
-
+        //Musica
         this.add.text(100, 250, "Volumen música", {
             fontFamily: "aaaaa",
             fontSize: "24px",
@@ -73,9 +73,7 @@ export class Ajustes extends Phaser.Scene {
 
         this.volumenHandle = this.add.image(handleVolX, trackYVol, 'bayas').setInteractive({ draggable: true });
 
-
-        //Slider Sfx
-
+        //Sfx
         this.add.text(100, 350, "Volumen SFX", {
             fontFamily: "aaaaa",
             fontSize: "24px",
@@ -91,15 +89,15 @@ export class Ajustes extends Phaser.Scene {
 
         this.sfxHandle = this.add.image(handleSfxX, trackYSfx, 'bayas').setInteractive({ draggable: true });
 
-
-        
+        // Se activa arrastrar en los controles
         this.input.setDraggable(this.brilloHandle);
         this.input.setDraggable(this.volumenHandle);
         this.input.setDraggable(this.sfxHandle);
 
+        // Se gestionan los sliders
         this.input.on("drag", (pointer, obj, dragX) => {
 
-            // Brillo
+            //Brillo
             if (obj === this.brilloHandle) {
                 dragX = Phaser.Math.Clamp(dragX, trackX, trackX + trackWidth);
                 obj.x = dragX;
@@ -109,7 +107,7 @@ export class Ajustes extends Phaser.Scene {
                 brightnessPlugin.updateOverlay(this);
             }
 
-            // Musica
+            //Musica
             if (obj === this.volumenHandle) {
                 dragX = Phaser.Math.Clamp(dragX, trackX, trackX + trackWidth);
                 obj.x = dragX;
@@ -117,11 +115,14 @@ export class Ajustes extends Phaser.Scene {
                 let t = (dragX - trackX) / trackWidth;
                 settings.setMusicVolume(t);
 
-                const music = this.sound.get("musica_fondo");
-                if (music) music.setVolume(t);
+                this.sound.sounds.forEach(sound => {
+                    if (sound.key.includes("musica")) {
+                        sound.setVolume(t);
+                    }
+                });
             }
 
-            // Sfx
+            //Sfx
             if (obj === this.sfxHandle) {
                 dragX = Phaser.Math.Clamp(dragX, trackX, trackX + trackWidth);
                 obj.x = dragX;
@@ -129,17 +130,15 @@ export class Ajustes extends Phaser.Scene {
                 let t = (dragX - trackX) / trackWidth;
                 settings.setSfxVolume(t);
 
-                // Sonido de test opcional
                 const test = this.sound.get("test_sfx");
                 if (test) test.setVolume(t);
             }
         });
 
-
+        // Se crea el botón de volver
         this.add.image(400, 500, "botonVolver")
             .setInteractive()
             .on("pointerdown", () => {
-
                 this.scene.stop();
 
                 if (this.previousScene === "PauseScene") {
@@ -152,6 +151,7 @@ export class Ajustes extends Phaser.Scene {
     }
 
     update() {
+        // Se actualiza el brillo
         const brightnessPlugin = this.plugins.get("Brightness");
         brightnessPlugin.updateOverlay(this);
     }
