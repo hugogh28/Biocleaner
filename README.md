@@ -20,15 +20,17 @@ Juego para la asignatura Juegos en Red de la Universidad Rey Juan Carlos.
 
     3.6. [Mecánicas](#Mecánicas)
    
-    3.7. [Personajes](#Personajes)
-   
-    3.8. [Ítems](#Ítems)
-   
-    3.9. [Sonido](#Sonido)
+    3.7. [Fisicas](#Fisicas)
 
-    3.10. [Narrativa](#Narrativa)
+    3.8. [Personajes](#Personajes)
+   
+    3.9. [Ítems](#Ítems)
+   
+    3.10. [Sonido](#Sonido)
 
-    3.11. [Marketing](#Marketing)
+    3.11. [Narrativa](#Narrativa)
+
+    3.12. [Marketing](#Marketing)
 
 ## Integrantes
 |   Nombre  | Apellido |              Correo              | GitHub         |
@@ -41,10 +43,12 @@ Juego para la asignatura Juegos en Red de la Universidad Rey Juan Carlos.
 
 
 ## Descripción de la temática
-Dos animales muy distintos, un **quokka** y un **narval**, se encuentran enfrentados en una lucha por la limpieza de sus ecosistemas, el objetivo del juego es simple, el jugador debe superar a su rival en puntuación, o dicho de otro modo, se pretende ser el que consiga recoger una mayor cantidad de basura para ser el que tenga mayor puntuación al final de la partida.
+<p>
+Biocleaner presenta una divertida y competitiva batalla entre dos criaturas muy diferentes: un quokka y un narval. A pesar de estar en ambientes completamente diferentes, ambos se esfuerzan por mostrar quién es el mejor en limpiar su entorno al recolectar basura más rápido que el otro.
+La meta del jugador es sencilla: acumular más puntos que el oponente antes de que se acabe el tiempo, recogiendo basura y haciendo uso de objetos especiales para mejorar su velocidad o dificultar el avance del rival.
+</p>
 
-
-GDD
+GDD - Game Design Document
 =======
 
 ### Descripción del juego
@@ -73,33 +77,68 @@ Ambos tienen el mismo objetivo: limpiar el mundo que una vez los abrazó, pero, 
 
 ### Imagen y diseño visual
 El juego tendrá un estilo visual de pixel art con una cámara en 2D. Para la parte marina se usarán colores azulados y morados, mientras que para la parte terrestre se usarán colores más verdosos y marrones. Principalmente serán tonos vivos y llamativos, pero también nos encontraremos con algunos más apagados.
+
 - #### Bocetos
   Aqui estan algun boceto del juego en sus estados iniciales. El primero es el boceto del logo y el segundo de la basura.
   <p float="left">
    <img src="public/assets/Items/logo_boceto.png" width=224 height=224>
    <img src="public/assets/Items/la_bolsa_de_basura.png" width=256 height=256>
   </p>
+
 - #### Logotipo
   El logotipo del juego.
+
   <p float="left">
    <img src="public/assets/Items/logo.png" width=224 height=224>
  </p>
+ 
 ### Controles
-Los controles para este juego son muy sencillos. Se utilizarán las teclas W,A,S,D para jugar con el quokka y las flechas para jugar con el narval. Para perjudicar al rival se usará la Q en caso del Quokka y la N en caso del Narval.
+Los controles para este juego son muy sencillos. Se utilizarán las teclas W,A,S,D para jugar con el quokka y las flechas ↑ ↓ ← → para jugar con el narval.
 
 ### Mecánicas
-El juego constará de varias mecánicas pero las más básicas son la limpieza de basura y el tratar de perjudicar a tu rival. Complementando a estas mecánicas, se incluirá un temporizador, que determinará la duración de la partida.
 
-- #### Limpieza
+#### Desaparicion de objetos
+Cada objeto tiene una vida util la cual al expirarse desaparece y asi no se satura el juego y mantiene un ritmo al juego.
+#### Generación de objetos
+Cuando el juego genera un objeto comprueba, que este dentro del rango del jugador correcto, nunca aparece dentro de otro objeto y respetan distancias entre objetos para evitar solapamientos visuales.
+#### Estados especiales de los personajes
+Tenemos dos estados de los personajes:
+Estado de pringue
+- Perdida de control parcial
+- Perdida de puntos
+- No puede beneficiarse de power ups mientras esta pringado
+Estado potenciado
+- Multiplicador de x2 en la puntuacion
+- Cambio de sprite
+- Cambia de vuelta a normal despues que acabe el temporizador interno
+#### Mecanica de alcanze entre jugadores
+Las basuras aperecen en oleadas, si el juego detecta que algun jugador esta por detras le intentara ayudar para que el juego no sea decesivo desde el principio.
+### Fisicas
+El sistema de físicas del juego usa Phaser Arcade Physics para manejar el movimiento, detección de collisiones y el comportamiento de los objetos generados en el escenario.
+#### Movimiento de personajes
+- Los personajes no tienen ni aceleracion ni innercia, responden de forma inmediata a las teclas pulsadas
+- Tienen velocidad constante
+- No se permite movimiento diagonal, tiene prioridad la que el jugador mantega pulsada posteriormente.
+- Al soltar las teclas el personaje se queda quieto en el estado idle, mirando hacia abajo.
+#### Restricciones y limites
+- El jugador 1 (Quokka) se limita a la zona terrestre izquierda
+- El jugador 2 (Narval) se limita a la zona aquatica de la derecha
+#### Colisiones
+No existen collisiones entre jugadores, pero si collisionan con:
+- basura
+- vertidos
+- power-ups
+- pringue
+#### Limpieza
   La limpieza es la mecánica más básica del juego y la que le da sentido a la partida, el objetivo es, que mediante aleatoriedad vaya apareciendo basura en las casillas de la zona de cada jugador, por lo que       estos deberán rápidamente ir a limpiar dicha basura, lo que les agregará una puntuación en sus respectivos contadores. Dicha basura tendrá un tiempo límite de recogida, de modo que, si el jugador no la limpia    a tiempo perderá la oportunidad de ganar puntos.
 
-- #### Perjudicar al rival
+#### Perjudicar al rival
   Perjudicar al rival será otro de los objetivos que se tendrá en todo momento, de modo que, en el juego existirá la opción de arrojar basura al enemigo para ralentizarle. Esto se llevará a cabo mediante la         aparición de un objeto contaminante arrojadizo que pringará al rival y lo dejará en un estado de aturdimiento, al igual que la aparición de basura, la posibilidad de que este objeto se genere también será        aleatoria.
 
-- #### Temporizador
+#### Temporizador
   El antes mencionado temporizador será clave a la hora de determinar el tiempo límite de una partida y será el que finalmente determinará quién ha ganado la partida.
 
-- #### Potenciadores de puntuación
+#### Potenciadores de puntuación
   Se incluirán objetos de aparición semialeatoria que potencien al jugador, de forma que este tenga mayores probabilidades de ganar la partida, el objetivo es que dichas ventajas las reciba mayoritariamente el     jugador que se encuentre en mayor desventaja, de este modo se mantendrá una competitividad continua y se ayudará en todo momento a que aquel que tenga menor puntuación tenga al menos una posibilidad de   recuperarse.
 
 ### Personajes
@@ -141,8 +180,8 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
 <img src="public/assets/Narval/narval_derecha_viewG.png" width=164 height=124>
 <img src="public/assets/Narval/narval_izquierda_viewG.png" width=164 height=124>
 </p>
-### Ítems
 
+### Ítems
 - #### Basura
   El ítem principal y más común que aparecerá durante las partidas será la basura, que será representada en forma de bolsas, recoger las mismas ofrecerá al jugador un incremento de cinco puntos en su marcador.
 
@@ -164,17 +203,18 @@ El juego constará de varias mecánicas pero las más básicas son la limpieza d
 <img src="public/assets/Items/pez.png" width=256 height=256>
 </p>
  
-
-
 - #### Pringue
-  Al igual que los potenciadores tendrá una probabilidad baja de aparecer, aunque a diferencia de estos, tendrá un funcionamiento mucho más fijo, es decir, no dependerá tanto del puntaje de los jugadores para      efectuar su aparición.
-
+  Al igual que los potenciadores tendrá una probabilidad baja de aparecer, aunque a diferencia de estos, tendrá un funcionamiento mucho más fijo, es decir, no dependerá tanto del puntaje de los jugadores para efectuar su aparición.
   Dicho pringue será lanzado al rival al ser recogido tal y como se haría con cualquier otro objeto.
+  
   <p>
   <img src="public/assets/Items/cubo.png" width=120 height=128>
   </p>
+  
 ### Sonido
+
 La banda sonora será animada y rítmica, con un tono alegre para que el jugador disfrute jugando y no se estrese. En los últimos segundos de partida, la música incrementará su ritmo para aumentar la tensión y la emoción competitiva.
+Haz click [aqui](public/assets/Sonido) para la carpeta de sonidos.
 
 - #### Efectos de sonido (SFX):
 
@@ -185,14 +225,17 @@ La banda sonora será animada y rítmica, con un tono alegre para que el jugador
   Activación de potenciadores "tin"
 
   Fin de partida
-
+  
+- ### Musica
 
 ### Narrativa
+
 La narrativa del juego es sencilla, ya que la historia que cuenta este juego se centra en eventos que podrían suceder en la vida real con el leve giro del enfrentamiento entre el quokka y el narval.
 
 La historia que puede contar este juego se podría decir que es no más que un reflejo de la dura realidad que viven día a día miles de animales en el mundo, la contaminación de su hábitat. La decisión de centrar este juego en dos animales tan opuestos como un quokka y un narval es pues por la necesidad de que dicho reflejo de lo que es el mundo hoy en día llegue a nuestro público infantil, los dos animales protagonistas son conocidos mundialmente por el cariño que mucha gente les tiene, en el caso del quokka por parecer estar muy feliz todo el tiempo y en el caso del narval por ser conocido como el "unicornio de los mares". Así que, siendo ellos algo con lo que gran parte de nuestro público puede empatizar, son la mejor elección posible para que los niños entiendan la importancia de cuidar del hábitat de estos dos animales a través de un juego que, aunque incita a la competitividad también insta al mantenimiento del hogar de todos los animales, sin limitarse a los representados.
 
 ### Marketing
+
 Se tomarán dentro del plan de marketing varias estrategias. Una de las principales será llegar a nuestro público a través de youtubers y streamers, ya que, al ser el juego orientado hacia un público más infantil, una de las mejores formas de llegar a este hoy en día es mediante las redes sociales. Junto a dicha estrategia, se promocionará el juego mediante anuncios in-game y en las redes sociales, ya que, al igual que nuestro público presta gran atención a gente influyente dentro de las redes, también suele moverse mucho en las redes y en juegos para móviles por lo que, una manera aún mejor de captarlo es no solo a través de sus creadores de contenido favoritos, sino también a través de su entretenimiento favorito. 
 
 Junto con esas dos estrategias mencionadas, el equipo contará con varias redes sociales para no solo promocionar el juego mediante anuncios y patrocinios, sino también de forma directa a través de una cuenta oficial. El contenido que se publicará en dichas cuentas sería cuidadosamente elaborado para vender el producto de la mejor forma a nuestro público.
