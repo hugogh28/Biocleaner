@@ -20,7 +20,7 @@ Juego para la asignatura Juegos en Red de la Universidad Rey Juan Carlos.
 
     3.6. [Mecánicas](#Mecánicas)
    
-    3.7. [Fisicas](#Fisicas)
+    3.7. [Físicas](#Físicas)
 
     3.8. [Personajes](#Personajes)
    
@@ -54,11 +54,11 @@ GDD - Game Design Document
 =======
 
 ### Descripción del juego
-La pantalla estará dividida en dos zonas, la zona izquierda, terrestre, pertenecerá al quokka, mientras que la de la derecha,acuática, será la que pertenezca al narval. Para evitar confusiones habrá una división clara entre las dos zonas para evitar que los jugadores crean que pueden pasar al campo del otro. El movimiento que habrá será bastante similar al de otros muchos juegos *Flash* que existen en Internet, ya que la intención es que el jugador pueda moverse de forma continua en dos dimensiones, excluyendo toda dirección diagonal. No se pretende que se requiera una pausa notoria entre cada movimiento, ni que el quokka y el narval se muevan de forma ininterrumpida en la última dirección indicada, tal y como se puede observar en juegos como el conocido **Snake**.
+La pantalla estará dividida en dos zonas, la zona izquierda, terrestre, pertenecerá al quokka, mientras que la de la derecha, acuática, será la que pertenezca al narval. Para evitar confusiones habrá una división clara entre las dos zonas para evitar que los jugadores crean que pueden pasar al campo del otro. El movimiento que habrá será bastante similar al de otros muchos juegos *Flash* que existen en Internet, ya que la intención es que el jugador pueda moverse de forma continua en dos dimensiones, excluyendo toda dirección diagonal. No se pretende que se requiera una pausa notoria entre cada movimiento, ni que el quokka y el narval se muevan de forma ininterrumpida en la última dirección indicada, tal y como se puede observar en juegos como el conocido **Snake**.
 
-La vista será de tipo top-down para el quokka, mientras que para el narval será de tipo top, la necesidad de hacer estos dos tipos de perspectiva es por una simple decisión estética, ya que así el quokka y el narval tendrán un tamaño aparentemente similar, a diferencia de su tamaño real que dista mucho de ser parecido.
+La vista será de tipo *top-down* para el quokka, mientras que para el narval será de tipo *top*, la necesidad de hacer estos dos tipos de perspectiva es por una simple decisión estética, ya que así el quokka y el narval tendrán un tamaño aparentemente similar, a diferencia de su tamaño real que dista mucho de ser parecido.
 
-El juego es del género arcade competitivo 2D con subgéneros como party game y educativo ambiental. Está orientado para todo tipo de edades, pero es preferente para niños. Está pensado para jugarlo de forma online en una web.
+El juego es del género arcade competitivo 2D con subgéneros como party game y educativo ambiental. Está orientado para todo tipo de edades, pero es preferente para niños. Está pensado para jugarlo en línea en una web.
 
 
 ### Diagrama de flujo
@@ -78,7 +78,7 @@ Entre los restos, dos animales lograron mantenerse en pie:
 Ambos tienen el mismo objetivo: limpiar el mundo que una vez los abrazó, pero, el dolor y la desconfianza los separan. Cada uno culpa al otro por el desastre, haciendo así que la tierra se convierta en un campo de batalla en el que ambos animales se enfrentarán en una carrera para demostrar quién le puede devolver la vida antes al planeta. Así, en lugar de cooperar, compiten. Cada uno recoge los restos de la Tierra, decididos a demostrar que su ecosistema es el más fuerte, el más puro, el más digno de renacer.
 
 ### Imagen y diseño visual
-El juego tendrá un estilo visual de pixel art con una cámara en 2D. Para la parte marina se usarán colores azulados y morados, mientras que para la parte terrestre se usarán colores más verdosos y marrones. Principalmente serán tonos vivos y llamativos, pero también nos encontraremos con algunos más apagados.
+El juego tendrá un estilo visual pixelado, con una cámara en 2D. Para la parte marina se usarán colores azulados y morados, mientras que para la parte terrestre se usarán colores más amarillentos y verdosos. Principalmente serán tonos vivos y llamativos, pero también nos encontraremos con algunos más apagados.
 
 - #### Bocetos
   Aqui estan algun boceto del juego en sus estados iniciales. El primero es el boceto del logo y el segundo de la basura.
@@ -99,54 +99,54 @@ Los controles para este juego son muy sencillos. Se utilizarán las teclas W,A,S
 
 ### Mecánicas
 
-#### Desaparicion de objetos
-Cada objeto tiene una vida util la cual al expirarse desaparece y asi no se satura el juego y mantiene un ritmo al juego.
+#### Desaparición de objetos
+Cada objeto tiene una vida útil la cual al expirar desaparece, y así no se saturará al juego y mantendrá su ritmo.
 #### Generación de objetos
-Cuando el juego genera un objeto comprueba, que este dentro del rango del jugador correcto, nunca aparece dentro de otro objeto y respetan distancias entre objetos para evitar solapamientos visuales.
+Cuando el juego genera un objeto comprueba, que esté dentro del rango del jugador correcto, nunca aparece dentro de otro objeto y respetan distancias entre objetos para evitar solapamientos visuales.
 #### Estados especiales de los personajes
 Tenemos dos estados de los personajes:
 Estado de pringue
-- Perdida de control parcial
-- Perdida de puntos
-- No puede beneficiarse de power ups mientras esta pringado
+- Pérdida de control parcial
+- Pérdida de puntos
+- No puede beneficiarse de potenciadores mientras esta pringado
 Estado potenciado
-- Multiplicador de x2 en la puntuacion
+- Multiplicador que duplica la puntuación
 - Cambio de sprite
 - Cambia de vuelta a normal despues que acabe el temporizador interno
-#### Mecanica de alcanze entre jugadores
-Las basuras aperecen en oleadas, si el juego detecta que algun jugador esta por detras le intentara ayudar para que el juego no sea decesivo desde el principio.
-### Fisicas
-El sistema de físicas del juego usa Phaser Arcade Physics para manejar el movimiento, detección de collisiones y el comportamiento de los objetos generados en el escenario.
+#### Mecánica de alcance entre jugadores
+Las basuras aperecen en oleadas, si el juego detecta que algún jugador está por detrás le intentará ayudar para que la partida esté equilibrada.
+### Físicas
+El sistema de físicas del juego usa *Phaser Arcade Physics* para manejar el movimiento, detección de colisiones y el comportamiento de los objetos generados en el escenario.
 #### Movimiento de personajes
-- Los personajes no tienen ni aceleracion ni innercia, responden de forma inmediata a las teclas pulsadas
+- Los personajes no tienen ni aceleración, ni inercia, responden de forma inmediata a las teclas pulsadas
 - Tienen velocidad constante
 - No se permite movimiento diagonal, tiene prioridad la que el jugador mantega pulsada posteriormente.
-- Al soltar las teclas el personaje se queda quieto en el estado idle, mirando hacia abajo.
+- Al soltar las teclas el personaje se queda quieto en el estado *idle*, mirando hacia abajo.
 #### Restricciones y limites
 - El jugador 1 (Quokka) se limita a la zona terrestre izquierda
-- El jugador 2 (Narval) se limita a la zona aquatica de la derecha
+- El jugador 2 (Narval) se limita a la zona acuática de la derecha
 #### Colisiones
-No existen collisiones entre jugadores, pero si collisionan con:
-- basura
-- vertidos
-- power-ups
-- pringue
+No existen colisiones entre jugadores, pero si colisionan con:
+- Basura
+- Vertidos
+- Power-ups
+- Pringue
 #### Limpieza
-  La limpieza es la mecánica más básica del juego y la que le da sentido a la partida, el objetivo es, que mediante aleatoriedad vaya apareciendo basura en las casillas de la zona de cada jugador, por lo que       estos deberán rápidamente ir a limpiar dicha basura, lo que les agregará una puntuación en sus respectivos contadores. Dicha basura tendrá un tiempo límite de recogida, de modo que, si el jugador no la limpia    a tiempo perderá la oportunidad de ganar puntos.
+  La limpieza es la mecánica más básica del juego y la que le da sentido a la partida, el objetivo es, que mediante aleatoriedad vaya apareciendo basura en las casillas de la zona de cada jugador, por lo que estos deberán rápidamente ir a limpiar dicha basura, lo que les agregará una puntuación en sus respectivos contadores. Dicha basura tendrá un tiempo límite de recogida, de modo que, si el jugador no la limpia a tiempo perderá la oportunidad de ganar puntos.
 
 #### Perjudicar al rival
-  Perjudicar al rival será otro de los objetivos que se tendrá en todo momento, de modo que, en el juego existirá la opción de arrojar basura al enemigo para ralentizarle. Esto se llevará a cabo mediante la         aparición de un objeto contaminante arrojadizo que pringará al rival y lo dejará en un estado de aturdimiento, al igual que la aparición de basura, la posibilidad de que este objeto se genere también será        aleatoria.
+  Perjudicar al rival será otro de los objetivos que se tendrá en todo momento, de modo que, en el juego existirá la opción de arrojar basura al enemigo para ralentizarle. Esto se llevará a cabo mediante la aparición de un objeto contaminante arrojadizo que pringará al rival y lo dejará en un estado de aturdimiento, al igual que la aparición de basura, la posibilidad de que este objeto se genere también será aleatoria.
 
 #### Temporizador
-  El antes mencionado temporizador será clave a la hora de determinar el tiempo límite de una partida y será el que finalmente determinará quién ha ganado la partida.
+  El antes mencionado temporizador será clave a la hora de determinar el tiempo límite de una partida y será el que finalmente determinará quién ha ganado la misma.
 
 #### Potenciadores de puntuación
-  Se incluirán objetos de aparición semialeatoria que potencien al jugador, de forma que este tenga mayores probabilidades de ganar la partida, el objetivo es que dichas ventajas las reciba mayoritariamente el     jugador que se encuentre en mayor desventaja, de este modo se mantendrá una competitividad continua y se ayudará en todo momento a que aquel que tenga menor puntuación tenga al menos una posibilidad de   recuperarse.
+  Se incluirán objetos de aparición semialeatoria que potencien al jugador, de forma que este tenga mayores probabilidades de ganar la partida, el objetivo es que dichas ventajas las reciba mayoritariamente el jugador que se encuentre en mayor desventaja, de este modo se mantendrá una competitividad continua y se ayudará en todo momento a que aquel que tenga menor puntuación tenga al menos una posibilidad de recuperarse.
 
 ### Personajes
 
 - #### Quokka
-  Uno de los personajes jugables que estarán en el juego es el quokka, este pequeño y contento animal estará en una zona terrestre con plantas autóctonas. 
+  Uno de los personajes jugables que estarán en el juego es el quokka, este pequeño y contento animal estará en una zona terrestre playera. 
 <p float="left">
 <img src="public/assets/Quokka/quokka_front_view.png" width=108 height=164>
 <img src="public/assets/Quokka/quokka_back_view.png" width=108 height=164>
@@ -165,7 +165,7 @@ No existen collisiones entre jugadores, pero si collisionan con:
 </p>
 
 - #### Narval
-  El otro personaje jugable será el narval, conocido mundialmente por su "cuerno" que le dota de ese apodo de unicornio de los mares, su zona será de aguas árticas.
+  El otro personaje jugable será el narval, conocido mundialmente por su "cuerno" que le dota de ese apodo de unicornio de los mares, su zona será acuática.
 <p float="left">
 <img src="public/assets/Narval/narval_top_view.png" width=123 height=164>
 <img src="public/assets/Narval/narval_down_view.png" width=123 height=164>
@@ -190,14 +190,14 @@ No existen collisiones entre jugadores, pero si collisionan con:
 <img src="public/assets/Items/basura.png" width=256 height=256>
 
 - #### Vertidos
-  Para dar un incremento aún mayor al puntaje de cada jugador habrá momentos en los que aparezcan vertidos de químicos o compuestos contaminantes en el campo de uno de los personajes. A diferencia de las bolsas   de basura estos vertidos darán al jugador que lo recoja diez puntos para su puntaje, y también, a diferencia de las bolsas de basura estos aparecerán con menor frecuencia.
+  Para dar un incremento aún mayor al puntaje de cada jugador habrá momentos en los que aparezcan vertidos de químicos o compuestos contaminantes en el campo de uno de los personajes. A diferencia de las bolsas de basura estos vertidos darán al jugador que lo recoja diez puntos para su puntaje, y también, a diferencia de las bolsas de basura estos aparecerán con menor frecuencia.
 <p float="left">
 <img src="public/assets/Items/residuo_toxico_agua.png" width=256 height=256>
 <img src="public/assets/Items/basura_tierra1.png" width=256 height=256>
 </p>
 
 - #### Potenciadores
-  Como es mencionado en el apartado de mecánicas, existirán dos ítems que potenciarán al jugador. La necesidad de que no sean dos y no uno, es que para el quokka el potenciador serán unas bayas, mientras que   para el narval será un pescado. El objetivo es que al recibir dicho potenciador, durante unos pocos segundos el jugador agraciado reciba el doble de puntuación al recoger basura. No obstante, si el jugador es   atacado por su rival mediante la mecánica de "pringue", este perderá dicho potenciador aunque no recibirá la penalización antes mencionada.
+  Como es mencionado en el apartado de mecánicas, existirán dos ítems que potenciarán al jugador. La necesidad de que no sean dos y no uno, es que para el quokka el potenciador serán unas bayas, mientras que, para el narval será un pescado. El objetivo es que al recibir dicho potenciador, durante unos pocos segundos el jugador agraciado reciba el doble de puntuación al recoger basura. No obstante, si el jugador es atacado por su rival mediante la mecánica de "pringue", este perderá dicho potenciador aunque no recibirá la penalización antes mencionada.
 
   Estos objetos tendrán aún menor probabilidad de aparición que los vertidos, aunque no solo dependerán de un porcentaje de aparición fijo, siempre se regirán por el puntaje de ambos jugadores, es decir, su probabilidad dependerá mayoritariamente de cómo fluya la partida.
 <p float="left">
