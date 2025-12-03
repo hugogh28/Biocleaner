@@ -25,12 +25,14 @@ Juego para la asignatura Juegos en Red de la Universidad Rey Juan Carlos.
     3.8. [Personajes](#Personajes)
    
     3.9. [Ítems](#Ítems)
+
+    3.10. [Fondos](#Fondos)
    
-    3.10. [Sonido](#Sonido)
+    3.11. [Sonido](#Sonido)
 
-    3.11. [Narrativa](#Narrativa)
+    3.12. [Narrativa](#Narrativa)
 
-    3.12. [Marketing](#Marketing)
+    3.13. [Marketing](#Marketing)
 
 ## Integrantes
 |   Nombre  | Apellido |              Correo              | GitHub         |
@@ -210,7 +212,14 @@ No existen collisiones entre jugadores, pero si collisionan con:
   <p>
   <img src="public/assets/Items/cubo.png" width=120 height=128>
   </p>
-  
+###Fondos
+<p float="left">
+  <img src="public/assets/Fondos/fondo.png" width=463 height=410>
+   <img src="public/assets/Fondos/fondo_juego.png" width=463 height=410>
+   <img src="public/assets/Fondos/narval_perdedor.png" width=463 height=410>
+   <img src="public/assets/Fondos/quokka_perdedor.png" width=463 height=410>
+</p>
+
 ### Sonido
 
 La banda sonora será animada y rítmica, con un tono alegre para que el jugador disfrute jugando y no se estrese. En los últimos segundos de partida, la música incrementará su ritmo para aumentar la tensión y la emoción competitiva.
