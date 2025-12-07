@@ -341,17 +341,17 @@ export class GameScene extends Phaser.Scene{
         }
     }
 
-    spawnSticky(){
-        let x, y;
+    antiOverlap(x1,y1,x2,y2){
+        let x,y;
         do{
-            x = 400;
-            y = Phaser.Math.Between(150, 550);
+            x = Phaser.Math.Between(x1,y1);
+            y = Phaser.Math.Between(x2,y2);
             var overlapTrash = this.trashGroup.getChildren().some(child =>{
                 return(
                     Math.abs(child.x-x)<40 &&
                     Math.abs(child.y-y)<40
-                    );
-                });
+                );
+            })
 
             var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
                 return(
@@ -359,7 +359,28 @@ export class GameScene extends Phaser.Scene{
                     Math.abs(child.y-y)<40
                     );
                 });
-        }while(overlapTrash || overlapPowerUp);
+
+            var overlapSticky = this.stickyGroup.getChildren().some(child => {
+                return(
+                    Math.abs(child.x-x)<40 &&
+                    Math.abs(child.y-y)<40
+                    );
+                });
+
+            var overlapSpill = this.spillGroup.getChildren().some(child => {
+                return(
+                    Math.abs(child.x-x)<40 &&
+                    Math.abs(child.y-y)<40
+                    );
+                });
+        }while(overlapTrash || overlapPowerUp || overlapSticky || overlapSpill);
+        return {x, y};
+    }
+
+    spawnSticky(){
+        let x,y 
+        
+        ({x,y} = this.antiOverlap(400,400,150,550));
 
         //Creamos el objeto que hará de pringue y lo añadimos a su grupo
         const sticky = this.physics.add.sprite(x, y, 'pringue');
@@ -416,81 +437,15 @@ export class GameScene extends Phaser.Scene{
     }
 
     spawnTrash() {
+        let x,y;
         // Selección aleatoria de jugador (1 o 2)
         const targetPlayer = Phaser.Math.Between(1, 2);
 
-        // Zona del jugador
-        let x, y;
-
-
+        //Mirar si la basura aparece dentro de otros grupo
         if(targetPlayer===1){
-            do{
-                x = Phaser.Math.Between(30, 350);   // Zona izquierda
-                y = Phaser.Math.Between(150, 550);
-
-                //attempts++;
-                //Mirar si la basura aparece dentro de otros grupos
-                var overlapTrash = this.trashGroup.getChildren().some(child =>{
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-
-                var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                        );
-                });
-
-                var overlapSticky = this.stickyGroup.getChildren().some(child => {
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-
-                var overlapSpill = this.spillGroup.getChildren().some(child => {
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-            }while(overlapTrash || overlapPowerUp || overlapSticky || overlapSpill);
+            ({x,y} = this.antiOverlap(30,350,150,550));
         }else{
-            do{
-                x = Phaser.Math.Between(450, 770);  // Zona derecha
-                y = Phaser.Math.Between(150, 550);
-
-                var overlapTrash = this.trashGroup.getChildren().some(child =>{
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-
-                var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-
-                var overlapSticky = this.stickyGroup.getChildren().some(child => {
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-
-                var overlapSpill = this.spillGroup.getChildren().some(child => {
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-            }while(overlapTrash || overlapPowerUp || overlapSticky || overlapSpill);
+            ({x,y} = this.antiOverlap(450,770,150,550));
         }
 
         // Crear basura
@@ -514,48 +469,15 @@ export class GameScene extends Phaser.Scene{
     }
 
     spawnSpill() {
+        let x,y;
         // Selección aleatoria de jugador (1 o 2)
         const targetPlayer = Phaser.Math.Between(1, 2);
 
         // Zona del jugador
-        let x, y;
 
 
         if(targetPlayer===1){
-            do{
-                x = Phaser.Math.Between(30, 350);   // Zona izquierda
-                y = Phaser.Math.Between(150, 550);
-
-
-
-                var overlapTrash = this.trashGroup.getChildren().some(child =>{
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-
-                var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                        );
-                });
-
-                var overlapSticky = this.stickyGroup.getChildren().some(child => {
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-
-                var overlapSpill = this.spillGroup.getChildren().some(child => {
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-            }while((overlapTrash || overlapPowerUp || overlapSticky || overlapSpill));
+            ({x,y} = this.antiOverlap(30,350,150,550));
 
             const spill = this.physics.add.sprite(x,y,'vertido');
 
@@ -573,39 +495,7 @@ export class GameScene extends Phaser.Scene{
 
             this.physics.add.overlap(p1, spill, () => this.collectSpill(spill, 1));
         }else{
-            do{
-                x = Phaser.Math.Between(450, 770);  // Zona derecha
-                y = Phaser.Math.Between(150, 550);
-
-
-                var overlapTrash = this.trashGroup.getChildren().some(child =>{
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-
-                var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-
-                var overlapSticky = this.stickyGroup.getChildren().some(child => {
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-
-                var overlapSpill = this.spillGroup.getChildren().some(child => {
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-            }while((overlapTrash || overlapPowerUp || overlapSticky || overlapSpill) /*&& attempts < maxAttempts*/);
+            ({x,y} = this.antiOverlap(450,770,150,550));
             const spill = this.physics.add.sprite(x,y,'vertido1');
 
             spill.setDisplaySize(80, 80);
@@ -706,46 +596,14 @@ export class GameScene extends Phaser.Scene{
             return;
         }
 
-        let x, y, key;
-        do{
-            if (playerId === "player1") {
-                key = "powerQuoka"; 
-                x = Phaser.Math.Between(50, 350);
-            } else {
-                key = "powerNarval";
-                x = Phaser.Math.Between(450, 750);
-            }
-
-            y = Phaser.Math.Between(150, 550);
-
-            var overlapTrash = this.trashGroup.getChildren().some(child =>{
-                return(
-                    Math.abs(child.x-x)<40 &&
-                    Math.abs(child.y-y)<40
-                );
-            });
-
-            var overlapPowerUp = this.powerUpGroup.getChildren().some(child =>{
-                return(
-                    Math.abs(child.x-x)<40 &&
-                    Math.abs(child.y-y)<40
-                );
-            });
-
-            var overlapSticky = this.stickyGroup.getChildren().some(child => {
-                return(
-                    Math.abs(child.x-x)<40 &&
-                    Math.abs(child.y-y)<40
-                );
-            });
-
-            var overlapSpill = this.spillGroup.getChildren().some(child => {
-                    return(
-                        Math.abs(child.x-x)<40 &&
-                        Math.abs(child.y-y)<40
-                    );
-                });
-        }while(overlapTrash || overlapPowerUp || overlapSticky || overlapSpill);
+        let x,y, key;
+        if (playerId === "player1") {
+            key = "powerQuoka"; 
+            ({x,y} = this.antiOverlap(50,350,150,550));
+        } else {
+            key = "powerNarval";
+            ({x,y} = this.antiOverlap(450,750,150,550));
+        }
 
         const item = this.physics.add.sprite(x, y, key);
 
