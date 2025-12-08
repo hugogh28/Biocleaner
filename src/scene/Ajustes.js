@@ -56,6 +56,7 @@ export class Ajustes extends Phaser.Scene {
         let handleBrX = trackX + tBr * trackWidth;
 
         this.brilloHandle = this.add.image(handleBrX, trackYBrillo, 'pez').setInteractive({ draggable: true });
+        this.brilloHandle.setDisplaySize(140,140);
 
         //Musica
         this.add.text(100, 250, "Volumen música", {
@@ -72,6 +73,7 @@ export class Ajustes extends Phaser.Scene {
         let handleVolX = trackX + currentVol * trackWidth;
 
         this.volumenHandle = this.add.image(handleVolX, trackYVol, 'bayas').setInteractive({ draggable: true });
+        this.volumenHandle.setDisplaySize(140,140);
 
         //Sfx
         this.add.text(100, 350, "Volumen SFX", {
@@ -88,6 +90,7 @@ export class Ajustes extends Phaser.Scene {
         let handleSfxX = trackX + currentSfx * trackWidth;
 
         this.sfxHandle = this.add.image(handleSfxX, trackYSfx, 'bayas').setInteractive({ draggable: true });
+        this.sfxHandle.setDisplaySize(140,140);
 
         // Se activa arrastrar en los controles
         this.input.setDraggable(this.brilloHandle);
