@@ -273,9 +273,9 @@ export class GameScene extends Phaser.Scene{
     }
 
     setUpPLayers() {
-        const quoka = new Personajes(this, 'player1', 50, 300);
+        const quokka = new Personajes(this, 'player1', 50, 300);
         const narval = new Personajes(this, 'player2', 750, 300);
-        this.players.set('player1', quoka);
+        this.players.set('player1', quokka);
         this.players.set('player2', narval);
         //Los inputs de cada jugador
         const InputConfig = [
@@ -326,6 +326,7 @@ export class GameScene extends Phaser.Scene{
 
     antiOverlap(x1,y1,x2,y2,p1,p2){
         let x,y;
+        let iteration = 0;
         do{
             x = Phaser.Math.Between(x1,y1);
             y = Phaser.Math.Between(x2,y2);
@@ -334,10 +335,12 @@ export class GameScene extends Phaser.Scene{
             var overlapPowerUp = this.overlapVar(x,y,this.stickyGroup);
             var overlapSticky = this.overlapVar(x,y,this.powerUpGroup);
             var overlapSpill = this.overlapVar(x,y,this.spillGroup);
+            
             var overlapNarval = Math.abs(p2.x-x)<60 && Math.abs(p2.y-y)<60 === true ? true : false;
             var overlapQuokka = Math.abs(p1.x-x)<60 && Math.abs(p1.y-y)<60 === true ? true : false;
 
-        }while(overlapTrash || overlapPowerUp || overlapSticky || overlapSpill || overlapNarval || overlapQuokka);
+            iteration++;
+        }while((overlapTrash || overlapPowerUp || overlapSticky || overlapSpill || overlapNarval || overlapQuokka) && iteration<4);
         return {x, y};
     }
 
@@ -357,7 +360,7 @@ export class GameScene extends Phaser.Scene{
             chance = 10;
             target = Phaser.Math.Between(0, 1) === 0 ? 1 : 2;
         }
-        if(effectActive[target]){ //Esto es posible, por el tiempo que hemos definido que el pringue dure, entre otras cuestiones
+        if(effectActive[target]){ 
             return;
         }
         const roll = Phaser.Math.Between(1,100);
