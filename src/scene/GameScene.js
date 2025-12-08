@@ -324,7 +324,7 @@ export class GameScene extends Phaser.Scene{
         return overlap;
     }
 
-    antiOverlap(x1,y1,x2,y2){
+    antiOverlap(x1,y1,x2,y2,p1,p2){
         let x,y;
         do{
             x = Phaser.Math.Between(x1,y1);
@@ -334,8 +334,10 @@ export class GameScene extends Phaser.Scene{
             var overlapPowerUp = this.overlapVar(x,y,this.stickyGroup);
             var overlapSticky = this.overlapVar(x,y,this.powerUpGroup);
             var overlapSpill = this.overlapVar(x,y,this.spillGroup);
+            var overlapNarval = Math.abs(p2.x-x)<60 && Math.abs(p2.y-y)<60 === true ? true : false;
+            var overlapQuokka = Math.abs(p1.x-x)<60 && Math.abs(p1.y-y)<60 === true ? true : false;
 
-        }while(overlapTrash || overlapPowerUp || overlapSticky || overlapSpill);
+        }while(overlapTrash || overlapPowerUp || overlapSticky || overlapSpill || overlapNarval || overlapQuokka);
         return {x, y};
     }
 
@@ -381,14 +383,14 @@ export class GameScene extends Phaser.Scene{
         }
     }
 
-    spawn(targetPlayer,x11,y11,x21,y21, x12,y12,x22,y22, key1, key2, spriteSize, objectGroup, tiempoEnPantalla/*, func*/){
+    spawn(targetPlayer,x11,y11,x21,y21, x12,y12,x22,y22, key1, key2, spriteSize, objectGroup, tiempoEnPantalla,p1,p2){
         let x,y;
         let object;
         if(targetPlayer === 1){
-            ({x,y} = this.antiOverlap(x11,y11,x21,y21));
+            ({x,y} = this.antiOverlap(x11,y11,x21,y21,p1,p2));
             object = this.physics.add.sprite(x,y,key1);
         }else {
-            ({x,y} = this.antiOverlap(x12,y12,x22,y22));
+            ({x,y} = this.antiOverlap(x12,y12,x22,y22,p1,p2));
             object = this.physics.add.sprite(x,y,key2);
         }
 
@@ -403,11 +405,11 @@ export class GameScene extends Phaser.Scene{
     }
 
     spawnSticky(targetPlayer){
-        let sticky = this.spawn(targetPlayer, 400,400,150,550, 400,400,150,550, "pringue", "pringue", 40, this.stickyGroup, 7000);
-
         //Colisión del pringue con cada jugador
         const p1 = this.players.get("player1").sprite;
         const p2 = this.players.get("player2").sprite;
+        
+        let sticky = this.spawn(targetPlayer, 400,400,150,550, 400,400,150,550, "pringue", "pringue", 40, this.stickyGroup, 7000,p1,p2);
 
         this.physics.add.overlap(p1, sticky, () => this.throwSticky(sticky, 2, 10));
         this.physics.add.overlap(p2, sticky, () => this.throwSticky(sticky, 1, 10));
@@ -417,11 +419,11 @@ export class GameScene extends Phaser.Scene{
         // Selección aleatoria de jugador (1 o 2)
         const targetPlayer = Phaser.Math.Between(1, 2);
 
-        let trash = this.spawn(targetPlayer, 30,350,150,550, 450,770,150,550, "basura","basura", 40, this.trashGroup, 7000);
-
         // Colisión basura con cada jugador
         const p1 = this.players.get("player1").sprite;
         const p2 = this.players.get("player2").sprite;
+
+        let trash = this.spawn(targetPlayer, 30,340,150,550, 460,770,150,550, "basura","basura", 40, this.trashGroup, 7000,p1,p2);
 
         this.physics.add.overlap(p1, trash, () => this.collect(trash, 1, 5));
         this.physics.add.overlap(p2, trash, () => this.collect(trash, 2, 5));
@@ -431,22 +433,22 @@ export class GameScene extends Phaser.Scene{
         // Selección aleatoria de jugador (1 o 2)
         const targetPlayer = Phaser.Math.Between(1, 2);
 
-        let spill = this.spawn(targetPlayer, 30,350,150,550, 450,770,150,550, "vertido","vertido1", 80, this.spillGroup, 7000);
-
         // Colisión basura con cada jugador
         const p1 = this.players.get("player1").sprite;
         const p2 = this.players.get("player2").sprite;
+
+        let spill = this.spawn(targetPlayer, 30,340,150,550, 460,770,150,550, "vertido","vertido1", 80, this.spillGroup, 7000,p1,p2);
 
         this.physics.add.overlap(p1, spill, () => this.collect(spill, 1, 10));
         this.physics.add.overlap(p2, spill, () => this.collect(spill, 2, 10));
     }
 
     spawnPowerUp(playerId) {
-        let powerUp = this.spawn(playerId, 50,350,150,550, 450,750,150,550, "powerQuoka","powerNarval", 120, this.powerUpGroup, 15000);
-
         // Colisiones
         const p1 = this.players.get("player1").sprite;
         const p2 = this.players.get("player2").sprite;
+
+        let powerUp = this.spawn(playerId, 50,340,150,550, 460,750,150,550, "powerQuoka","powerNarval", 120, this.powerUpGroup, 15000,p1,p2);
 
         this.physics.add.overlap(p1, powerUp, () => this.pickPowerUp(powerUp, "player1"));
         this.physics.add.overlap(p2, powerUp, () => this.pickPowerUp(powerUp, "player2"));
