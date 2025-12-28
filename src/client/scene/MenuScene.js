@@ -163,8 +163,9 @@ export class MenuScene extends Phaser.Scene {
         this.add.image(700, 200, 'logo');
 
         // Indicador de conexión al servidor
-        this.connectionText = this.add.text(400, 500, 'Servidor: Comprobando...', {
-            fontSize: '18px',
+        this.connectionText = this.add.text(400, 570, 'Servidor: Comprobando...', {
+            fontFamily: 'aaaaa',
+            fontSize: '12px',
             color: '#ffff00'
         }).setOrigin(0.5);
         // Listener para cambios de conexión
@@ -186,9 +187,11 @@ export class MenuScene extends Phaser.Scene {
         try {
             if (data.connected) {
                 this.connectionText.setText(`Servidor: ${data.count} usuario(s) conectado(s)`);
+                this.connectionText.setFontFamily('aaaaa');
                 this.connectionText.setColor('#00ff00');
             } else {
                 this.connectionText.setText('Servidor: Desconectado');
+                this.connectionText.setFontFamily('aaaaa');
                 this.connectionText.setColor('#ff0000');
             }
         } catch (error) {

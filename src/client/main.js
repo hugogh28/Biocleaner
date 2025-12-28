@@ -34,7 +34,7 @@ const config = {
     },
 
 
-        scene: [MenuScene, GameScene, PauseScene, Creditos, Ajustes, GameOverScene, Controles, ConnectionLostScene, Login],
+        scene: [ MenuScene, GameScene, PauseScene, Creditos, Ajustes, GameOverScene, Controles, ConnectionLostScene, Login],
         backgroundColor: '#876f00'
     }
 
