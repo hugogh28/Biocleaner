@@ -111,9 +111,33 @@ export class MenuScene extends Phaser.Scene {
         }
         });
 
-        localBtn.on('pointerdown', () => {
-        if (!this.firstClickDone) return;
-        this.scene.start('GameScene');
+        localBtn.on('pointerdown', async () => {
+
+            if (window.sessionId) {
+
+                try {
+                    const res = await fetch('/api/game/start', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ sessionId: window.sessionId })
+                    });
+
+                    const data = await res.json();
+                    window.gamesPlayed = data.gamesPlayed;
+
+                    console.log('Partidas jugadas:', window.gamesPlayed);
+
+                } catch (e) {
+                    console.error('Error iniciando partida', e);
+                }
+
+                this.scene.start('GameScene');
+                return;
+            }
+
+            // 👉 SI NO HAY SESIÓN, LOGIN
+            this.scene.launch('Login');
+            this.scene.pause();
         });
 
         creditos.on('pointerdown', () => {
@@ -148,6 +172,7 @@ export class MenuScene extends Phaser.Scene {
                 this.updateConnectionDisplay(data);
             };
             connectionManager.addListener(this.connectionListener);
+            
     }
 
     

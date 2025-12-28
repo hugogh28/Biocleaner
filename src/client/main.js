@@ -8,6 +8,7 @@ import { Ajustes} from './scene/Ajustes.js';
 import { GameOverScene } from './scene/GameOverScene.js';
 import { Controles } from './scene/Controles.js';
 import { ConnectionLostScene } from './scene/ConnectionLostScene.js';
+import { Login} from './scene/Login.js';
 
 
 import GlobalSettingsPlugin from "./GlobalSettingPlugin.js";
@@ -33,7 +34,7 @@ const config = {
     },
 
 
-        scene: [MenuScene, GameScene, PauseScene, Creditos, Ajustes, GameOverScene, Controles, ConnectionLostScene],
+        scene: [MenuScene, GameScene, PauseScene, Creditos, Ajustes, GameOverScene, Controles, ConnectionLostScene, Login],
         backgroundColor: '#876f00'
     }
 

@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 import { createUserService } from './services/userService.js';
 import { createMessageService } from './services/messageService.js';
 import { createConnectionService } from './services/connectionService.js';
-
+import { createSessionService } from './services/sessionService.js';
 // Controladores (factory functions)
 import { createUserController } from './controllers/userController.js';
 import { createMessageController } from './controllers/messageController.js';
@@ -29,7 +29,7 @@ const __dirname = path.dirname(__filename);
 const userService = createUserService();
 const messageService = createMessageService(userService);  // messageService depende de userService
 const connectionService = createConnectionService();
-
+const sessionService = createSessionService();
 // 2. Crear controladores inyectando servicios (capa de lógica)
 const userController = createUserController(userService);
 const messageController = createMessageController(messageService);
@@ -55,6 +55,107 @@ app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
+app.post('/api/login', (req, res) => {
+  const { nickname } = req.body;
+
+  if (!nickname || nickname.trim() === '') {
+    return res.status(400).json({ error: 'nickname requerido' });
+  }
+
+  const cleanNick = nickname.trim();
+
+  // Crear o recuperar usuario
+  const user = userService.createUser(cleanNick);
+  
+  const sessionId = sessionService.createSession(cleanNick);
+
+  console.log('[LOGIN]', cleanNick, 'session:', sessionId, 'games:', user.gamesPlayed);
+
+  res.json({
+    sessionId,
+    nickname: cleanNick,
+    gamesPlayed: user.gamesPlayed
+  });
+});
+
+app.get('/api/game/stats', (req, res) => {
+  const { sessionId } = req.query;
+
+  if (!sessionId) {
+    return res.status(400).json({ error: 'sessionId requerido' });
+  }
+
+  const nickname = sessionService.getNickname(sessionId);
+  if (!nickname) {
+    return res.status(401).json({ error: 'sesión inválida' });
+  }
+
+  // Obtener estadísticas usando el servicio
+  const stats = userService.getStats(nickname);
+  
+  if (!stats) {
+    // Si no existe el usuario, crear uno nuevo con 0 partidas
+    const newUser = userService.createUser(nickname);
+    return res.json({
+      nickname: newUser.nickname,
+      gamesPlayed: newUser.gamesPlayed
+    });
+  }
+
+  res.json(stats);
+});
+
+app.put('/api/game/start', (req, res) => {
+  const { sessionId } = req.body;
+
+  const nickname = sessionService.getNickname(sessionId);
+  if (!nickname) {
+    return res.status(401).json({ error: 'sesión inválida' });
+  }
+
+  // Usar el userService correctamente
+  let user = userService.getUserByNickname(nickname);
+  
+  if (!user) {
+    // Crear usuario correctamente - solo pasando el nickname
+    user = userService.createUser(nickname);
+  }
+
+  if (user.state === 'idle') {
+    user.gamesPlayed += 1;
+    user.state = 'playing';
+  }
+
+  // Incrementar contador usando el método del servicio
+  userService.incrementGamesPlayed(nickname);
+
+  console.log('[GAME START]', nickname, user.gamesPlayed);
+
+  res.json({ gamesPlayed: user.gamesPlayed });
+});
+
+app.put('/api/game/end', (req, res) => {
+  const { sessionId } = req.body;
+
+  if (!sessionId) {
+    return res.status(400).json({ error: 'sessionId requerido' });
+  }
+
+  const nickname = sessionService.getNickname(sessionId);
+  if (!nickname) {
+    return res.status(401).json({ error: 'sesión inválida' });
+  }
+
+  const user = userService.getUserByNickname(nickname);
+  if (user) {
+    user.state = 'idle';
+  }
+
+  console.log('[GAME END]', nickname);
+
+  res.json({ ok: true });
+});
+
 
 // CORS simple (permitir todas las peticiones)
 app.use((req, res, next) => {
