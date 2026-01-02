@@ -32,8 +32,6 @@ export class MenuScene extends Phaser.Scene {
         const brightness = this.plugins.get("Brightness");
         brightness.applyToScene(this);
 
-        this.firstClickDone = false;
-
         //Música
         this.musica = this.sound.add("musica_fondo", {
             volume: settings.getMusicVolume(),
@@ -93,23 +91,20 @@ export class MenuScene extends Phaser.Scene {
         const controles = this.add.image(450, 500, 'botonControles').setOrigin(0.5)     //Botón que lleva a la pantalla de controles
         .setInteractive({useHandCursor: true})
         
-        this.input.once("pointerdown", () => {
+        // this.input.once("pointerdown", () => {
 
-        if (!this.firstClickDone) {
-            this.firstClickDone = true;
+        //         const settings = this.plugins.get("GlobalSettings");
 
-            const settings = this.plugins.get("GlobalSettings");
-
-            // Iniciar música desbloqueada por el usuario
-            let music = this.sound.get("musica_fondo");
-            if (music) {
-                music.play({
-                    volume: settings.getMusicVolume(),
-                    loop: true
-                });
-            }
-        }
-        });
+        //     // Iniciar música desbloqueada por el usuario
+        //     let music = this.sound.get("musica_fondo");
+        //     if (music) {
+        //         music.play({
+        //             volume: settings.getMusicVolume(),
+        //             loop: true
+        //         });
+        //     }
+        
+        // });
 
         localBtn.on('pointerdown', async () => {
 
@@ -135,23 +130,20 @@ export class MenuScene extends Phaser.Scene {
                 return;
             }
 
-            // 👉 SI NO HAY SESIÓN, LOGIN
+            //  SI NO HAY SESIÓN, LOGIN
             this.scene.launch('Login');
             this.scene.pause();
         });
 
         creditos.on('pointerdown', () => {
-            if (!this.firstClickDone) return;
             this.scene.start('Creditos');
         });
 
         ajustes.on('pointerdown', () => {
-            if (!this.firstClickDone) return;
             this.scene.start("Ajustes", { previousScene: "MenuScene" });
         });
 
         controles.on('pointerdown', () => {
-            if (!this.firstClickDone) return;
             this.scene.start("Controles", { previousScene: "MenuScene" });
         });
 

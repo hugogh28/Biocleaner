@@ -1,5 +1,6 @@
 import Phaser, { Physics } from 'phaser';
 
+import { StartScreen } from  './scene/StartScreen.js'
 import { MenuScene } from './scene/MenuScene.js';
 import { GameScene } from './scene/GameScene.js';
 import { PauseScene} from './scene/PauseScene.js';
@@ -34,7 +35,7 @@ const config = {
     },
 
 
-        scene: [ MenuScene, GameScene, PauseScene, Creditos, Ajustes, GameOverScene, Controles, ConnectionLostScene, Login],
+        scene: [ StartScreen, MenuScene, GameScene, PauseScene, Creditos, Ajustes, GameOverScene, Controles, ConnectionLostScene, Login],
         backgroundColor: '#876f00'
     }
 
