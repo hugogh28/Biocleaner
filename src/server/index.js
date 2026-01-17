@@ -249,6 +249,10 @@ wss.on('connection', (ws) => {
       return;
     }
 
+    if(data.type == 'scoreUpdate'){
+      gameRoomService.handleScoreUpdate(ws,data);
+    }
+
     if (data.type === 'joinQueue') {
       matchmakingService.joinQueue(ws);
     }

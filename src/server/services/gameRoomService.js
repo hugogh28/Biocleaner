@@ -36,8 +36,33 @@ export function createGameRoomService() {
       endAt
     };
 
+    //Enviar sincronización de la puntuación al jugador contrario
+    /*const scoreMsg = {
+      type: 'scoreSync',
+      endAt
+    };*/
     player1Ws.send(JSON.stringify(timerMsg));
     player2Ws.send(JSON.stringify(timerMsg));
+
+    player1Ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+
+      console.log('Recibido mensaje de puntuación:', data);
+
+      if(data.type === 'scoreUpdate'){ //Probablemente haga falta sustituirlo por un switch debido a que hay que contemplar más tipos de mensajes
+        handleScoreUpdate(player1Ws, data);
+      }
+    };
+
+    player1Ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+
+      console.log('Recibido mensaje de puntuación:', data);
+
+      if(data.type === 'scoreUpdate'){
+        handleScoreUpdate(player1Ws, data);
+      }
+    };
 
     // Final de partida decidido por el servidor
     setTimeout(() => {
@@ -80,6 +105,29 @@ export function createGameRoomService() {
     }
   }
 
+  function handleScoreUpdate(ws, data){
+      const currentRoom = rooms.get(ws.roomId);
+      if(!currentRoom||!currentRoom.active) return;
+
+      const player = currentRoom.player1.ws === ws ? currentRoom.player1 : currentRoom.player2;
+
+      console.log(`Puntuación antes de actualizar para ${player.score}: ${data.score}`);
+
+      player.score = data.score;
+
+      console.log(`Puntuación actualizada para ${player.score}`);
+      
+      const msg = {
+        
+        type: 'scoreUpdate',
+        player1Score: currentRoom.player1.score,
+        player2Score: currentRoom.player2.score
+      };
+
+      currentRoom.player1.ws.send(JSON.stringify(msg));
+      currentRoom.player1.ws.send(JSON.stringify(msg));
+  }
+
   function handleDisconnect(ws) {
     const room = rooms.get(ws.roomId);
     if (!room) return;
@@ -107,6 +155,7 @@ export function createGameRoomService() {
     createRoom,
     getRoom,
     handlePaddleMove,
+    handleScoreUpdate,
     handleDisconnect,
     getActiveRoomCount
   };

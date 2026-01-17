@@ -390,8 +390,12 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
             case 'scoreUpdate':
                 // Update scores from server
-                this.localScore = this.playerRole === 'player1' ? data.player1Score : data.player2Score;
-                this.remoteScore = this.playerRole === 'player1' ? data.player2Score : data.player1Score;
+                //this.localScore = this.playerRole === 'player1' ? data.player1Score : data.player2Score;
+                //this.remoteScore = this.playerRole === 'player1' ? data.player2Score : data.player1Score;
+                console.log('Puntuación recibida del servidor:', data);
+
+                this.localScore = data.player1Score;
+                this.remoteScore = data.player2Score;
 
                 this.scoreQuoka.setText(data.player1Score.toString());
                 this.scoreNarval.setText(data.player2Score.toString());
@@ -588,12 +592,16 @@ export class MultiplayerGameScene extends Phaser.Scene {
             this.scoreNarval.setText(player.score.toString());
         }
         
+        console.log(`Enviando puntuación al servidor: ${player.score}`);
+
         this.sendMessage({
             type: 'scoreUpdate',
             playerRole: this.playerRole,
             score: player.score,
             roomId: this.roomId
         });
+
+        object.destroy(); //Puede que haga falta borrarlo
     }
     
     pickPowerUp(powerUp, playerId) {
