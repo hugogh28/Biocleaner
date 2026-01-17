@@ -17,6 +17,10 @@ import { createUserRoutes } from './routes/users.js';
 import { createMessageRoutes } from './routes/messages.js';
 import { createConnectionRoutes } from './routes/connections.js';
 
+import { createMatchmakingService } from './services/matchmakingService.js';
+import { createGameRoomService } from './services/gameRoomService.js';
+
+
 // Para obtener __dirname en ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -39,6 +43,10 @@ const connectionController = createConnectionController(connectionService);
 const userRoutes = createUserRoutes(userController);
 const messageRoutes = createMessageRoutes(messageController);
 const connectionRoutes = createConnectionRoutes(connectionController);
+
+const gameRoomService = createGameRoomService();
+const matchmakingService = createMatchmakingService(gameRoomService);
+
 
 // ==================== SERVIDOR ====================
 
@@ -228,3 +236,37 @@ app.listen(PORT, () => {
   console.log(`   - POST   /api/messages`);
   console.log('========================================\n');
 });
+import { WebSocketServer } from 'ws';
+
+// Servidor WebSocket en puerto 3001
+const wss = new WebSocketServer({ port: 3001 });
+
+wss.on('connection', (ws) => {
+  console.log('Cliente conectado al WebSocket');
+
+  ws.on('message', (msg) => {
+    let data;
+    try {
+      data = JSON.parse(msg);
+    } catch (err) {
+      console.error('Mensaje inválido:', msg);
+      return;
+    }
+
+    if (data.type === 'joinQueue') {
+      matchmakingService.joinQueue(ws);
+    }
+
+    if (data.type === 'leaveQueue') {
+      matchmakingService.leaveQueue(ws);
+    }
+  });
+
+  ws.on('close', () => {
+    matchmakingService.leaveQueue(ws);
+    console.log('Jugador desconectado');
+  });
+});
+
+
+console.log('WebSocket escuchando en ws://localhost:3001');

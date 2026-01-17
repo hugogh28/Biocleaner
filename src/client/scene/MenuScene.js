@@ -72,6 +72,8 @@ export class MenuScene extends Phaser.Scene {
             this.scene.start('LocaloOnlineSeleccion');
         });
 
+        
+
         const creditos = this.add.image(350, 400, 'botonCreditos').setOrigin(0.5)   //Botón que lleva a la pantalla de créditos
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () => {

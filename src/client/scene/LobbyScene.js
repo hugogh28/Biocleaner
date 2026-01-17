@@ -15,7 +15,7 @@ export class LobbyScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
-    this.add.image(400,300, 'fondoMenu', 0.5);
+    this.add.image(400,300, 'fondoMenu');
     // Title
     this.add.text(width / 2, 150, 'Online Multiplayer', {
       fontFamily: 'aaaaa',
@@ -45,16 +45,12 @@ export class LobbyScene extends Phaser.Scene {
       this.scene.start('MenuScene');
     });
 
-    // Connect to WebSocket server
     this.connectToServer();
   }
 
   connectToServer() {
-    try {
-      // Connect to WebSocket server (same host as web server)
-      
-      const wsUrl = `ws://${window.location.host}`;
-
+    try {      
+      const wsUrl = 'ws://localhost:3001';
       this.ws = new WebSocket(wsUrl);
 
       this.ws.onopen = () => {
