@@ -90,6 +90,8 @@ export class MultiplayerGameScene extends Phaser.Scene {
         this.powerUpGroup = null;
         this.stickyGroup = null;
         this.spillGroup = null;
+
+        this.endAt = data.endAt || null;
     }
 
     create() {
@@ -129,20 +131,15 @@ export class MultiplayerGameScene extends Phaser.Scene {
         this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         
         // Temporizador de 2 minutos
-        this.timeLeft = 120; // 2 minutos
-        this.timerText = this.add.text(278, 17, "Tiempo: 120", {
+        //this.timeLeft = 120; // 2 minutos
+        this.timerText = this.add.text(278, 17, "Tiempo: --", {
             fontFamily: "aaaaa",
             fontSize: "24px",
             color: "#9da23cff"
         });
-
-        // Evento que se ejecuta cada segundo
-        this.timerEvent = this.time.addEvent({
-            delay: 1000,
-            callback: this.updateTimer,
-            callbackScope: this,
-            loop: true
-        });
+        if (this.endAt) {
+            //this.startSyncedTimer();
+        }
 
         // Generación de pringue
         this.stickyGroup = this.physics.add.group();
@@ -272,16 +269,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
     onConnectionLost() {
         this.scene.pause();
         this.scene.launch('ConnectionLostScene', { previousScene: 'GameScene'});
-    }
-
-    updateTimer() {
-        this.timeLeft--;
-        this.timerText.setText("Tiempo: " + this.timeLeft);
-
-        if (this.timeLeft <= 0) {
-            this.timerEvent.remove(false);
-            this.endGame();
-        }
     }
 
     setUpPlayers() {
@@ -416,6 +403,16 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
             case 'playerDisconnected':
                 this.handleDisconnection();
+                break;
+
+            case 'timerSync':
+                console.log('[TIMER SYNC RECIBIDO]', data);
+                this.endAt = data.endAt;
+                //this.startSyncedTimer();
+                break;
+
+            case 'gameOverTime':
+                this.endGame(null, data.player1Score, data.player2Score);
                 break;
 
             default:
@@ -566,7 +563,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
         this.stickySpawnTimer[id] = this.time.delayedCall(2000, () => {
             this.stickyActive[id] = false;
-            //this.inputsMapping.resume();
             this.players.get(id).setSprite("down");
         });
         this.players.get(id).setSprite("down");
@@ -592,7 +588,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
             this.scoreNarval.setText(player.score.toString());
         }
         
-        // Send score update to server
         this.sendMessage({
             type: 'scoreUpdate',
             playerRole: this.playerRole,
@@ -731,6 +726,13 @@ export class MultiplayerGameScene extends Phaser.Scene {
     }
 
     update() {
+        if (this.endAt && this.timerText) {
+            const remaining = Math.max(
+                0,
+                Math.ceil((this.endAt - Date.now()) / 1000)
+            );
+            this.timerText.setText("Tiempo: " + remaining);
+        }
         if (this.gameEnded || this.isPaused) return;
         
         const player = this.localJugador;
@@ -825,7 +827,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         }
         
         // Stop all timers
-        if (this.timerEvent) this.timerEvent.remove();
+        //if (this.timerEvent) this.timerEvent.remove();
         if (this.trashSpawnTimer) this.trashSpawnTimer.remove();
         if (this.stickySpawnTimer) this.stickySpawnTimer.remove();
         if (this.spillSpawnTimer) this.spillSpawnTimer.remove();

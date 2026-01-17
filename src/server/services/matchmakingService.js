@@ -1,6 +1,3 @@
-/**
- * Matchmaking service - manages player queue and matches players
- */
 export function createMatchmakingService(gameRoomService) {
   const queue = [];
 
@@ -46,32 +43,22 @@ export function createMatchmakingService(gameRoomService) {
       const player1 = queue.shift();
       const player2 = queue.shift();
 
-      // Create a game room
       const roomId = gameRoomService.createRoom(player1.ws, player2.ws);
 
-      // Generate random ball direction
-      const angle = (Math.random() * 60 - 30) * (Math.PI / 180); // -30 to 30 degrees
-      const speed = 300;
-      const ballData = {
-        x: 400,
-        y: 300,
-        vx: speed * Math.cos(angle),
-        vy: speed * Math.sin(angle)
-      };
+      const room = gameRoomService.getRoom(roomId);
 
-      // Notify both players
       player1.ws.send(JSON.stringify({
         type: 'gameStart',
         role: 'player1',
         roomId,
-        ball: ballData
+        endAt: room.endAt
       }));
 
       player2.ws.send(JSON.stringify({
         type: 'gameStart',
         role: 'player2',
         roomId,
-        ball: ballData
+        endAt: room.endAt
       }));
     }
   }

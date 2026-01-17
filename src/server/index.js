@@ -193,15 +193,11 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// SPA Fallback - Servir index.html para todas las rutas que no sean API
-// Esto debe ir DESPUÉS de las rutas de la API y ANTES del error handler
 app.use((req, res, next) => {
-  // Si la petición es a /api/*, pasar al siguiente middleware (404 para APIs)
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'Endpoint no encontrado' });
   }
 
-  // Para cualquier otra ruta, servir el index.html del juego
   res.sendFile(path.join(__dirname, '../../dist/index.html'));
 });
 

@@ -28,14 +28,14 @@ export class LocaloOnlineSeleccion extends Phaser.Scene {
             color: '#e1e674'
         }).setOrigin(0.5);
 
-        const localBtn = this.add.image(300, 400, 'botonJugar').setOrigin(0.5)
+        const localBtn = this.add.image(300, 300, 'botonJugar').setOrigin(0.5)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', async () => {
             this.scene.start('GameScene');
         });
-        this.add.text(300, 300, 'Local');
-        this.add.text(500, 300, 'Online');
-        const onlineBtn = this.add.image(500, 400, 'botonJugar').setOrigin(0.5)
+        this.add.text(300, 200, 'Local');
+        this.add.text(500, 200, 'Online');
+        const onlineBtn = this.add.image(500, 300, 'botonJugar').setOrigin(0.5)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', async () => {
             if (window.sessionId) {
@@ -60,6 +60,11 @@ export class LocaloOnlineSeleccion extends Phaser.Scene {
             }
             this.scene.launch('Login');
             this.scene.pause();
+        });
+         const volverBtn = this.add.image(400, 450, 'botonAtras').setOrigin(0.5)
+        .setInteractive({useHandCursor: true})
+        .on('pointerdown', async () => {
+            this.scene.start('MenuScene');
         });
     }
     
