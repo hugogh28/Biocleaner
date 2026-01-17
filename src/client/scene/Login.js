@@ -30,9 +30,7 @@ export class Login extends Phaser.Scene {
         .setInteractive({ useHandCursor: true }) 
         .on('pointerdown', async () => {  
             const nickname = this.nicknameInput.value.trim();
-
             if (!nickname) return;
-
             try {
                 const res = await fetch('/api/login', {
                     method: 'POST',
@@ -56,7 +54,8 @@ export class Login extends Phaser.Scene {
 
                 // Cerrar login y empezar juego
                 this.scene.stop();
-                this.scene.start('GameScene');
+                this.scene.stop('LocaloOnlineSeleccion');
+                this.scene.start('LobbyScene');
 
             } catch (e) {
                 console.error('Login error', e);
@@ -67,7 +66,7 @@ export class Login extends Phaser.Scene {
         .setInteractive({ useHandCursor: true }) 
         .on('pointerdown', async () => {  
             this.scene.stop();   
-            this.scene.resume('MenuScene');
+            this.scene.resume('LocaloOnlineSeleccion');
         });
 
         // Input HTML

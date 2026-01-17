@@ -102,12 +102,6 @@ export class GameScene extends Phaser.Scene{
        const brightness = this.plugins.get("Brightness");
         brightness.applyToScene(this);
 
-        
-        /*this.add.text(10, 10, `Jugador: ${window.nickname}`, {ç
-            fontFamily: 'aaaaa',
-            fontSize: '16px',
-            color: '#ffffff'
-        });*/
         // Texto Puntuacion
         this.scoreQuoka = this.add.text(100, 30, '0', {
             fontFamily: "aaaaa",
@@ -134,7 +128,7 @@ export class GameScene extends Phaser.Scene{
 
 
         //Temporizador de 2 minutos
-        this.timeLeft = 10; // 2 minutos
+        this.timeLeft = 120; // 2 minutos
         this.timerText = this.add.text(278, 17, "Tiempo: 120", {
             fontFamily: "aaaaa",
             fontSize: "24px",

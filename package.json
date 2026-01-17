@@ -20,7 +20,8 @@
   "description": "Juego Biocleaner para la asignatura Juegos en Red",
   "dependencies": {
     "express": "^5.1.0",
-    "phaser": "^3.90.0"
+    "phaser": "^3.90.0",
+    "ws": "^8.19.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

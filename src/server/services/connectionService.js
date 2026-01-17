@@ -1,3 +1,5 @@
+//import { ContextExclusionPlugin } from "webpack";
+
 /**
  * Service para gestionar las conexiones activas de usuarios
  */
@@ -10,7 +12,7 @@ export function createConnectionService() {
   const CLEANUP_INTERVAL = 2000;    // Limpiar cada 2 segundos
 
   // Limpiar sesiones inactivas periódicamente
-const cleanupInterval = setInterval(() => {
+  const cleanupInterval = setInterval(() => {
     // Implementar
     const disconnectedSessions = [];
 
@@ -38,6 +40,9 @@ const cleanupInterval = setInterval(() => {
      * @returns {number} Número total de sesiones conectadas
      */
     updateConnection(sessionId) {
+      if(!connectedSessions.set(sessionId)){
+        console.log("[ConnectionService] : Nueva sesión conectada:", sessionId);
+      }
       connectedSessions.set(sessionId, Date.now());
       return connectedSessions.size;
     },

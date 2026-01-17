@@ -14,9 +14,26 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        background-color: rgb(44, 145, 188);
+        background-color: #607aa5;
+
+        background-image:
+          url("./assets/Items/bayas.png"),
+          url("./assets/Items/pez.png");
+        background-size:
+          126px 126px,
+          126px 126px;
+        background-repeat:
+          repeat,
+          repeat;
+        background-position:
+          0 0,
+          48px 48px;
+
         font-family: Arial, Helvetica, sans-serif;
+
+        animation: fondoVertical 10s linear infinite;
       }
+
       #game-container {
         box-shadow: 0 0 20px rgb(177, 207, 41);
         animation: cambiarSombra 10s infinite alternate;
@@ -28,6 +45,19 @@
         100% {
           box-shadow: 0 0 20px rgb(0, 140, 255); 
         }sddw
+      }
+
+      @keyframes fondoVertical {
+        from {
+          background-position:
+            0 0,
+            48px 48px;
+        }
+        to {
+          background-position:
+            0 96px,
+            48px 144px;
+        }
       }
       @font-face {
           font-family: "aaaaa";

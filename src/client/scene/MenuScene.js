@@ -21,9 +21,6 @@ export class MenuScene extends Phaser.Scene {
         this.load.image('narval', 'assets/Narval/narval_top_view.png');
         this.load.image('logo', 'assets/Items/logo.png')
 
-        
-
-       
     }
     create() {
 
@@ -31,6 +28,8 @@ export class MenuScene extends Phaser.Scene {
 
         const brightness = this.plugins.get("Brightness");
         brightness.applyToScene(this);
+
+        this.firstClickDone = false;
 
         //Música
         this.musica = this.sound.add("musica_fondo", {
@@ -51,14 +50,6 @@ export class MenuScene extends Phaser.Scene {
             if (this.musica) this.musica.setVolume(v);
         });
 
-       //A veces no sale la fuente correcta hasta quese recarga la escena (entrando y saliendo a otra escena distinta) entonces forzamos la recarga de la página hasta que carge la fuente
-        document.fonts.ready.then(() => {
-            if (!this.fontReady) {
-                this.fontReady = true;
-                this.scene.restart();
-            }
-        });
-
         this.add.image(400, 300, 'fondoMenu').setOrigin(0.5); //Añadimos un fondo
 
         this.add.text(400,50, 'Biocleaner',    //Nombre del juego
@@ -68,82 +59,35 @@ export class MenuScene extends Phaser.Scene {
             color: '#e1e674'
         }).setOrigin(0.5);
 
-        this.add.text(400,125, 'La carreda de Quokka VS Narval',        //Eslogan
+        this.add.text(400,125, 'La carrera de Quokka VS Narval',        //Eslogan
         {   
             fontFamily: "aaaaa",
             fontSize: '18px',
             color: '#e1e674'
         }).setOrigin(0.5);
 
-
         const localBtn = this.add.image(350, 200, 'botonJugar').setOrigin(0.5)     //Botón que lleva a la pantalla de juego
         .setInteractive({useHandCursor: true})
-        
+        .on('pointerdown', () => {
+            this.scene.start('LocaloOnlineSeleccion');
+        });
 
         const creditos = this.add.image(350, 400, 'botonCreditos').setOrigin(0.5)   //Botón que lleva a la pantalla de créditos
         .setInteractive({useHandCursor: true})
-        
-
-        const ajustes = this.add.image(450, 300, 'botonAjustes').setOrigin(0.5)     //Botón que lleva a la pantalla de ajustes
-        .setInteractive({useHandCursor: true})
-        
-
-        const controles = this.add.image(450, 500, 'botonControles').setOrigin(0.5)     //Botón que lleva a la pantalla de controles
-        .setInteractive({useHandCursor: true})
-        
-        // this.input.once("pointerdown", () => {
-
-        //         const settings = this.plugins.get("GlobalSettings");
-
-        //     // Iniciar música desbloqueada por el usuario
-        //     let music = this.sound.get("musica_fondo");
-        //     if (music) {
-        //         music.play({
-        //             volume: settings.getMusicVolume(),
-        //             loop: true
-        //         });
-        //     }
-        
-        // });
-
-        localBtn.on('pointerdown', async () => {
-
-            if (window.sessionId) {
-
-                try {
-                    const res = await fetch('/api/game/start', {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ sessionId: window.sessionId })
-                    });
-
-                    const data = await res.json();
-                    window.gamesPlayed = data.gamesPlayed;
-
-                    console.log('Partidas jugadas:', window.gamesPlayed);
-
-                } catch (e) {
-                    console.error('Error iniciando partida', e);
-                }
-
-                this.scene.start('GameScene');
-                return;
-            }
-
-            //  SI NO HAY SESIÓN, LOGIN
-            this.scene.launch('Login');
-            this.scene.pause();
-        });
-
-        creditos.on('pointerdown', () => {
+        .on('pointerdown', () => {
             this.scene.start('Creditos');
         });
 
-        ajustes.on('pointerdown', () => {
+        const ajustes = this.add.image(450, 300, 'botonAjustes').setOrigin(0.5)     //Botón que lleva a la pantalla de ajustes
+        .setInteractive({useHandCursor: true})
+        .on('pointerdown', () => {
             this.scene.start("Ajustes", { previousScene: "MenuScene" });
         });
 
-        controles.on('pointerdown', () => {
+
+        const controles = this.add.image(450, 500, 'botonControles').setOrigin(0.5)     //Botón que lleva a la pantalla de controles
+        .setInteractive({useHandCursor: true})
+        .on('pointerdown', () => {
             this.scene.start("Controles", { previousScene: "MenuScene" });
         });
 
@@ -162,13 +106,24 @@ export class MenuScene extends Phaser.Scene {
         }).setOrigin(0.5);
         // Listener para cambios de conexión
         this.connectionListener = (data) => {
-                this.updateConnectionDisplay(data);
-            };
-            connectionManager.addListener(this.connectionListener);
-            
+            this.updateConnectionDisplay(data);
+        };
+        connectionManager.addListener(this.connectionListener);
+        
     }
 
-    
+
+    shutdown() {
+        // Remover el listener
+        if (this.connectionListener) {
+            connectionManager.removeListener(this.connectionListener);
+        }
+    }
+
+    update() { //En este update se actualiza el brillo
+        const brightness = this.plugins.get("Brightness");
+        brightness.updateOverlay(this);
+    }
 
     updateConnectionDisplay(data) {
         // Solo actualizar si el texto existe (la escena está creada)
@@ -190,18 +145,5 @@ export class MenuScene extends Phaser.Scene {
             console.error('[MenuScene] Error updating connection display:', error);
         }
     }
-
-    shutdown() {
-        // Remover el listener
-        if (this.connectionListener) {
-            connectionManager.removeListener(this.connectionListener);
-        }
-    }
-
-    update() { //En este update se actualiza el brillo
-        const brightness = this.plugins.get("Brightness");
-        brightness.updateOverlay(this);
-    }
-
 
 }
