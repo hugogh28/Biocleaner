@@ -661,6 +661,9 @@ export class GameScene extends Phaser.Scene{
         this.isPaused  = isPaused;
 
         if(this.isPaused){
+            if(this.musica && this.musica.isPlaying){
+                this.musica.pause();
+            }
             this.scene.launch('PauseScene', {originalScene: 'GameScene'});
             this.scene.pause();
         }
@@ -671,6 +674,9 @@ export class GameScene extends Phaser.Scene{
     }
     resume(){
         this.isPaused = false;
+        if(this.musica && this.musica.isPaused){
+            this.musica.resume();
+        }
     }
 
     update(){

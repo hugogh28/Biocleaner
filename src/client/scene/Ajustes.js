@@ -11,6 +11,9 @@ export class Ajustes extends Phaser.Scene {
         this.load.image('fondo_Ajustes', 'assets/Fondos/quokka_perdedor.png');
         this.load.image('pez', 'assets/Items/pez.png');     
         this.load.image('bayas', 'assets/Items/bayas.png'); 
+
+        this.load.audio('musica_ascensor', 'assets/Sonido/musicaAscensor.mp3');
+
     }
 
     init(data) {
@@ -24,6 +27,19 @@ export class Ajustes extends Phaser.Scene {
 
         brightnessPlugin.applyToScene(this); // Se aplica el brillo
 
+        //Música
+        this.musica = this.sound.add("musica_ascensor", {
+            volume: settings.getMusicVolume(),
+            loop: true
+        });
+
+        this.musica.play();
+        this.events.on("shutdown", () => {
+            if (this.musica) {
+                this.musica.stop();
+                this.musica.destroy();
+            }
+        });
         // Se dibuja el fondo y panel central
         this.add.image(400, 300, 'fondo_Ajustes').setOrigin(0.5);
         this.add.rectangle(400, 300, 700, 500, 0x444b3c, 0.7);

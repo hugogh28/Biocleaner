@@ -11,6 +11,17 @@ export class Controles extends Phaser.Scene {
         this.load.image('botonExplicacion', 'assets/Botones/explicacion.png');
         this.load.image('botonControles', 'assets/Botones/controles.png');
         this.load.image('fondoControles', 'assets/Fondos/narval_perdedor.png');
+
+
+        this.load.image('w', 'assets/Botones/W.png');
+        this.load.image('a', 'assets/Botones/A.png');
+        this.load.image('s', 'assets/Botones/S.png');
+        this.load.image('d', 'assets/Botones/D.png');
+
+        this.load.image('flecha1', 'assets/Botones/Flecha_Arr.png');
+        this.load.image('flecha2', 'assets/Botones/Flecha_Aba.png');
+        this.load.image('flecha3', 'assets/Botones/Flecha_Der.png');
+        this.load.image('flecha4', 'assets/Botones/Flecha_Izq.png');
     }
 
     init(data) {
@@ -37,47 +48,7 @@ export class Controles extends Phaser.Scene {
                 color: '#e1e674'
             }).setOrigin(0.5),
             
-            this.add.text(200, 175, 'Quokka',
-                {
-                    fontFamily: "aaaaa",
-                    fontSize: '20px',
-                    color: '#e1e674'
-                }
-            ).setOrigin(0.5),
-
-            this.add.text(200, 225, 'Izquierda: "A"',
-                {
-                    fontFamily: "aaaaa",
-                    fontSize: '12px',
-                    color: '#e1e674'
-                }
-            ).setOrigin(0.5),
-
-            this.add.text(200, 275, 'Derecha: "D"',
-                {
-                    fontFamily: "aaaaa",
-                    fontSize: '12px',
-                    color: '#e1e674'
-                }
-            ).setOrigin(0.5),
-
-            this.add.text(200, 325, 'Arriba: "W"',
-                {
-                    fontFamily: "aaaaa",
-                    fontSize: '12px',
-                    color: '#e1e674'
-                }
-            ).setOrigin(0.5),
-
-            this.add.text(200, 375, 'Abajo: "S"',
-                {
-                    fontFamily: "aaaaa",
-                    fontSize: '12px',
-                    color: '#e1e674'
-                }
-            ).setOrigin(0.5),
-
-            this.add.text(600, 175, 'Narval',
+            this.add.text(250, 200, 'Quokka',
                 {
                     fontFamily: "aaaaa",
                     fontSize: '20px',
@@ -85,41 +56,30 @@ export class Controles extends Phaser.Scene {
                 }
             ).setOrigin(0.5),
             
-            this.add.text(600, 225, 'Izquierda: "←"',
+            this.add.image(250, 275, 'w').setOrigin(0.5),
+            this.add.image(170, 350, 'a').setOrigin(0.5),
+            this.add.image(250, 350, 's').setOrigin(0.5),
+            this.add.image(330, 350, 'd').setOrigin(0.5),
+            
+
+            this.add.text(575, 200, '    Narval/ \nversión online',
                 {
                     fontFamily: "aaaaa",
-                    fontSize: '12px',
+                    fontSize: '20px',
                     color: '#e1e674'
                 }
             ).setOrigin(0.5),
             
-            this.add.text(600, 275, 'Derecha: "→"',
-                {
-                    fontFamily: "aaaaa",
-                    fontSize: '12px',
-                    color: '#e1e674'
-                }
-            ).setOrigin(0.5),
-
-            this.add.text(600, 325, 'Arriba: "↑"',
-                {
-                    fontFamily: "aaaaa",
-                    fontSize: '12px',
-                    color: '#e1e674'
-                }
-            ).setOrigin(0.5),
-
-            this.add.text(600, 375, 'Abajo: "↓"',
-                {
-                    fontFamily: "aaaaa",
-                    fontSize: '12px',
-                    color: '#e1e674'
-                }
-            ).setOrigin(0.5),
+            
+            this.add.image(575, 275, 'flecha1').setOrigin(0.5),
+            this.add.image(495, 350, 'flecha4').setOrigin(0.5),
+            this.add.image(575, 350, 'flecha2').setOrigin(0.5),
+            this.add.image(655, 350, 'flecha3').setOrigin(0.5),
+            
         ]);
 
         //botón para volver
-        const botonCambiar = this.add.image(600, 500, 'botonExplicacion')
+        const botonCambiar = this.add.image(575, 500, 'botonExplicacion')
         .setOrigin(0.5)
         .setInteractive()
         .on('pointerdown', () => {
@@ -136,10 +96,9 @@ export class Controles extends Phaser.Scene {
                 this.controlesContainer.setVisible(true);
                 this.explicacionContainer.setVisible(false);
             }
-            /*
-            botonCambiar.setText(
-                this.mostrandoControles ? 'Ver explicación' : 'Ver controles'
-            );*/
+            botonCambiar.setTexture(
+                this.mostrandoControles ? 'botonExplicacion' : 'botonControles'
+            );
         });
 
         
@@ -163,7 +122,7 @@ export class Controles extends Phaser.Scene {
             ).setOrigin(0.5)
         ]);
 
-        this.add.image(300, 500, "botonVolver",)
+        this.add.image(250, 500, "botonVolver",)
         .setInteractive()
         .on("pointerdown", () => {
              this.scene.stop();
