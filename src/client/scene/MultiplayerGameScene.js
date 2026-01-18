@@ -116,6 +116,11 @@ export class MultiplayerGameScene extends Phaser.Scene {
         this.stickyGroup = null;
         this.spillGroup = null;
 
+        this.stickySpawnTimer = {
+            'player1': null,
+            'player2': null
+        };
+
         this.endAt = data.endAt || null;
     }
 
@@ -164,41 +169,48 @@ export class MultiplayerGameScene extends Phaser.Scene {
             color: "#9da23cff"
         });
 
-        // Generación de pringue
+
+        //Grupos de objetos
         this.stickyGroup = this.physics.add.group();
-        this.stickySpawnTimer = this.time.addEvent({
-            delay: 10000,
-            callback: this.spawnSticky,
-            callbackScope: this,
-            loop: true
-        });
+        this.trashGroup = this.physics.add.group();
+        this.powerUpGroup = this.physics.add.group();
+        this.spillGroup = this.physics.add.group();
+
+        if(this.playerRole === 'player1'){
+            this.stickyGenerationTimer = this.time.addEvent({
+                delay: 10000,
+                callback: this.spawnSticky,
+                callbackScope: this,
+                loop: true
+            });
         
         // Generación de basura
-        this.trashGroup = this.physics.add.group();
-        this.trashSpawnTimer = this.time.addEvent({
-            delay: 700,
-            callback: this.spawnTrash,
-            callbackScope: this,
-            loop: true
-        });
+        
+            this.trashSpawnTimer = this.time.addEvent({
+                delay: 700,
+                callback: this.spawnTrash,
+                callbackScope: this,
+                loop: true
+            });
 
         // Generación de Power Ups
-        this.powerUpGroup = this.physics.add.group();
-        this.time.addEvent({
-            delay: 5000, 
-            callback: this.trySpawnPowerUp,
-            callbackScope: this,
-            loop: true
-        }); 
+        
+            this.time.addEvent({
+                delay: 5000, 
+                callback: this.trySpawnPowerUp,
+                callbackScope: this,
+                loop: true
+            }); 
 
         // Generación de vertidos
-        this.spillGroup = this.physics.add.group();
-        this.spillSpawnTimer = this.time.addEvent({
-            delay: 5000,
-            callback: this.spawnSpill,
-            callbackScope: this,
-            loop: true
-        });
+        
+            this.spillSpawnTimer = this.time.addEvent({
+                delay: 5000,
+                callback: this.spawnSpill,
+                callbackScope: this,
+                loop: true
+            });
+        }
         
         // Sonido de gaviota
         this.seagullSoundTimer = this.time.addEvent({
@@ -478,6 +490,14 @@ export class MultiplayerGameScene extends Phaser.Scene {
                 this.scoreNarval.setText(data.player2Score.toString());
                 break;
 
+            case 'syncObjects':
+                this.createSyncedObjects(data);
+                break;
+
+            case 'delObjects':
+                this.deleteObjectById(data.objectType, data.id);
+                break;
+
             case 'gameOver':
                 this.endGame(data.winner, data.player1Score, data.player2Score);
                 break;
@@ -498,6 +518,140 @@ export class MultiplayerGameScene extends Phaser.Scene {
             default:
                 console.log('Unknown message type:', data.type);
         }
+    }
+
+    createSyncedObjects(data){
+        data.stickyGroup.forEach(obj => {
+            const exists = this.stickyGroup.getChildren().some(child => 
+                child.objectId === obj.id
+            );
+            
+            if (!exists) {
+                const key = 'pringue';
+                const sprite = this.physics.add.sprite(obj.x, obj.y, key);
+                sprite.setDisplaySize(obj.size, obj.size);
+                sprite.objectId = obj.id;
+                sprite.objectType = 'sticky';
+                this.stickyGroup.add(sprite);
+                this.addCollisionsForObject(sprite, 'sticky');
+                
+                console.log(`[P2 SYNC] Creado powerUp con ID ${obj.id}`);
+            }
+        });
+
+        data.trashGroup.forEach(obj => {
+            const exists = this.trashGroup.getChildren().some(child => 
+                child.objectId === obj.id
+            );
+            
+            if (!exists) {
+                const key = 'basura';
+                const sprite = this.physics.add.sprite(obj.x, obj.y, key);
+                sprite.setDisplaySize(obj.size, obj.size);
+                sprite.objectId = obj.id;
+                sprite.objectType = 'trash';
+                this.trashGroup.add(sprite);
+                this.addCollisionsForObject(sprite, 'trash');
+                
+                console.log(`[P2 SYNC] Creado powerUp con ID ${obj.id}`);
+            }
+        });
+
+        // PowerUps necesitan lógica especial por las diferentes imágenes
+        data.powerUpGroup.forEach(obj => {
+            const exists = this.powerUpGroup.getChildren().some(child => 
+                child.objectId === obj.id
+            );
+            
+            if (!exists) {
+                const key = obj.x <= 400 ? 'powerQuoka' : 'powerNarval';
+                const sprite = this.physics.add.sprite(obj.x, obj.y, key);
+                sprite.setDisplaySize(obj.size, obj.size);
+                sprite.objectId = obj.id;
+                sprite.objectType = 'powerUp';
+                this.powerUpGroup.add(sprite);
+                this.addCollisionsForObject(sprite, 'powerUp');
+                
+                console.log(`[P2 SYNC] Creado powerUp con ID ${obj.id}`);
+            }
+        });
+
+        data.spillGroup.forEach(obj => {
+            const exists = this.spillGroup.getChildren().some(child => 
+                child.objectId === obj.id
+            );
+        
+            if (!exists) {
+                // x <= 400 = lado izquierdo (Quokka/Tierra) = vertido (tierra)
+                // x > 400 = lado derecho (Narval/Agua) = vertido1 (agua)
+                const key = obj.x <= 400 ? 'vertido' : 'vertido1';
+                const sprite = this.physics.add.sprite(obj.x, obj.y, key);
+                sprite.setDisplaySize(obj.size, obj.size);
+                sprite.objectId = obj.id;
+                sprite.objectType = 'spill';
+                this.spillGroup.add(sprite);
+                this.addCollisionsForObject(sprite, 'spill');
+            
+            console.log(`[P2 SYNC] Creado spill con sprite ${key} en x=${obj.x}, ID ${obj.id}`);
+            }
+        });
+    }
+
+    addCollisionsForObject(sprite, objectType) {
+        const p1 = this.players.get("player1").sprite;
+        const p2 = this.players.get("player2").sprite;
+        
+        switch(objectType) {
+            case 'sticky':
+                this.physics.add.overlap(p1, sprite, () => this.throwSticky(sprite, 2, 10));
+                this.physics.add.overlap(p2, sprite, () => this.throwSticky(sprite, 1, 10));
+                break;
+            case 'trash':
+                this.physics.add.overlap(p1, sprite, () => this.collect(sprite, 1, 5));
+                this.physics.add.overlap(p2, sprite, () => this.collect(sprite, 2, 5));
+                break;
+            case 'spill':
+                this.physics.add.overlap(p1, sprite, () => this.collect(sprite, 1, 10));
+                this.physics.add.overlap(p2, sprite, () => this.collect(sprite, 2, 10));
+                break;
+            case 'powerUp':
+                this.physics.add.overlap(p1, sprite, () => this.pickPowerUp(sprite, "player1"));
+                this.physics.add.overlap(p2, sprite, () => this.pickPowerUp(sprite, "player2"));
+                break;
+        }
+    }
+
+    deleteObjectById(objectType, id) {
+        let group;
+        switch(objectType) {
+            case 'sticky': group = this.stickyGroup; break;
+            case 'trash': group = this.trashGroup; break;
+            case 'powerUp': group = this.powerUpGroup; break;
+            case 'spill': group = this.spillGroup; break;
+        }
+        
+        if (group) {
+            const sprite = group.getChildren().find(child => child.objectId === id);
+            if (sprite) {
+                console.log(`[DELETE LOCAL] Destruyendo ${objectType} con ID ${id}`);
+                sprite.destroy();
+            } else {
+                console.log(`[DELETE LOCAL] No se encontró ${objectType} con ID ${id}`);
+            }
+        }
+    }
+
+    sendObjectsToServer(objectType, x,y,size,id){
+        //if(this.ws && this.ws.readyState === WebSocket.OPEN)
+        this.ws.send(JSON.stringify({
+            type: 'syncObjects',
+            roomId: this.roomId,
+            objectType : objectType,
+            x: x,
+            y: y,
+            size:size,
+            id: id
+        }));
     }
 
     trySpawn(chance, effectActive) {
@@ -539,7 +693,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         }
     }
     
-    spawn(targetPlayer, x11, y11, x21, y21, x12, y12, x22, y22, key1, key2, spriteSize, objectGroup, tiempoEnPantalla, p1, p2) {
+    spawn(objectType, targetPlayer, x11, y11, x21, y21, x12, y12, x22, y22, key1, key2, spriteSize, objectGroup, tiempoEnPantalla, p1, p2) {
         let x, y;
         let object;
         
@@ -551,12 +705,27 @@ export class MultiplayerGameScene extends Phaser.Scene {
             object = this.physics.add.sprite(x, y, key2);
         }
     
+        const id = Date.now() + '-' + Math.random();
+        object.objectId = id;
+        object.objectType = objectType;
         object.setDisplaySize(spriteSize, spriteSize);
-        objectGroup.add(object); 
+        objectGroup.add(object);
     
+        this.sendObjectsToServer(objectType, x, y, spriteSize, id);
+
         this.time.delayedCall(tiempoEnPantalla, () => {
-            if(object.active) object.destroy();
+            if(object.active) {
+                // Enviar mensaje de eliminación
+                this.sendMessage({
+                    type: 'delObjects',
+                    objectType: objectType,
+                    id: id,
+                    roomId: this.roomId
+                });
+                object.destroy();
+            }
         });
+
     
         return object;
     }
@@ -570,7 +739,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         const p1 = this.players.get("player1").sprite;
         const p2 = this.players.get("player2").sprite;
         
-        let sticky = this.spawn(targetPlayer, 400, 400, 150, 550, 400, 400, 150, 550, "pringue", "pringue", 40, this.stickyGroup, 7000, p1, p2);
+        let sticky = this.spawn('sticky',targetPlayer, 400, 400, 150, 550, 400, 400, 150, 550, "pringue", "pringue", 40, this.stickyGroup, 7000, p1, p2);
     
         this.physics.add.overlap(p1, sticky, () => this.throwSticky(sticky, 2, 10));
         this.physics.add.overlap(p2, sticky, () => this.throwSticky(sticky, 1, 10));
@@ -584,7 +753,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         const p1 = this.players.get("player1").sprite;
         const p2 = this.players.get("player2").sprite;
     
-        let trash = this.spawn(targetPlayer, 30, 340, 150, 550, 460, 770, 150, 550, "basura", "basura", 40, this.trashGroup, 7000, p1, p2);
+        let trash = this.spawn('trash',targetPlayer, 30, 340, 150, 550, 460, 770, 150, 550, "basura", "basura", 40, this.trashGroup, 7000, p1, p2);
     
         this.physics.add.overlap(p1, trash, () => this.collect(trash, 1, 5));
         this.physics.add.overlap(p2, trash, () => this.collect(trash, 2, 5));
@@ -598,7 +767,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         const p1 = this.players.get("player1").sprite;
         const p2 = this.players.get("player2").sprite;
     
-        let spill = this.spawn(targetPlayer, 30, 340, 150, 550, 460, 770, 150, 550, "vertido", "vertido1", 80, this.spillGroup, 7000, p1, p2);
+        let spill = this.spawn('spill',targetPlayer, 30, 340, 150, 550, 460, 770, 150, 550, "vertido", "vertido1", 80, this.spillGroup, 7000, p1, p2);
     
         this.physics.add.overlap(p1, spill, () => this.collect(spill, 1, 10));
         this.physics.add.overlap(p2, spill, () => this.collect(spill, 2, 10));
@@ -609,7 +778,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         const p1 = this.players.get("player1").sprite;
         const p2 = this.players.get("player2").sprite;
     
-        let powerUp = this.spawn(playerId, 50, 340, 150, 550, 460, 750, 150, 550, "powerQuoka", "powerNarval", 120, this.powerUpGroup, 15000, p1, p2);
+        let powerUp = this.spawn('powerUp',playerId, 50, 340, 150, 550, 460, 750, 150, 550, "powerQuoka", "powerNarval", 120, this.powerUpGroup, 15000, p1, p2);
     
         this.physics.add.overlap(p1, powerUp, () => this.pickPowerUp(powerUp, "player1"));
         this.physics.add.overlap(p2, powerUp, () => this.pickPowerUp(powerUp, "player2"));
@@ -619,6 +788,14 @@ export class MultiplayerGameScene extends Phaser.Scene {
         if(!sticky.active) return;
 
         this.pleugh2.play();
+
+        this.sendMessage({
+            type: 'delObjects',
+            objectType: 'sticky',
+            id: sticky.objectId,
+            roomId: this.roomId
+        });
+
         sticky.destroy();
 
         //Consigue que jugador la lanza
@@ -652,6 +829,13 @@ export class MultiplayerGameScene extends Phaser.Scene {
     collect(object, playerNumber, score) {
         if(!object.active) return;
         
+        this.sendMessage({
+            type: 'delObjects',
+            objectType: object.objectType,
+            id: object.objectId,
+            roomId: this.roomId
+        });
+        
         this.recogerBasura.play();
         object.destroy();
     
@@ -677,13 +861,20 @@ export class MultiplayerGameScene extends Phaser.Scene {
             roomId: this.roomId
         });
 
-        object.destroy(); //Puede que haga falta borrarlo
     }
     
     pickPowerUp(powerUp, playerId) {
         if (!powerUp.active) return;
     
         this.powerUpSound.play();
+
+        this.sendMessage({
+            type: 'delObjects',
+            objectType: 'powerUp',
+            id: powerUp.objectId,
+            roomId: this.roomId
+        });
+
         powerUp.destroy();
     
         // Activar el efecto

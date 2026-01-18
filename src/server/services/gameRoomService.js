@@ -22,6 +22,11 @@ export function createGameRoomService() {
         ws: player2Ws,
         score: 0
       },
+      //Sincronización de objetos
+      stickyGroup: [],
+      trashGroup: [],
+      powerUpGroup:[],
+      spillGroup:[],
       active: true,
       endAt
     };
@@ -127,6 +132,94 @@ export function createGameRoomService() {
     }
   }
 
+  ////////////////////////////////////// SUJETO A REVISIÓN ////////////////////////////////
+
+  function handleObjectsPosition(ws,data){
+    const currentRoom = rooms.get(ws.roomId);
+    if(!currentRoom||!currentRoom.active) return;
+
+    const {objectType, x, y, size, id} = data;
+    
+    switch(objectType){
+      case 'sticky':
+        currentRoom.stickyGroup.push({
+          objectType: 'sticky',
+          x, y, size, id
+        });
+        break;
+      case 'trash':
+        currentRoom.trashGroup.push({
+          objectType: 'trash',
+          x, y, size, id
+        });
+        break;
+      case 'powerUp':
+        currentRoom.powerUpGroup.push({
+          objectType: 'powerUp',
+          x, y, size, id
+        });
+        break;
+      case 'spill':
+        currentRoom.spillGroup.push({
+          objectType: 'spill',
+          x, y, size, id
+        });
+        break;
+    }
+
+    const msg = {
+      type: 'syncObjects',
+      stickyGroup: currentRoom.stickyGroup,
+      trashGroup: currentRoom.trashGroup,
+      powerUpGroup: currentRoom.powerUpGroup,
+      spillGroup: currentRoom.spillGroup
+    };
+
+    if(currentRoom.player1.ws.readyState === 1) {
+      currentRoom.player1.ws.send(JSON.stringify(msg));
+    }
+    if(currentRoom.player2.ws.readyState === 1) {
+      currentRoom.player2.ws.send(JSON.stringify(msg));
+    }
+  }
+
+  function handleDeleteObjects(ws,data){
+    const currentRoom = rooms.get(ws.roomId);
+    if(!currentRoom||!currentRoom.active) return;
+
+    const{objectType, id} = data;
+
+    switch(objectType){
+      case 'sticky':
+        currentRoom.stickyGroup = currentRoom.stickyGroup.filter(obj=> obj.id !== id);
+        break;
+      case 'trash':
+        currentRoom.trashGroup = currentRoom.trashGroup.filter(obj=> obj.id !== id);
+        break;
+      case 'powerUp':
+        currentRoom.powerUpGroup = currentRoom.powerUpGroup.filter(obj=> obj.id !== id);
+        break;
+      case 'spill':
+        currentRoom.spillGroup = currentRoom.spillGroup.filter(obj=> obj.id !== id);
+        break;
+    }
+
+    const msg = {
+      type: 'delObjects',
+      objectType: objectType,
+      id: id
+    };
+
+    if(currentRoom.player1.ws.readyState === 1) {
+      currentRoom.player1.ws.send(JSON.stringify(msg));
+    }
+    if(currentRoom.player2.ws.readyState === 1) {
+      currentRoom.player2.ws.send(JSON.stringify(msg));
+    }
+  }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   function handleDisconnect(ws) {
     if (!ws.roomId) return;
 
@@ -169,6 +262,8 @@ export function createGameRoomService() {
     handlePlayerMove,
     handleScoreUpdate,
     handleDisconnect,
+    handleObjectsPosition, //DE HUGO
+    handleDeleteObjects, //DE HUGO
     getActiveRoomCount
   };
 }
