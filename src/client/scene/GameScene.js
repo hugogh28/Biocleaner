@@ -24,10 +24,22 @@ export class GameScene extends Phaser.Scene{
         this.load.image('toxicoTierra', 'assets/Items/basura_tierra1.png');
 
         //Quokka
-        this.load.image('quokaFrente', 'assets/Quokka/quokka_front_view.png');
-        this.load.image('quokaAtras', 'assets/Quokka/quokka_back_view.png');
-        this.load.image('quokaIzquierda', 'assets/Quokka/quokka_side1_view.png');
-        this.load.image('quokaDerecha', 'assets/Quokka/quokka_side_view.png');
+        this.load.spritesheet('quokkaFrente', 'assets/Quokka/quokka_front_view_animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaAtras', 'assets/Quokka/quokka_back_view_animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaIzquierda', 'assets/Quokka/quokka_side2_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaDerecha', 'assets/Quokka/quokka_side1_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
 
         //Con PowerUps
         this.load.image('quokaFrenteP', 'assets/Quokka/quokka_front_viewG.png');
@@ -40,10 +52,22 @@ export class GameScene extends Phaser.Scene{
                 
 
         //Narval
-        this.load.image('narvalFrente', 'assets/Narval/narval_top_view.png');
-        this.load.image('narvalAtras', 'assets/Narval/narval_down_view.png');
-        this.load.image('narvalIzquierda', 'assets/Narval/narval_izquierda_view.png');
-        this.load.image('narvalDerecha', 'assets/Narval/narval_derecha_view.png');
+        this.load.spritesheet('narvalFrente', 'assets/Narval/narval_down_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalAtras', 'assets/Narval/narval_top_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalIzquierda', 'assets/Narval/narval_side2_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalDerecha', 'assets/Narval/narval_side1_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
 
         //Con PowerUps
         this.load.image('narvalFrenteP', 'assets/Narval/narval_top_viewG.png');
@@ -102,6 +126,7 @@ export class GameScene extends Phaser.Scene{
        const brightness = this.plugins.get("Brightness");
         brightness.applyToScene(this);
 
+        this.createAnimations();
         // Texto Puntuacion
         this.scoreQuoka = this.add.text(100, 30, '0', {
             fontFamily: "aaaaa",
@@ -285,6 +310,60 @@ export class GameScene extends Phaser.Scene{
             this.timerEvent.remove(false);
             this.endGame();
         }
+    }
+
+    createAnimations(){
+        //Quokka
+        this.anims.create({
+            key: 'quokka_walk_front',
+            frames: this.anims.generateFrameNumbers('quokkaFrente', {start: 0, end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_back',
+            frames: this.anims.generateFrameNumbers('quokkaAtras', {start: 0, end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_left',
+            frames: this.anims.generateFrameNumbers('quokkaIzquierda', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_right',
+            frames: this.anims.generateFrameNumbers('quokkaDerecha', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        //Narval
+        this.anims.create({
+            key: 'narval_walk_front',
+            frames: this.anims.generateFrameNumbers('narvalFrente', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'narval_walk_back',
+            frames: this.anims.generateFrameNumbers('narvalAtras', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'narval_walk_left',
+            frames: this.anims.generateFrameNumbers('narvalIzquierda', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'narval_walk_right',
+            frames: this.anims.generateFrameNumbers('narvalDerecha', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        })
     }
 
     setUpPLayers() {
@@ -600,27 +679,37 @@ export class GameScene extends Phaser.Scene{
         }
         this.inputsMapping.forEach(mapping=>{
             const Personajes = this.players.get(mapping.playerId);
+            let isMoving = false;
+            let currentDirection = null;
+
             if(mapping.upKeyObj.isDown){
                 Personajes.sprite.setVelocityY(-Personajes.baseSpeed);
                 Personajes.sprite.setVelocityX(0);
-                Personajes.setSprite("up");
+                currentDirection = "up";
+                isMoving = true;
             }else if(mapping.downKeyObj.isDown){
                 Personajes.sprite.setVelocityY(+Personajes.baseSpeed);
                 Personajes.sprite.setVelocityX(0);
-                Personajes.setSprite("down");
+                currentDirection = "down";
+                isMoving = true;
             }else if(mapping.leftKeyObj.isDown){
                 Personajes.sprite.setVelocityX(-Personajes.baseSpeed);
                 Personajes.sprite.setVelocityY(0);
-                Personajes.setSprite("left");
+                currentDirection = "left";
+                isMoving = true;
             }else if(mapping.rightKeyObj.isDown){
                 Personajes.sprite.setVelocityX(+Personajes.baseSpeed);
                 Personajes.sprite.setVelocityY(0);
-                Personajes.setSprite("right");
+                currentDirection = "right";
+                isMoving = true;
             }else{
                 Personajes.sprite.setVelocity(0,0);
-                Personajes.setSprite("down");
+                currentDirection = Personajes.lastDirection || "down";
+                isMoving = false;
             }
 
+            // Aplicar sprite con el estado de movimiento
+            Personajes.setSprite(currentDirection, isMoving);
 
             //Limitamos el movimiento a la mitad de la pantalla para que no puedan pasar al otro lado
             if (mapping.playerId === "player1") {

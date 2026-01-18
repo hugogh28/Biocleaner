@@ -28,34 +28,59 @@ export class MultiplayerGameScene extends Phaser.Scene {
         this.load.image('toxicAgua', 'assets/Items/residuo_toxico_agua.png');
         this.load.image('toxicoTierra', 'assets/Items/basura_tierra1.png');
 
-        // Quokka
-        this.load.image('quokaFrente', 'assets/Quokka/quokka_front_view.png');
-        this.load.image('quokaAtras', 'assets/Quokka/quokka_back_view.png');
-        this.load.image('quokaIzquierda', 'assets/Quokka/quokka_side1_view.png');
-        this.load.image('quokaDerecha', 'assets/Quokka/quokka_side_view.png');
+        //Quokka
+        this.load.spritesheet('quokkaFrente', 'assets/Quokka/quokka_front_view_animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaAtras', 'assets/Quokka/quokka_back_view_animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaIzquierda', 'assets/Quokka/quokka_side2_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaDerecha', 'assets/Quokka/quokka_side1_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
 
-        // Con PowerUps
+        //Con PowerUps
         this.load.image('quokaFrenteP', 'assets/Quokka/quokka_front_viewG.png');
         this.load.image('quokaAtrasP', 'assets/Quokka/quokka_back_viewG.png');
         this.load.image('quokaIzquierdaP', 'assets/Quokka/quokka_side1_viewG.png');
         this.load.image('quokaDerechaP', 'assets/Quokka/quokka_side_viewG.png');
 
-        // Afectado por el pringue
+        //Afectado por el pringue
         this.load.image('pringueQuokka', 'assets/Quokka/basura_tierra3.png');
                 
-        // Narval
-        this.load.image('narvalFrente', 'assets/Narval/narval_top_view.png');
-        this.load.image('narvalAtras', 'assets/Narval/narval_down_view.png');
-        this.load.image('narvalIzquierda', 'assets/Narval/narval_izquierda_view.png');
-        this.load.image('narvalDerecha', 'assets/Narval/narval_derecha_view.png');
 
-        // Con PowerUps
+        //Narval
+        this.load.spritesheet('narvalFrente', 'assets/Narval/narval_down_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalAtras', 'assets/Narval/narval_top_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalIzquierda', 'assets/Narval/narval_side2_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalDerecha', 'assets/Narval/narval_side1_view-animation.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+
+        //Con PowerUps
         this.load.image('narvalFrenteP', 'assets/Narval/narval_top_viewG.png');
         this.load.image('narvalAtrasP', 'assets/Narval/narval_down_viewG.png');
         this.load.image('narvalIzquierdaP', 'assets/Narval/narval_izquierda_viewG.png');
         this.load.image('narvalDerechaP', 'assets/Narval/narval_derecha_viewG.png');
 
-        // Afectado por el pringue
+        //Afectado por el pringue
         this.load.image('pringueNarval', 'assets/Narval/residuo_toxico_aguaS.png');
 
         // Efectos de sonido
@@ -99,6 +124,8 @@ export class MultiplayerGameScene extends Phaser.Scene {
         this.add.image(400, 300, 'fondo').setOrigin(0.5);
         const brightness = this.plugins.get("Brightness");
         brightness.applyToScene(this);
+
+        this.createAnimations();
 
         // Texto Puntuacion
         this.scoreQuoka = this.add.text(100, 30, '0', {
@@ -265,6 +292,60 @@ export class MultiplayerGameScene extends Phaser.Scene {
     onConnectionLost() {
         this.scene.pause();
         this.scene.launch('ConnectionLostScene', { previousScene: 'GameScene'});
+    }
+
+    createAnimations(){
+        //Quokka
+        this.anims.create({
+            key: 'quokka_walk_front',
+            frames: this.anims.generateFrameNumbers('quokkaFrente', {start: 0, end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_back',
+            frames: this.anims.generateFrameNumbers('quokkaAtras', {start: 0, end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_left',
+            frames: this.anims.generateFrameNumbers('quokkaIzquierda', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_right',
+            frames: this.anims.generateFrameNumbers('quokkaDerecha', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        //Narval
+        this.anims.create({
+            key: 'narval_walk_front',
+            frames: this.anims.generateFrameNumbers('narvalFrente', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'narval_walk_back',
+            frames: this.anims.generateFrameNumbers('narvalAtras', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'narval_walk_left',
+            frames: this.anims.generateFrameNumbers('narvalIzquierda', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'narval_walk_right',
+            frames: this.anims.generateFrameNumbers('narvalDerecha', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        })
     }
 
     setUpPlayers() {
@@ -739,35 +820,39 @@ export class MultiplayerGameScene extends Phaser.Scene {
         player.sprite.setVelocity(0, 0);
         
         let currentDirection = null;
+        let isMoving = false;
         
         if (this.cursors.up.isDown) {
             player.sprite.setVelocityY(-player.baseSpeed);
             player.sprite.setVelocityX(0);
-            player.setSprite("up");
             currentDirection = "up";
+            isMoving = true;
         } else if (this.cursors.down.isDown) {
             player.sprite.setVelocityY(player.baseSpeed);
             player.sprite.setVelocityX(0);
-            player.setSprite("down");
             currentDirection = "down";
+            isMoving = true;
         } else if (this.cursors.left.isDown) {
             player.sprite.setVelocityX(-player.baseSpeed);
             player.sprite.setVelocityY(0);
-            player.setSprite("left");
             currentDirection = "left";
+            isMoving = true;
         } else if (this.cursors.right.isDown) {
             player.sprite.setVelocityX(player.baseSpeed);
             player.sprite.setVelocityY(0);
-            player.setSprite("right");
             currentDirection = "right";
+            isMoving = true;
         } else {
-            player.sprite.setVelocity(0, 0);
-            player.setSprite("down");
-            currentDirection = "down";
+            currentDirection = this.lastDirection || "down";
+            isMoving = false;
         }
         
-        // Guardar la dirección actual
+        // Aplicar sprite con el estado de movimiento
+        player.setSprite(currentDirection, isMoving);
+        
+        // Guardar la dirección actual Y el estado de movimiento
         this.lastDirection = currentDirection;
+        this.lastIsMoving = isMoving;  // NUEVO: Guardar isMoving
         
         if (this.playerRole === 'player1') {
             player.sprite.x = Phaser.Math.Clamp(player.sprite.x, 0, 400);
@@ -781,10 +866,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         
         const brightness = this.plugins.get("Brightness");
         brightness.updateOverlay(this);
-        
     }
-    
-    
     sendPlayerPosition() {
         if (this.ws && this.ws.readyState === WebSocket.OPEN && this.localJugador) {
             const message = {
@@ -793,7 +875,8 @@ export class MultiplayerGameScene extends Phaser.Scene {
                 playerRole: this.playerRole,
                 x: this.localJugador.sprite.x,
                 y: this.localJugador.sprite.y,
-                direction: this.lastDirection || 'down'
+                direction: this.lastDirection || 'down',
+                isMoving: this.lastIsMoving !== undefined ? this.lastIsMoving : false  // USAR la variable guardada
             };
             this.ws.send(JSON.stringify(message));
         }

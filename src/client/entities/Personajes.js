@@ -4,12 +4,15 @@ export class Personajes {
         this.id = id;
         this.scene = scene;
         this.score = 0;
-
         this.baseSpeed = 300;
+        
+        // NUEVO: Variables para controlar animaciones
+        this.lastDirection = null;
+        this.isAnimating = false;
 
-        const texture = (id === "player1") ? "quokaFrente" : "narvalFrente";
+        const texture = (id === "player1") ? "quokkaFrente" : "narvalFrente";
 
-        this.sprite = this.scene.physics.add.sprite(x, y, texture);
+        this.sprite = this.scene.physics.add.sprite(x, y, texture, 0);
 
         this.sprite.setScale(0.5);
 
@@ -24,57 +27,91 @@ export class Personajes {
         body.setSize(this.sprite.width, this.sprite.height, true); 
     }
 
-    setSprite(direction) {
-        let texture;
+    setSprite(direction, isMoving = true) {
+        const boosted = this.scene.powerUpActive && this.scene.powerUpActive[this.id];
+        const rooted = this.scene.stickyActive && this.scene.stickyActive[this.id];
 
-        const boosted = this.scene.powerUpActive[this.id];
-        const rooted = this.scene.stickyActive[this.id];
+        // Si está pegado (rooted), mostrar textura estática
+        if(rooted){
+            const texture = (this.id === "player1") ? 'pringueQuokka' : 'pringueNarval';
+            if (this.sprite.texture.key !== texture) {
+                this.sprite.setTexture(texture);
+                this.sprite.anims.stop();
+            }
+            this.baseSpeed = 0;
+            this.isAnimating = false;
+            return;
+        }
+
+        // Si no está pegado, velocidad normal
+        this.baseSpeed = 300;
+        let animKey;
 
         if (this.id === "player1") { 
             if (!boosted) {
-                // SPRITES NORMALES
-                if (direction === "up") texture = "quokaAtras";
-                else if (direction === "down") texture = "quokaFrente";
-                else if (direction === "left") texture = "quokaIzquierda";
-                else if (direction === "right") texture = "quokaDerecha";
-                else texture = "quokaFrente";
-            } else if(boosted){
-                // SPRITES DE POWER UP
+                // ANIMACIONES NORMALES
+                if (direction === "up") animKey = "quokka_walk_back";
+                else if (direction === "down") animKey = "quokka_walk_front";
+                else if (direction === "left") animKey = "quokka_walk_left";
+                else if (direction === "right") animKey = "quokka_walk_right";
+                else animKey = "quokka_walk_front";
+            } else {
+                // TEXTURAS DE POWER UP (estáticas por ahora)
+                let texture;
                 if (direction === "up") texture = "quokaAtrasP";
                 else if (direction === "down") texture = "quokaFrenteP";
                 else if (direction === "left") texture = "quokaIzquierdaP";
                 else if (direction === "right") texture = "quokaDerechaP";
                 else texture = "quokaFrenteP";
-            }if(!rooted){
-                this.baseSpeed = 300
-            }else if(rooted){
-                texture = 'pringueQuokka';
-                this.baseSpeed = 0;
+                
+                if (this.sprite.texture.key !== texture) {
+                    this.sprite.setTexture(texture);
+                    this.sprite.anims.stop();
+                }
+                this.isAnimating = false;
+                return;
             }
         } else { 
             if (!boosted) {
-                // SPRITES NORMALES
-                if (direction === "up") texture = "narvalFrente";
-                else if (direction === "down") texture = "narvalAtras";
-                else if (direction === "left") texture = "narvalIzquierda";
-                else if (direction === "right") texture = "narvalDerecha";
-                else texture = "narvalFrente";
+                // ANIMACIONES NORMALES
+                if (direction === "up") animKey = "narval_walk_back";
+                else if (direction === "down") animKey = "narval_walk_front";
+                else if (direction === "left") animKey = "narval_walk_left";
+                else if (direction === "right") animKey = "narval_walk_right";
+                else animKey = "narval_walk_front";
             } else {
-                // SPRITES DE POWER UP
+                // TEXTURAS DE POWER UP (estáticas por ahora)
+                let texture;
                 if (direction === "up") texture = "narvalFrenteP";
                 else if (direction === "down") texture = "narvalAtrasP";
                 else if (direction === "left") texture = "narvalIzquierdaP";
                 else if (direction === "right") texture = "narvalDerechaP";
                 else texture = "narvalFrenteP";
-            }if(!rooted){
-                this.baseSpeed = 300;
-            }else if(rooted){
-                texture = 'pringueNarval';
-                this.baseSpeed = 0;
+                
+                if (this.sprite.texture.key !== texture) {
+                    this.sprite.setTexture(texture);
+                    this.sprite.anims.stop();
+                }
+                this.isAnimating = false;
+                return;
             }
         }
 
-        this.sprite.setTexture(texture);
+        // Manejar animaciones
+        if (isMoving) {
+            // Solo reproducir si cambió la dirección o no estaba animando
+            if (this.lastDirection !== direction || !this.isAnimating) {
+                this.sprite.play(animKey, true);
+                this.isAnimating = true;
+                this.lastDirection = direction;
+            }
+        } else {
+            // Detener solo si estaba animando
+            if (this.isAnimating) {
+                this.sprite.anims.stop();
+                this.sprite.setFrame(0);
+                this.isAnimating = false;
+            }
+        }
     }
-
 }

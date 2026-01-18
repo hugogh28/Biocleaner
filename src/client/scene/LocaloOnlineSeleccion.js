@@ -8,7 +8,8 @@ export class LocaloOnlineSeleccion extends Phaser.Scene {
     }
 
      preload(){
-        this.load.image('botonJugar', 'assets/Botones/empezar.png');
+        this.load.image('botonLocal', 'assets/Botones/local.png');
+        this.load.image('botonOnline', 'assets/Botones/online.png');
         this.load.image('botonAtras', 'assets/Botones/volver.png');
         this.load.image('fondoMenu', 'assets/Fondos/fondo.png');
     }
@@ -21,21 +22,20 @@ export class LocaloOnlineSeleccion extends Phaser.Scene {
         brightness.applyToScene(this);
 
         this.add.image(400, 300, 'fondoMenu').setOrigin(0.5);
-        this.add.text(400,50, 'Selección modo de juego',    //Nombre del juego
+        this.add.text(400,150, 'Selección modo de juego',    //Nombre del juego
         {   
             fontFamily: "aaaaa",
             fontSize: '32px',
             color: '#e1e674'
         }).setOrigin(0.5);
 
-        const localBtn = this.add.image(300, 300, 'botonJugar').setOrigin(0.5)
+        const localBtn = this.add.image(300, 300, 'botonLocal').setOrigin(0.5)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', async () => {
             this.scene.start('GameScene');
         });
-        this.add.text(300, 200, 'Local');
-        this.add.text(500, 200, 'Online');
-        const onlineBtn = this.add.image(500, 300, 'botonJugar').setOrigin(0.5)
+
+        const onlineBtn = this.add.image(500, 300, 'botonOnline').setOrigin(0.5)
         .setInteractive({useHandCursor: true})
         .on('pointerdown', async () => {
             if (window.sessionId) {

@@ -8,6 +8,8 @@ export class Controles extends Phaser.Scene {
 
     preload(){
         this.load.image('botonVolver', 'assets/Botones/volver.png');
+        this.load.image('botonExplicacion', 'assets/Botones/explicacion.png');
+        this.load.image('botonControles', 'assets/Botones/controles.png');
         this.load.image('fondoControles', 'assets/Fondos/narval_perdedor.png');
     }
 
@@ -117,12 +119,7 @@ export class Controles extends Phaser.Scene {
         ]);
 
         //botón para volver
-        const botonCambiar = this.add.text(600, 500, 'Ver explicación', {
-            fontFamily: "aaaaa",
-            fontSize: '20px',
-            color: '#ffffff',
-            backgroundColor: '#000000'
-        })
+        const botonCambiar = this.add.image(600, 500, 'botonExplicacion')
         .setOrigin(0.5)
         .setInteractive()
         .on('pointerdown', () => {
@@ -139,10 +136,10 @@ export class Controles extends Phaser.Scene {
                 this.controlesContainer.setVisible(true);
                 this.explicacionContainer.setVisible(false);
             }
-
+            /*
             botonCambiar.setText(
                 this.mostrandoControles ? 'Ver explicación' : 'Ver controles'
-            );
+            );*/
         });
 
         

@@ -9,6 +9,7 @@ export class Login extends Phaser.Scene {
      preload(){
         this.load.image('botonJugar', 'assets/Botones/empezar.png');
         this.load.image('botonAtras', 'assets/Botones/volver.png');
+        this.load.image('login', 'assets/Botones/login.png');
     }
 
 
@@ -18,6 +19,7 @@ export class Login extends Phaser.Scene {
         brightness.applyToScene(this);
 
         this.add.rectangle(400, 300, 800, 600, 0x000000, 0.7); 
+        this.add.image(400,250,'login').setOrigin(0.5).setScale(1.5);
 
         this.add.text(400, 150, 'Login', {  
             fontFamily: "aaaaa",
@@ -26,7 +28,7 @@ export class Login extends Phaser.Scene {
         }).setOrigin(0.5);
 
        
-        const empezar = this.add.image(500, 500, 'botonJugar',).setOrigin(0.5)
+        const empezar = this.add.image(500, 400, 'botonJugar',).setOrigin(0.5)
         .setInteractive({ useHandCursor: true }) 
         .on('pointerdown', async () => {  
             const nickname = this.nicknameInput.value.trim();
@@ -62,7 +64,7 @@ export class Login extends Phaser.Scene {
             }
         });
 
-        const volver = this.add.image(300, 500, 'botonAtras',).setOrigin(0.5)
+        const volver = this.add.image(300, 400, 'botonAtras',).setOrigin(0.5)
         .setInteractive({ useHandCursor: true }) 
         .on('pointerdown', async () => {  
             this.scene.stop();   
@@ -76,7 +78,7 @@ export class Login extends Phaser.Scene {
         this.nicknameInput.maxLength = 12;
 
         this.nicknameInput.style.position = 'absolute';
-        this.nicknameInput.style.top = '50%';
+        this.nicknameInput.style.top = '45%';
         this.nicknameInput.style.left = '50%';
         this.nicknameInput.style.transform = 'translateX(-50%)';
         this.nicknameInput.style.padding = '10px';

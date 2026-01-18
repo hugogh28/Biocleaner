@@ -7,17 +7,19 @@ export class StartScreen extends Phaser.Scene{
 
     preload(){
         this.load.image('fondoS', 'assets/Fondos/fondo.png');
+        this.load.image('botonClick', 'assets/Botones/click.png');
     }
     create()
     {
         this.add.image(400, 300, 'fondoS').setOrigin(0.5); //Añadimos un fondo
 
-        const textoStart = this.add.text(400, 310, 'Haz Click para empezar',
+        this.add.text(400, 310, 'a',
         {
             fontFamily: "aaaaa", 
             fontSize: '38px',
             color: '#e1e674'
         }).setOrigin(0.5)
+        const textoStart = this.add.image(400, 310, 'botonClick').setOrigin(0.5)
         .setInteractive({ useHandCursor: true })
         
         const empezarJuego  = () => {
