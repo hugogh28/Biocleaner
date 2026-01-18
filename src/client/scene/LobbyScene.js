@@ -50,7 +50,7 @@ export class LobbyScene extends Phaser.Scene {
 
   connectToServer() {
     try {      
-      const wsUrl = 'ws://localhost:3001';
+      const wsUrl = `ws://${window.location.host}`;
       this.ws = new WebSocket(wsUrl);
 
       this.ws.onopen = () => {

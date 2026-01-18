@@ -20,6 +20,9 @@ import { createConnectionRoutes } from './routes/connections.js';
 import { createMatchmakingService } from './services/matchmakingService.js';
 import { createGameRoomService } from './services/gameRoomService.js';
 
+import { WebSocketServer } from 'ws';
+import { createServer } from 'http';
+
 
 // Para obtener __dirname en ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -214,35 +217,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ==================== INICIO DEL SERVIDOR ====================
-
-app.listen(PORT, () => {
-  console.log('========================================');
-  console.log('  SERVIDOR DE CHAT PARA VIDEOJUEGO');
-  console.log('========================================');
-  console.log(`  Servidor corriendo en http://localhost:${PORT}`);
-  console.log(`  `);
-  console.log(`  🎮 Juego: http://localhost:${PORT}`);
-  console.log(`  `);
-  console.log(`  API Endpoints disponibles:`);
-  console.log(`   - GET    /health`);
-  console.log(`   - GET    /api/connected`);
-  console.log(`   - GET    /api/users`);
-  console.log(`   - POST   /api/users`);
-  console.log(`   - GET    /api/users/:id`);
-  console.log(`   - PUT    /api/users/:id`);
-  console.log(`   - DELETE /api/users/:id`);
-  console.log(`   - GET    /api/messages`);
-  console.log(`   - POST   /api/messages`);
-  console.log('========================================\n');
-});
-
 // ==================== WEBSOCKET SERVER ====================
 
-import { WebSocketServer } from 'ws';
 
-// Servidor WebSocket en puerto 3001
-const wss = new WebSocketServer({ port: 3001 });
+// Servidor WebSocket en puerto 3000
+const server = createServer(app);
+const wss = new WebSocketServer({ server });
 
 wss.on('connection', (ws) => {
   console.log('[WS] Cliente conectado al WebSocket');
@@ -308,3 +288,28 @@ wss.on('connection', (ws) => {
 });
 
 console.log('WebSocket escuchando en ws://localhost:3001');
+
+// ==================== INICIO DEL SERVIDOR ====================
+
+server.listen(PORT, () => {
+  console.log('========================================');
+  console.log('  SERVIDOR DE CHAT PARA VIDEOJUEGO');
+  console.log('========================================');
+  console.log(`  Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`  `);
+  console.log(`  🎮 Juego: http://localhost:${PORT}`);
+  console.log(`   Websocket disponible en ws://localhost:${PORT}`);
+  console.log(`  `);
+  console.log(`  API Endpoints disponibles:`);
+  console.log(`   - GET    /health`);
+  console.log(`   - GET    /api/connected`);
+  console.log(`   - GET    /api/users`);
+  console.log(`   - POST   /api/users`);
+  console.log(`   - GET    /api/users/:id`);
+  console.log(`   - PUT    /api/users/:id`);
+  console.log(`   - DELETE /api/users/:id`);
+  console.log(`   - GET    /api/messages`);
+  console.log(`   - POST   /api/messages`);
+  console.log('========================================\n');
+});
+

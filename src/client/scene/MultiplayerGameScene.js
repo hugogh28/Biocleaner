@@ -1057,8 +1057,8 @@ export class MultiplayerGameScene extends Phaser.Scene {
         }
         
         // Actualizar las puntuaciones finales en la UI
-        this.scoreQuoka.setText(player1Score.toString());
-        this.scoreNarval.setText(player2Score.toString());
+        //this.scoreQuoka.setText(player1Score.toString());
+        //this.scoreNarval.setText(player2Score.toString());
         
         // Detener física y movimiento
         if (this.localJugador && this.localJugador.sprite) {
@@ -1076,6 +1076,10 @@ export class MultiplayerGameScene extends Phaser.Scene {
             player2Score,
             this.players.get("player2").score
         );
+
+        this.scoreQuoka.setText(player1Score.toString());
+        this.scoreNarval.setText(player2Score.toString());
+
         this.physics.pause();
 
         // Limpiar timers
