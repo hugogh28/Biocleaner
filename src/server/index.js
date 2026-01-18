@@ -63,6 +63,7 @@ app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
+
 app.post('/api/login', (req, res) => {
   const { nickname } = req.body;
 
@@ -193,11 +194,14 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// SPA Fallback - Servir index.html para todas las rutas que no sean API
 app.use((req, res, next) => {
+  // Si la petición es a /api/*, pasar al siguiente middleware (404 para APIs)
   if (req.path.startsWith('/api/')) {
     return res.status(404).json({ error: 'Endpoint no encontrado' });
   }
 
+  // Para cualquier otra ruta, servir el index.html del juego
   res.sendFile(path.join(__dirname, '../../dist/index.html'));
 });
 
@@ -232,41 +236,60 @@ app.listen(PORT, () => {
   console.log(`   - POST   /api/messages`);
   console.log('========================================\n');
 });
+
+// ==================== WEBSOCKET SERVER ====================
+
 import { WebSocketServer } from 'ws';
 
 // Servidor WebSocket en puerto 3001
 const wss = new WebSocketServer({ port: 3001 });
 
 wss.on('connection', (ws) => {
-  console.log('Cliente conectado al WebSocket');
+  console.log('[WS] Cliente conectado al WebSocket');
 
   ws.on('message', (msg) => {
     let data;
     try {
       data = JSON.parse(msg);
     } catch (err) {
-      console.error('Mensaje inválido:', msg);
+      console.error('[WS] Mensaje inválido:', msg);
       return;
     }
 
-    if(data.type == 'scoreUpdate'){
-      gameRoomService.handleScoreUpdate(ws,data);
-    }
+    console.log('[WS] Mensaje recibido:', data.type);
 
-    if (data.type === 'joinQueue') {
-      matchmakingService.joinQueue(ws);
-    }
+    // Manejar diferentes tipos de mensajes
+    switch(data.type) {
+      case 'joinQueue':
+        matchmakingService.joinQueue(ws);
+        break;
 
-    if (data.type === 'leaveQueue') {
-      matchmakingService.leaveQueue(ws);
+      case 'leaveQueue':
+        matchmakingService.leaveQueue(ws);
+        break;
+
+      case 'playerMove':
+        gameRoomService.handlePlayerMove(ws, data);
+        break;
+
+      case 'scoreUpdate':
+        gameRoomService.handleScoreUpdate(ws, data);
+        break;
+
+      default:
+        console.log('[WS] Tipo de mensaje desconocido:', data.type);
     }
   });
 
-  ws.on('close', () => {
+  ws.on('close', (code, reason) => {
+    console.log(`[WS] Cliente desconectado - Code: ${code}, Reason: ${reason}`);
+    gameRoomService.handleDisconnect(ws);
     matchmakingService.leaveQueue(ws);
-    console.log('Jugador desconectado');
+  });
+
+  ws.on('error', (error) => {
+    console.error('[WS] Error en WebSocket:', error);
   });
 });
-
 
 console.log('WebSocket escuchando en ws://localhost:3001');

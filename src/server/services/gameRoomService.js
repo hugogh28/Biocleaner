@@ -1,3 +1,6 @@
+/**
+ * Game Room service - manages active game rooms and game state
+ */
 export function createGameRoomService() {
   const rooms = new Map(); // roomId -> room data
   let nextRoomId = 1;
@@ -20,8 +23,6 @@ export function createGameRoomService() {
         score: 0
       },
       active: true,
-
-      // TIMER AUTORITATIVO
       endAt
     };
 
@@ -30,45 +31,23 @@ export function createGameRoomService() {
     player1Ws.roomId = roomId;
     player2Ws.roomId = roomId;
 
+    console.log(`[GAME ROOM] Sala ${roomId} creada. Timer ends at:`, new Date(endAt).toISOString());
+
     // Enviar sincronización del temporizador a ambos jugadores
     const timerMsg = {
       type: 'timerSync',
       endAt
     };
 
-    //Enviar sincronización de la puntuación al jugador contrario
-    /*const scoreMsg = {
-      type: 'scoreSync',
-      endAt
-    };*/
     player1Ws.send(JSON.stringify(timerMsg));
     player2Ws.send(JSON.stringify(timerMsg));
 
-    player1Ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-
-      console.log('Recibido mensaje de puntuación:', data);
-
-      if(data.type === 'scoreUpdate'){ //Probablemente haga falta sustituirlo por un switch debido a que hay que contemplar más tipos de mensajes
-        handleScoreUpdate(player1Ws, data);
-      }
-    };
-
-    player1Ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-
-      console.log('Recibido mensaje de puntuación:', data);
-
-      if(data.type === 'scoreUpdate'){
-        handleScoreUpdate(player1Ws, data);
-      }
-    };
-
     // Final de partida decidido por el servidor
-    setTimeout(() => {
+    const gameTimer = setTimeout(() => {
       const currentRoom = rooms.get(roomId);
       if (!currentRoom || !currentRoom.active) return;
 
+      console.log(`[GAME ROOM] Tiempo agotado para sala ${roomId}`);
       currentRoom.active = false;
 
       const gameOverMsg = {
@@ -77,11 +56,22 @@ export function createGameRoomService() {
         player2Score: currentRoom.player2.score
       };
 
-      currentRoom.player1.ws.send(JSON.stringify(gameOverMsg));
-      currentRoom.player2.ws.send(JSON.stringify(gameOverMsg));
+      try {
+        if (currentRoom.player1.ws.readyState === 1) {
+          currentRoom.player1.ws.send(JSON.stringify(gameOverMsg));
+        }
+        if (currentRoom.player2.ws.readyState === 1) {
+          currentRoom.player2.ws.send(JSON.stringify(gameOverMsg));
+        }
+      } catch (error) {
+        console.error('[GAME ROOM] Error enviando gameOver:', error);
+      }
 
       rooms.delete(roomId);
     }, GAME_DURATION_MS);
+
+    // Guardar el timer en la sala para poder cancelarlo si es necesario
+    room.gameTimer = gameTimer;
 
     return roomId;
   }
@@ -90,7 +80,7 @@ export function createGameRoomService() {
     return rooms.get(roomId);
   }
 
-  function handlePaddleMove(ws, y) {
+  function handlePlayerMove(ws, data) {
     const room = rooms.get(ws.roomId);
     if (!room || !room.active) return;
 
@@ -100,47 +90,69 @@ export function createGameRoomService() {
     if (opponent.readyState === 1) {
       opponent.send(JSON.stringify({
         type: 'playerUpdate',
-        y
+        x: data.x,
+        y: data.y,
+        direction: data.direction
       }));
     }
   }
 
-  function handleScoreUpdate(ws, data){
-      const currentRoom = rooms.get(ws.roomId);
-      if(!currentRoom||!currentRoom.active) return;
+  function handleScoreUpdate(ws, data) {
+    const currentRoom = rooms.get(ws.roomId);
+    if (!currentRoom || !currentRoom.active) return;
 
-      const player = currentRoom.player1.ws === ws ? currentRoom.player1 : currentRoom.player2;
+    const player = currentRoom.player1.ws === ws ? currentRoom.player1 : currentRoom.player2;
+    const playerName = currentRoom.player1.ws === ws ? 'player1' : 'player2';
 
-      console.log(`Puntuación antes de actualizar para ${player.score}: ${data.score}`);
+    console.log(`[SCORE UPDATE] ${playerName}: ${player.score} -> ${data.score}`);
 
-      player.score = data.score;
+    player.score = data.score;
+    
+    const msg = {
+      type: 'scoreUpdate',
+      player1Score: currentRoom.player1.score,
+      player2Score: currentRoom.player2.score
+    };
 
-      console.log(`Puntuación actualizada para ${player.score}`);
-      
-      const msg = {
-        
-        type: 'scoreUpdate',
-        player1Score: currentRoom.player1.score,
-        player2Score: currentRoom.player2.score
-      };
-
-      currentRoom.player1.ws.send(JSON.stringify(msg));
-      currentRoom.player1.ws.send(JSON.stringify(msg));
+    // Enviar a ambos jugadores
+    try {
+      if (currentRoom.player1.ws.readyState === 1) {
+        currentRoom.player1.ws.send(JSON.stringify(msg));
+      }
+      if (currentRoom.player2.ws.readyState === 1) {
+        currentRoom.player2.ws.send(JSON.stringify(msg));
+      }
+    } catch (error) {
+      console.error('[GAME ROOM] Error enviando scoreUpdate:', error);
+    }
   }
 
   function handleDisconnect(ws) {
+    if (!ws.roomId) return;
+
     const room = rooms.get(ws.roomId);
     if (!room) return;
+
+    console.log(`[GAME ROOM] Jugador desconectado de sala ${ws.roomId}`);
 
     if (room.active) {
       const opponent =
         room.player1.ws === ws ? room.player2.ws : room.player1.ws;
 
       if (opponent.readyState === 1) {
-        opponent.send(JSON.stringify({
-          type: 'playerDisconnected'
-        }));
+        try {
+          opponent.send(JSON.stringify({
+            type: 'playerDisconnected'
+          }));
+        } catch (error) {
+          console.error('[GAME ROOM] Error enviando playerDisconnected:', error);
+        }
       }
+    }
+
+    // Cancelar el timer si existe
+    if (room.gameTimer) {
+      clearTimeout(room.gameTimer);
     }
 
     room.active = false;
@@ -154,7 +166,7 @@ export function createGameRoomService() {
   return {
     createRoom,
     getRoom,
-    handlePaddleMove,
+    handlePlayerMove,
     handleScoreUpdate,
     handleDisconnect,
     getActiveRoomCount

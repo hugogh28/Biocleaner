@@ -131,15 +131,11 @@ export class MultiplayerGameScene extends Phaser.Scene {
         this.escKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
         
         // Temporizador de 2 minutos
-        //this.timeLeft = 120; // 2 minutos
         this.timerText = this.add.text(278, 17, "Tiempo: --", {
             fontFamily: "aaaaa",
             fontSize: "24px",
             color: "#9da23cff"
         });
-        if (this.endAt) {
-            //this.startSyncedTimer();
-        }
 
         // Generación de pringue
         this.stickyGroup = this.physics.add.group();
@@ -412,7 +408,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
             case 'timerSync':
                 console.log('[TIMER SYNC RECIBIDO]', data);
                 this.endAt = data.endAt;
-                //this.startSyncedTimer();
                 break;
 
             case 'gameOverTime':
@@ -685,17 +680,12 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
     handleDisconnection() {
         this.gameEnded = true;
-        
-        if (this.localJugador && this.localJugador.sprite) {
-            this.localJugador.sprite.setVelocity(0, 0);
-        }
-        if (this.remoteJugador && this.remoteJugador.sprite) {
-            this.remoteJugador.sprite.setVelocity(0, 0);
-        }
-        
+        this.localJugador.sprite.setVelocity(0, 0);
+        this.remoteJugador.sprite.setVelocity(0, 0);
         this.physics.pause();
 
-        this.add.text(400, 250, 'Oponente Desconectado', {
+        this.add.text(400, 250, 'Opponent Disconnected', {
+            fontFamily:'aaaaa',
             fontSize: '48px',
             color: '#ff0000'
         }).setOrigin(0.5);
@@ -748,50 +738,50 @@ export class MultiplayerGameScene extends Phaser.Scene {
         
         player.sprite.setVelocity(0, 0);
         
-        // Usar this.cursors en lugar de inputsMapping
+        let currentDirection = null;
+        
         if (this.cursors.up.isDown) {
             player.sprite.setVelocityY(-player.baseSpeed);
             player.sprite.setVelocityX(0);
             player.setSprite("up");
+            currentDirection = "up";
         } else if (this.cursors.down.isDown) {
             player.sprite.setVelocityY(player.baseSpeed);
             player.sprite.setVelocityX(0);
             player.setSprite("down");
+            currentDirection = "down";
         } else if (this.cursors.left.isDown) {
             player.sprite.setVelocityX(-player.baseSpeed);
             player.sprite.setVelocityY(0);
             player.setSprite("left");
+            currentDirection = "left";
         } else if (this.cursors.right.isDown) {
             player.sprite.setVelocityX(player.baseSpeed);
             player.sprite.setVelocityY(0);
             player.setSprite("right");
+            currentDirection = "right";
         } else {
             player.sprite.setVelocity(0, 0);
             player.setSprite("down");
+            currentDirection = "down";
         }
         
-        // Limit movement based on player role
+        // Guardar la dirección actual
+        this.lastDirection = currentDirection;
+        
         if (this.playerRole === 'player1') {
-            // Quokka (left side)
             player.sprite.x = Phaser.Math.Clamp(player.sprite.x, 0, 400);
         } else {
-            // Narval (right side)
             player.sprite.x = Phaser.Math.Clamp(player.sprite.x, 400, 800);
         }
         
-        // Vertical limits for both
         player.sprite.y = Phaser.Math.Clamp(player.sprite.y, 115, 555);
         
-        // Send position to server
         this.sendPlayerPosition();
         
         const brightness = this.plugins.get("Brightness");
         brightness.updateOverlay(this);
         
-        // Check for pause
-        if (Phaser.Input.Keyboard.JustDown(this.escKey)) {
-            this.togglePause();
-        }
     }
     
     
@@ -803,7 +793,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
                 playerRole: this.playerRole,
                 x: this.localJugador.sprite.x,
                 y: this.localJugador.sprite.y,
-                direction: this.localJugador.currentDirection || 'down'
+                direction: this.lastDirection || 'down'
             };
             this.ws.send(JSON.stringify(message));
         }
@@ -821,7 +811,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
     shutdown() {
         if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-            // Notify server we're leaving
             this.sendMessage({
                 type: 'playerLeft',
                 roomId: this.roomId
@@ -829,19 +818,15 @@ export class MultiplayerGameScene extends Phaser.Scene {
             this.ws.close();
         }
         
-        // Clean up event listeners
         if (this.connectionListener) {
             connectionManager.removeListener(this.connectionListener);
         }
         
-        // Stop all timers
-        //if (this.timerEvent) this.timerEvent.remove();
         if (this.trashSpawnTimer) this.trashSpawnTimer.remove();
         if (this.stickySpawnTimer) this.stickySpawnTimer.remove();
         if (this.spillSpawnTimer) this.spillSpawnTimer.remove();
         if (this.seagullSoundTimer) this.seagullSoundTimer.remove();
         
-        // Stop music
         if (this.musica && this.musica.isPlaying) {
             this.musica.stop();
         }
