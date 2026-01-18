@@ -47,10 +47,23 @@ export class MultiplayerGameScene extends Phaser.Scene {
         });
 
         //Con PowerUps
-        this.load.image('quokaFrenteP', 'assets/Quokka/quokka_front_viewG.png');
-        this.load.image('quokaAtrasP', 'assets/Quokka/quokka_back_viewG.png');
-        this.load.image('quokaIzquierdaP', 'assets/Quokka/quokka_side1_viewG.png');
-        this.load.image('quokaDerechaP', 'assets/Quokka/quokka_side_viewG.png');
+
+        this.load.spritesheet('quokkaFrenteP', 'assets/Quokka/quokka_front_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaAtrasP', 'assets/Quokka/quokka_back_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaIzquierdaP', 'assets/Quokka/quokka_izqui_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaDerechaP', 'assets/Quokka/quokka_derech_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
 
         //Afectado por el pringue
         this.load.image('pringueQuokka', 'assets/Quokka/basura_tierra3.png');
@@ -75,10 +88,23 @@ export class MultiplayerGameScene extends Phaser.Scene {
         });
 
         //Con PowerUps
-        this.load.image('narvalFrenteP', 'assets/Narval/narval_top_viewG.png');
-        this.load.image('narvalAtrasP', 'assets/Narval/narval_down_viewG.png');
-        this.load.image('narvalIzquierdaP', 'assets/Narval/narval_izquierda_viewG.png');
-        this.load.image('narvalDerechaP', 'assets/Narval/narval_derecha_viewG.png');
+
+        this.load.spritesheet('narvalFrenteP', 'assets/Narval/narval_down_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalAtrasP', 'assets/Narval/narval_arriba_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalIzquierdaP', 'assets/Narval/narval_izqui_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalDerechaP', 'assets/Narval/narval_derech_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
 
         //Afectado por el pringue
         this.load.image('pringueNarval', 'assets/Narval/residuo_toxico_aguaS.png');
@@ -150,9 +176,10 @@ export class MultiplayerGameScene extends Phaser.Scene {
         }).setOrigin(1, 0.5);
 
         // Role indicator
-        const roleText = this.playerRole === 'player1' ? 'Eres el Quokka' : 'Eres el Narval';
-        this.add.text(400, 20, roleText, {
-            fontSize: '16px',
+        const roleText = this.playerRole === 'player1' ? 'Quokka' : 'Narval';
+        this.add.text(400, 100, roleText, {
+            fontFamily: 'aaaaa',
+            fontSize: '18px',
             color: '#ffff00'
         }).setOrigin(0.5);
 
@@ -333,6 +360,32 @@ export class MultiplayerGameScene extends Phaser.Scene {
             repeat: -1
         });
 
+        //Quokka PowerUp
+        this.anims.create({
+            key: 'quokka_walk_frontP',
+            frames: this.anims.generateFrameNumbers('quokkaFrenteP', {start: 0, end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_backP',
+            frames: this.anims.generateFrameNumbers('quokkaAtrasP', {start: 0, end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_leftP',
+            frames: this.anims.generateFrameNumbers('quokkaIzquierdaP', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_rightP',
+            frames: this.anims.generateFrameNumbers('quokkaDerechaP', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+
         //Narval
         this.anims.create({
             key: 'narval_walk_front',
@@ -355,6 +408,31 @@ export class MultiplayerGameScene extends Phaser.Scene {
         this.anims.create({
             key: 'narval_walk_right',
             frames: this.anims.generateFrameNumbers('narvalDerecha', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        })
+        //Narval PowerUp
+        this.anims.create({
+            key: 'narval_walk_frontP',
+            frames: this.anims.generateFrameNumbers('narvalFrenteP', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'narval_walk_backP',
+            frames: this.anims.generateFrameNumbers('narvalAtrasP', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'narval_walk_leftP',
+            frames: this.anims.generateFrameNumbers('narvalIzquierdaP', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'narval_walk_rightP',
+            frames: this.anims.generateFrameNumbers('narvalDerechaP', {start: 0, end:2}),
             frameRate: 10,
             repeat: -1
         })
@@ -467,27 +545,78 @@ export class MultiplayerGameScene extends Phaser.Scene {
     handleServerMessage(data) {
         switch (data.type) {
             case 'playerUpdate':
-                // Update opponent's player position
                 if (this.remoteJugador) {
                     this.remoteJugador.sprite.x = data.x;
                     this.remoteJugador.sprite.y = data.y;
                     if (data.direction && this.remoteJugador.setSprite) {
-                        this.remoteJugador.setSprite(data.direction);
+                        this.remoteJugador.setSprite(data.direction, data.isMoving);
+                    }
+                    // NUEVO: Sincronizar estados
+                    if (data.powerUpActive !== undefined) {
+                        const playerId = this.playerRole === 'player1' ? 'player2' : 'player1';
+                        this.powerUpActive[playerId] = data.powerUpActive;
+                    }
+                    if (data.stickyActive !== undefined) {
+                        const playerId = this.playerRole === 'player1' ? 'player2' : 'player1';
+                        this.stickyActive[playerId] = data.stickyActive;
                     }
                 }
                 break;
 
             case 'scoreUpdate':
-                // Update scores from server
-                //this.localScore = this.playerRole === 'player1' ? data.player1Score : data.player2Score;
-                //this.remoteScore = this.playerRole === 'player1' ? data.player2Score : data.player1Score;
                 console.log('Puntuación recibida del servidor:', data);
-
                 this.localScore = data.player1Score;
                 this.remoteScore = data.player2Score;
-
                 this.scoreQuoka.setText(data.player1Score.toString());
                 this.scoreNarval.setText(data.player2Score.toString());
+                break;
+
+            // NUEVO: Sincronizar efectos de powerUp
+            case 'powerUpPickup':
+                const powerUpPlayerId = data.playerId;
+                this.powerUpActive[powerUpPlayerId] = true;
+                
+                if (this.powerUpTimers[powerUpPlayerId]) {
+                    this.powerUpTimers[powerUpPlayerId].remove(false);
+                }
+                
+                this.powerUpTimers[powerUpPlayerId] = this.time.delayedCall(10000, () => {
+                    this.powerUpActive[powerUpPlayerId] = false;
+                    this.players.get(powerUpPlayerId).setSprite("down");
+                });
+                this.players.get(powerUpPlayerId).setSprite("down");
+                break;
+
+            // NUEVO: Sincronizar efectos de sticky
+            case 'stickyHit':
+                const stickyPlayerId = data.playerId;
+                this.stickyActive[stickyPlayerId] = true;
+                
+                const player = this.players.get(stickyPlayerId);
+                if (player.score >= data.score) {
+                    player.score -= data.score;
+                }
+                
+                if (this.powerUpActive[stickyPlayerId]) {
+                    this.powerUpActive[stickyPlayerId] = false;
+                    this.stickyActive[stickyPlayerId] = false;
+                }
+                
+                if (stickyPlayerId === "player1") {
+                    this.scoreQuoka.setText(player.score);
+                } else {
+                    this.scoreNarval.setText(player.score);
+                }
+                
+                if (this.stickySpawnTimer[stickyPlayerId]) {
+                    this.stickySpawnTimer[stickyPlayerId].remove(false);
+                }
+                
+                this.stickySpawnTimer[stickyPlayerId] = this.time.delayedCall(2000, () => {
+                    this.stickyActive[stickyPlayerId] = false;
+                    this.players.get(stickyPlayerId).setSprite("down");
+                });
+                this.players.get(stickyPlayerId).setSprite("down");
                 break;
 
             case 'syncObjects':
@@ -789,6 +918,16 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
         this.pleugh2.play();
 
+        const id = playerNumber === 1 ? "player1" : "player2";
+        
+        // NUEVO: Enviar evento de sticky hit al servidor
+        this.sendMessage({
+            type: 'stickyHit',
+            playerId: id,
+            score: score,
+            roomId: this.roomId
+        });
+
         this.sendMessage({
             type: 'delObjects',
             objectType: 'sticky',
@@ -798,16 +937,11 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
         sticky.destroy();
 
-        //Consigue que jugador la lanza
-        const player = playerNumber === 1 ? this.players.get('player1') : this.players.get('player2');
-
-        const id = playerNumber === 1 ? "player1" : "player2";
-
+        const player = this.players.get(id);
         this.stickyActive[id] = true;
 
-        //Quita puntuacion
         if(player.score >= score){
-        player.score -= score;
+            player.score -= score;
         }
         if(this.powerUpActive[id]){
             this.powerUpActive[id] = false;
@@ -816,7 +950,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
         if(id === "player1") this.scoreQuoka.setText(player.score);
         else this.scoreNarval.setText(player.score);
-        
 
         this.stickySpawnTimer[id] = this.time.delayedCall(2000, () => {
             this.stickyActive[id] = false;
@@ -824,6 +957,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         });
         this.players.get(id).setSprite("down");
     }
+
         
     // Recoge el residuo y da la puntuación correcta
     collect(object, playerNumber, score) {
@@ -865,8 +999,15 @@ export class MultiplayerGameScene extends Phaser.Scene {
     
     pickPowerUp(powerUp, playerId) {
         if (!powerUp.active) return;
-    
+
         this.powerUpSound.play();
+
+        // NUEVO: Enviar evento de powerUp pickup al servidor
+        this.sendMessage({
+            type: 'powerUpPickup',
+            playerId: playerId,
+            roomId: this.roomId
+        });
 
         this.sendMessage({
             type: 'delObjects',
@@ -876,15 +1017,13 @@ export class MultiplayerGameScene extends Phaser.Scene {
         });
 
         powerUp.destroy();
-    
-        // Activar el efecto
+
         this.powerUpActive[playerId] = true;
-    
-        // Cancelar un efecto previo si ya tenía uno
+
         if (this.powerUpTimers[playerId]) {
             this.powerUpTimers[playerId].remove(false);
         }
-    
+
         this.powerUpTimers[playerId] = this.time.delayedCall(10000, () => {
             this.powerUpActive[playerId] = false;
             this.players.get(playerId).setSprite("down");
@@ -907,14 +1046,21 @@ export class MultiplayerGameScene extends Phaser.Scene {
         
         this.gameEnded = true;
         
-        // Determine winner if not provided
-        if (!winner) {
-            winner = this.getWinner();
+        console.log('[END GAME] Winner:', winner, 'Scores:', player1Score, player2Score);
+        
+        // Si no se proporciona ganador o puntuaciones, usar las locales como fallback
+        if (winner === null || player1Score === null || player2Score === null) {
+            console.warn('[END GAME] Usando puntuaciones locales como fallback');
             player1Score = this.players.get("player1").score;
             player2Score = this.players.get("player2").score;
+            winner = this.getWinner();
         }
         
-        // Stop physics and movement
+        // Actualizar las puntuaciones finales en la UI
+        this.scoreQuoka.setText(player1Score.toString());
+        this.scoreNarval.setText(player2Score.toString());
+        
+        // Detener física y movimiento
         if (this.localJugador && this.localJugador.sprite) {
             this.localJugador.sprite.setVelocity(0, 0);
         }
@@ -922,14 +1068,40 @@ export class MultiplayerGameScene extends Phaser.Scene {
             this.remoteJugador.sprite.setVelocity(0, 0);
         }
         
+        player1Score = Math.max(
+            player1Score,
+            this.players.get("player1").score
+        );
+        player2Score = Math.max(
+            player2Score,
+            this.players.get("player2").score
+        );
         this.physics.pause();
 
+        // Limpiar timers
+        if (this.trashSpawnTimer) this.trashSpawnTimer.remove(false);
+        if (this.spillSpawnTimer) this.spillSpawnTimer.remove(false);
+        if (this.stickyGenerationTimer) this.stickyGenerationTimer.remove(false);
+        if (this.seagullSoundTimer) this.seagullSoundTimer.remove(false);
+
+        // Limpiar grupos de objetos
+        if (this.trashGroup) this.trashGroup.clear(true, true);
+        if (this.powerUpGroup) this.powerUpGroup.clear(true, true);
+        if (this.stickyGroup) this.stickyGroup.clear(true, true);
+        if (this.spillGroup) this.spillGroup.clear(true, true);
+
+        // Reproducir sonido de fin
+        if (this.tiempoMuerto) {
+            this.tiempoMuerto.play();
+        }
+
+        // Determinar si el jugador local ganó
         const isWinner = (winner === 'player1' && this.playerRole === 'player1') ||
-                        (winner === 'player2' && this.playerRole === 'player2') ||
-                        (winner === 'draw');
+                        (winner === 'player2' && this.playerRole === 'player2');
+        const isDraw = winner === 'draw';
 
         let winnerText, color;
-        if (winner === 'draw') {
+        if (isDraw) {
             winnerText = '¡Empate!';
             color = '#ffff00';
         } else {
@@ -937,17 +1109,42 @@ export class MultiplayerGameScene extends Phaser.Scene {
             color = isWinner ? '#00ff00' : '#ff0000';
         }
 
+        // Crear overlay semi-transparente
+        const overlay = this.add.rectangle(400, 300, 800, 600, 0x000000, 0.7);
+
+        // Texto de resultado principal
         this.add.text(400, 200, winnerText, {
+            fontFamily: 'aaaaa',
             fontSize: '64px',
             color: color
-        }).setOrigin(0.5);
+        }).setOrigin(0.5).setDepth(100);
 
-        this.add.text(400, 280, `Puntuación Final: ${player1Score} - ${player2Score}`, {
+        // Puntuación final
+        this.add.text(400, 280, `Puntuación Final`, {
+            fontFamily: 'aaaaa',
             fontSize: '32px',
             color: '#ffffff'
-        }).setOrigin(0.5);
+        }).setOrigin(0.5).setDepth(100);
 
+        this.add.text(400, 320, `Quokka: ${player1Score}  -  Narval: ${player2Score}`, {
+            fontFamily: 'aaaaa',
+            fontSize: '28px',
+            color: '#d9df5dff'
+        }).setOrigin(0.5).setDepth(100);
+
+        // Determinar el personaje ganador para mostrar imagen
+        let winnerID;
+        if (winner === 'player1') {
+            winnerID = 'player1';
+        } else if (winner === 'player2') {
+            winnerID = 'player2';
+        } else {
+            winnerID = 'draw';
+        }
+
+        // Botón para volver al menú
         this.createMenuButton();
+        
     }
 
     handleDisconnection() {
@@ -1054,12 +1251,20 @@ export class MultiplayerGameScene extends Phaser.Scene {
         player.sprite.y = Phaser.Math.Clamp(player.sprite.y, 115, 555);
         
         this.sendPlayerPosition();
-        
+        if (this.endAt && Date.now() >= this.endAt && !this.gameEnded) {
+            this.sendMessage({
+                type: 'scoreUpdate',
+                score: this.players.get(this.playerRole).score,
+                roomId: this.roomId
+            });
+        }
+
         const brightness = this.plugins.get("Brightness");
         brightness.updateOverlay(this);
     }
     sendPlayerPosition() {
         if (this.ws && this.ws.readyState === WebSocket.OPEN && this.localJugador) {
+            const myPlayerId = this.playerRole;
             const message = {
                 type: 'playerMove',
                 roomId: this.roomId,
@@ -1067,7 +1272,10 @@ export class MultiplayerGameScene extends Phaser.Scene {
                 x: this.localJugador.sprite.x,
                 y: this.localJugador.sprite.y,
                 direction: this.lastDirection || 'down',
-                isMoving: this.lastIsMoving !== undefined ? this.lastIsMoving : false  // USAR la variable guardada
+                isMoving: this.lastIsMoving !== undefined ? this.lastIsMoving : false,
+                // NUEVO: Incluir estados
+                powerUpActive: this.powerUpActive[myPlayerId],
+                stickyActive: this.stickyActive[myPlayerId]
             };
             this.ws.send(JSON.stringify(message));
         }

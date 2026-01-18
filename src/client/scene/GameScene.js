@@ -42,10 +42,23 @@ export class GameScene extends Phaser.Scene{
         });
 
         //Con PowerUps
-        this.load.image('quokaFrenteP', 'assets/Quokka/quokka_front_viewG.png');
-        this.load.image('quokaAtrasP', 'assets/Quokka/quokka_back_viewG.png');
-        this.load.image('quokaIzquierdaP', 'assets/Quokka/quokka_side1_viewG.png');
-        this.load.image('quokaDerechaP', 'assets/Quokka/quokka_side_viewG.png');
+
+        this.load.spritesheet('quokkaFrenteP', 'assets/Quokka/quokka_front_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaAtrasP', 'assets/Quokka/quokka_back_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaIzquierdaP', 'assets/Quokka/quokka_izqui_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('quokkaDerechaP', 'assets/Quokka/quokka_derech_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
 
         //Afectado por el pringue
         this.load.image('pringueQuokka', 'assets/Quokka/basura_tierra3.png');
@@ -70,10 +83,23 @@ export class GameScene extends Phaser.Scene{
         });
 
         //Con PowerUps
-        this.load.image('narvalFrenteP', 'assets/Narval/narval_top_viewG.png');
-        this.load.image('narvalAtrasP', 'assets/Narval/narval_down_viewG.png');
-        this.load.image('narvalIzquierdaP', 'assets/Narval/narval_izquierda_viewG.png');
-        this.load.image('narvalDerechaP', 'assets/Narval/narval_derecha_viewG.png');
+
+        this.load.spritesheet('narvalFrenteP', 'assets/Narval/narval_down_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalAtrasP', 'assets/Narval/narval_arriba_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalIzquierdaP', 'assets/Narval/narval_izqui_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
+        this.load.spritesheet('narvalDerechaP', 'assets/Narval/narval_derech_r.png', {
+            frameWidth:256,
+            frameHeight: 256
+        });
 
         //Afectado por el pringue
         this.load.image('pringueNarval', 'assets/Narval/residuo_toxico_aguaS.png');
@@ -339,6 +365,32 @@ export class GameScene extends Phaser.Scene{
             repeat: -1
         });
 
+        //Quokka PowerUp
+        this.anims.create({
+            key: 'quokka_walk_frontP',
+            frames: this.anims.generateFrameNumbers('quokkaFrenteP', {start: 0, end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_backP',
+            frames: this.anims.generateFrameNumbers('quokkaAtrasP', {start: 0, end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_leftP',
+            frames: this.anims.generateFrameNumbers('quokkaIzquierdaP', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'quokka_walk_rightP',
+            frames: this.anims.generateFrameNumbers('quokkaDerechaP', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+
         //Narval
         this.anims.create({
             key: 'narval_walk_front',
@@ -361,6 +413,31 @@ export class GameScene extends Phaser.Scene{
         this.anims.create({
             key: 'narval_walk_right',
             frames: this.anims.generateFrameNumbers('narvalDerecha', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        })
+        //Narval PowerUp
+        this.anims.create({
+            key: 'narval_walk_frontP',
+            frames: this.anims.generateFrameNumbers('narvalFrenteP', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'narval_walk_backP',
+            frames: this.anims.generateFrameNumbers('narvalAtrasP', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'narval_walk_leftP',
+            frames: this.anims.generateFrameNumbers('narvalIzquierdaP', {start: 0, end:2}),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'narval_walk_rightP',
+            frames: this.anims.generateFrameNumbers('narvalDerechaP', {start: 0, end:2}),
             frameRate: 10,
             repeat: -1
         })

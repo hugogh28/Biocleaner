@@ -54,7 +54,6 @@ export function createGameRoomService() {
 
       console.log(`[GAME ROOM] Tiempo agotado para sala ${roomId}`);
       currentRoom.active = false;
-
       const gameOverMsg = {
         type: 'gameOverTime',
         player1Score: currentRoom.player1.score,
@@ -86,20 +85,52 @@ export function createGameRoomService() {
   }
 
   function handlePlayerMove(ws, data) {
-    const room = rooms.get(ws.roomId);
-    if (!room || !room.active) return;
+      const room = rooms.get(ws.roomId);
+      if (!room || !room.active) return;
 
-    const opponent =
-      room.player1.ws === ws ? room.player2.ws : room.player1.ws;
+      const opponent = room.player1.ws === ws ? room.player2.ws : room.player1.ws;
 
-    if (opponent.readyState === 1) {
-      opponent.send(JSON.stringify({
-        type: 'playerUpdate',
-        x: data.x,
-        y: data.y,
-        direction: data.direction
-      }));
-    }
+      if (opponent.readyState === 1) {
+          opponent.send(JSON.stringify({
+              type: 'playerUpdate',
+              x: data.x,
+              y: data.y,
+              direction: data.direction,
+              isMoving: data.isMoving,
+              // NUEVO: Reenviar estados
+              powerUpActive: data.powerUpActive,
+              stickyActive: data.stickyActive
+          }));
+      }
+  }
+
+  function handlePowerUpPickup(ws, data) {
+      const room = rooms.get(ws.roomId);
+      if (!room || !room.active) return;
+
+      const opponent = room.player1.ws === ws ? room.player2.ws : room.player1.ws;
+
+      if (opponent.readyState === 1) {
+          opponent.send(JSON.stringify({
+              type: 'powerUpPickup',
+              playerId: data.playerId
+          }));
+      }
+  }
+
+  function handleStickyHit(ws, data) {
+      const room = rooms.get(ws.roomId);
+      if (!room || !room.active) return;
+
+      const opponent = room.player1.ws === ws ? room.player2.ws : room.player1.ws;
+
+      if (opponent.readyState === 1) {
+          opponent.send(JSON.stringify({
+              type: 'stickyHit',
+              playerId: data.playerId,
+              score: data.score
+          }));
+      }
   }
 
   function handleScoreUpdate(ws, data) {
@@ -262,8 +293,10 @@ export function createGameRoomService() {
     handlePlayerMove,
     handleScoreUpdate,
     handleDisconnect,
-    handleObjectsPosition, //DE HUGO
-    handleDeleteObjects, //DE HUGO
+    handleObjectsPosition,
+    handleDeleteObjects,
+    handlePowerUpPickup,  
+    handleStickyHit,      
     getActiveRoomCount
-  };
+};
 }

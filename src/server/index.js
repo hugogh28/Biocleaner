@@ -279,6 +279,13 @@ wss.on('connection', (ws) => {
       case 'playerMove':
         gameRoomService.handlePlayerMove(ws, data);
         break;
+      case 'powerUpPickup':
+        gameRoomService.handlePowerUpPickup(ws, data);
+        break;
+
+    case 'stickyHit':
+        gameRoomService.handleStickyHit(ws, data);
+        break;
 
       case 'scoreUpdate':
         gameRoomService.handleScoreUpdate(ws, data);

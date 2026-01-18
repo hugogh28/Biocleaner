@@ -57,19 +57,11 @@ export class Personajes {
                 else animKey = "quokka_walk_front";
             } else {
                 // TEXTURAS DE POWER UP (estáticas por ahora)
-                let texture;
-                if (direction === "up") texture = "quokaAtrasP";
-                else if (direction === "down") texture = "quokaFrenteP";
-                else if (direction === "left") texture = "quokaIzquierdaP";
-                else if (direction === "right") texture = "quokaDerechaP";
-                else texture = "quokaFrenteP";
-                
-                if (this.sprite.texture.key !== texture) {
-                    this.sprite.setTexture(texture);
-                    this.sprite.anims.stop();
-                }
-                this.isAnimating = false;
-                return;
+                if (direction === "up") animKey = "quokka_walk_backP";
+                else if (direction === "down") animKey = "quokka_walk_frontP";
+                else if (direction === "left") animKey = "quokka_walk_leftP";
+                else if (direction === "right") animKey = "quokka_walk_rightP";
+                else animKey = "quokka_walk_frontP";
             }
         } else { 
             if (!boosted) {
@@ -81,19 +73,11 @@ export class Personajes {
                 else animKey = "narval_walk_front";
             } else {
                 // TEXTURAS DE POWER UP (estáticas por ahora)
-                let texture;
-                if (direction === "up") texture = "narvalFrenteP";
-                else if (direction === "down") texture = "narvalAtrasP";
-                else if (direction === "left") texture = "narvalIzquierdaP";
-                else if (direction === "right") texture = "narvalDerechaP";
-                else texture = "narvalFrenteP";
-                
-                if (this.sprite.texture.key !== texture) {
-                    this.sprite.setTexture(texture);
-                    this.sprite.anims.stop();
-                }
-                this.isAnimating = false;
-                return;
+                if (direction === "up") animKey = "narval_walk_backP";
+                else if (direction === "down") animKey = "narval_walk_frontP";
+                else if (direction === "left") animKey = "narval_walk_leftP";
+                else if (direction === "right") animKey = "narval_walk_rightP";
+                else animKey = "narval_walk_frontP";
             }
         }
 
