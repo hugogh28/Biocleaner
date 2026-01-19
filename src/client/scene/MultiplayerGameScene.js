@@ -141,11 +141,17 @@ export class MultiplayerGameScene extends Phaser.Scene {
         this.powerUpGroup = null;
         this.stickyGroup = null;
         this.spillGroup = null;
+        this.invertGroup = null;
 
         this.stickySpawnTimer = {
             'player1': null,
             'player2': null
         };
+
+        this.invertControls = {
+            player1: false,
+            player2: false
+        }
 
         this.endAt = data.endAt || null;
     }
@@ -202,6 +208,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         this.trashGroup = this.physics.add.group();
         this.powerUpGroup = this.physics.add.group();
         this.spillGroup = this.physics.add.group();
+        this.invertGroup = this.physics.add.group();
 
         if(this.playerRole === 'player1'){
             this.stickyGenerationTimer = this.time.addEvent({
@@ -636,7 +643,15 @@ export class MultiplayerGameScene extends Phaser.Scene {
                     data.player2Score
                 );
                 break;
+            case 'invertControls':{
+                const id = data.targetPlayer;
+                this.invertControls[id] = true;
 
+                this.time.delayedCall(data.duration, () =>{
+                    this.invertControls[id] = false;
+                });
+                break;
+            }
             default:
                 console.log('Unknown message type:', data.type);
         }
@@ -740,6 +755,9 @@ export class MultiplayerGameScene extends Phaser.Scene {
                 this.physics.add.overlap(p1, sprite, () => this.pickPowerUp(sprite, "player1"));
                 this.physics.add.overlap(p2, sprite, () => this.pickPowerUp(sprite, "player2"));
                 break;
+            case 'invertControls':
+                this.physics.add.overlap(p1, sprite, () => this.pickInvertedControls(sprite, 'player1'));
+                this.physics.add.overlap(p1, sprite, () => this.pickInvertedControls(sprite, 'player2'))
         }
     }
 
@@ -750,6 +768,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
             case 'trash': group = this.trashGroup; break;
             case 'powerUp': group = this.powerUpGroup; break;
             case 'spill': group = this.spillGroup; break;
+            case 'invertControls' : group = this.spillGroup; break;
         }
         
         if (group) {
@@ -815,6 +834,14 @@ export class MultiplayerGameScene extends Phaser.Scene {
         }
     }
     
+    trySpawnInverted()
+    {
+        let target = this.trySpawn(70, this.invertControls);
+        if(target != null)
+        {
+            this.spawnInverted(target);
+        }
+    }
     spawn(objectType, targetPlayer, x11, y11, x21, y21, x12, y12, x22, y22, key1, key2, spriteSize, objectGroup, tiempoEnPantalla, p1, p2) {
         let x, y;
         let object;
@@ -906,6 +933,21 @@ export class MultiplayerGameScene extends Phaser.Scene {
         this.physics.add.overlap(p2, powerUp, () => this.pickPowerUp(powerUp, "player2"));
     }
     
+    spawnInverted(target)
+    {
+        if(!target)
+        {
+            target = Phaser.Math.Between(1,2);
+        }
+
+        const p1 = this.players.get("player1").sprite;
+        const p2 = this.players.get("player2").sprite;
+
+        let inverted = this.spawn('invertControls', target, 50, 340, 150, 550, 460, 750, 150, 550, "powerNarval", "powerQuoka", 120, this.invertGroup, 15000, p1, p2);
+
+        this.physics.add.overlap(p1, inverted, () => this.pickInvertedControls(inverted, "player1"));
+        this.physics.add.overlap(p2, inverted, () => this.pickInvertedControls(inverted, "player2"));
+    }
     throwSticky(sticky, playerNumber, score){
         if(!sticky.active) return;
         sticky.active = false;
@@ -954,7 +996,20 @@ export class MultiplayerGameScene extends Phaser.Scene {
         this.players.get(id).setSprite("down");
     }
 
+    pickInvertedControls(powerUp, targetId)
+    {
+        if(!powerUp.active) return;
         
+        powerUp.active = false;
+        powerUp.destroy();
+
+        this.sendMessage({
+            type: 'invertControls',
+            targetPlayer: targetId,
+            duration: 6000,
+            roomId : this.roomId
+        })
+    }
     // Recoge el residuo y da la puntuación correcta
     collect(object, playerNumber, score) {
         if(!object.active) return;
@@ -1198,29 +1253,31 @@ export class MultiplayerGameScene extends Phaser.Scene {
         if (!player || !player.sprite) return;
         
         player.sprite.setVelocity(0, 0);
-        
+        const id = this.playerRole;
+        const inverted = this.invertControls[id]
+
         let currentDirection = null;
         let isMoving = false;
         
         if (this.cursors.up.isDown) {
-            player.sprite.setVelocityY(-player.baseSpeed);
+            player.sprite.setVelocityY(inverted ? player.baseSpeed : -player.baseSpeed);
             player.sprite.setVelocityX(0);
-            currentDirection = "up";
+            currentDirection = inverted ? "down" : "up";
             isMoving = true;
         } else if (this.cursors.down.isDown) {
-            player.sprite.setVelocityY(player.baseSpeed);
+            player.sprite.setVelocityY(inverted ? -player.baseSpeed : player.baseSpeed);
             player.sprite.setVelocityX(0);
-            currentDirection = "down";
+            currentDirection = inverted ? "up" : "down";
             isMoving = true;
         } else if (this.cursors.left.isDown) {
-            player.sprite.setVelocityX(-player.baseSpeed);
+            player.sprite.setVelocityX(inverted ? player.baseSpeed : -player.baseSpeed);
             player.sprite.setVelocityY(0);
-            currentDirection = "left";
+            currentDirection = inverted ? "right" : "left";
             isMoving = true;
         } else if (this.cursors.right.isDown) {
-            player.sprite.setVelocityX(player.baseSpeed);
+            player.sprite.setVelocityX(inverted ? -player.baseSpeed : player.baseSpeed);
             player.sprite.setVelocityY(0);
-            currentDirection = "right";
+            currentDirection = inverted ? "left" : "right";
             isMoving = true;
         } else {
             currentDirection = this.lastDirection || "down";

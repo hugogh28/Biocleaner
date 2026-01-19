@@ -154,7 +154,7 @@ export function createGameRoomService() {
     } else if (data.targetPlayer === 'player2') {
     player = currentRoom.player2;
     }
-    
+
     console.log(`[SCORE UPDATE] ${playerName}: ${player.score} -> ${data.score}`);
 
     player.score += data.score;
@@ -178,7 +178,23 @@ export function createGameRoomService() {
     }
   }
 
-  ////////////////////////////////////// SUJETO A REVISIÓN ////////////////////////////////
+  function handleInvertedControls(ws, data)
+  {
+    const currentRoom = rooms.get(ws.roomID);
+    if(!currentRoom || !currentRoom.active) return;
+
+    const msg = {
+      type: 'invertControls',
+      targetPlayer: data.targetPlayer,
+      duration: data.duration
+    };
+
+    if (currentRoom.player1.ws.readyState === 1)
+      currentRoom.player1.ws.send(JSON.stringify(msg))
+
+    if (currentRoom.player2.ws.readyState === 1)
+      currentRoom.player2.ws.send(JSON.stringify(msg))
+  }
 
   function handleObjectsPosition(ws,data){
     const currentRoom = rooms.get(ws.roomId);
@@ -308,6 +324,7 @@ export function createGameRoomService() {
     handlePlayerMove,
     handleScoreUpdate,
     handleDisconnect,
+    handleInvertedControls,
     handleObjectsPosition,
     handleDeleteObjects,
     handlePowerUpPickup,  
