@@ -212,7 +212,7 @@ No existen colisiones entre jugadores, pero si colisionan con:
   <p>
   <img src="public/assets/Items/cubo.png" width=120 height=128>
   </p>
-###Fondos
+### Fondos
 <p float="left">
   <img src="public/assets/Fondos/fondo.png" width=463 height=410>
    <img src="public/assets/Fondos/fondo_juego.png" width=463 height=410>
