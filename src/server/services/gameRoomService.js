@@ -54,10 +54,20 @@ export function createGameRoomService() {
 
       console.log(`[GAME ROOM] Tiempo agotado para sala ${roomId}`);
       currentRoom.active = false;
+
+      const p1 = currentRoom.player1.score;
+      const p2 = currentRoom.player2.score;
+
+      let winner = 'draw'
+      if (p1 > p2) winner = 'player1'
+      else if (p2 < p1) winner = 'player2'
+
       const gameOverMsg = {
         type: 'gameOverTime',
-        player1Score: currentRoom.player1.score,
-        player2Score: currentRoom.player2.score
+
+        winner,
+        player1Score: p1,
+        player2Score: p2
       };
 
       try {
@@ -128,7 +138,6 @@ export function createGameRoomService() {
           opponent.send(JSON.stringify({
               type: 'stickyHit',
               playerId: data.playerId,
-              score: data.score
           }));
       }
   }
@@ -137,12 +146,18 @@ export function createGameRoomService() {
     const currentRoom = rooms.get(ws.roomId);
     if (!currentRoom || !currentRoom.active) return;
 
-    const player = currentRoom.player1.ws === ws ? currentRoom.player1 : currentRoom.player2;
+    var player = currentRoom.player1.ws === ws ? currentRoom.player1 : currentRoom.player2;
     const playerName = currentRoom.player1.ws === ws ? 'player1' : 'player2';
-
+    
+    if (data.targetPlayer === 'player1') {
+    player = currentRoom.player1;
+    } else if (data.targetPlayer === 'player2') {
+    player = currentRoom.player2;
+    }
+    
     console.log(`[SCORE UPDATE] ${playerName}: ${player.score} -> ${data.score}`);
 
-    player.score = data.score;
+    player.score += data.score;
     
     const msg = {
       type: 'scoreUpdate',

@@ -591,23 +591,12 @@ export class MultiplayerGameScene extends Phaser.Scene {
             case 'stickyHit':
                 const stickyPlayerId = data.playerId;
                 this.stickyActive[stickyPlayerId] = true;
-                
-                const player = this.players.get(stickyPlayerId);
-                if (player.score >= data.score) {
-                    player.score -= data.score;
-                }
-                
+                                
                 if (this.powerUpActive[stickyPlayerId]) {
                     this.powerUpActive[stickyPlayerId] = false;
                     this.stickyActive[stickyPlayerId] = false;
                 }
-                
-                if (stickyPlayerId === "player1") {
-                    this.scoreQuoka.setText(player.score);
-                } else {
-                    this.scoreNarval.setText(player.score);
-                }
-                
+                                
                 if (this.stickySpawnTimer[stickyPlayerId]) {
                     this.stickySpawnTimer[stickyPlayerId].remove(false);
                 }
@@ -641,7 +630,11 @@ export class MultiplayerGameScene extends Phaser.Scene {
                 break;
 
             case 'gameOverTime':
-                this.endGame(null, data.player1Score, data.player2Score);
+                this.endGame(
+                    data.winner, 
+                    data.player1Score,
+                    data.player2Score
+                );
                 break;
 
             default:
@@ -915,18 +908,13 @@ export class MultiplayerGameScene extends Phaser.Scene {
     
     throwSticky(sticky, playerNumber, score){
         if(!sticky.active) return;
+        sticky.active = false;
 
         this.pleugh2.play();
 
         const id = playerNumber === 1 ? "player1" : "player2";
         
         // NUEVO: Enviar evento de sticky hit al servidor
-        this.sendMessage({
-            type: 'stickyHit',
-            playerId: id,
-            score: score,
-            roomId: this.roomId
-        });
 
         this.sendMessage({
             type: 'delObjects',
@@ -937,19 +925,27 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
         sticky.destroy();
 
-        const player = this.players.get(id);
+        const delta = -score;
+
+        this.sendMessage({
+            type: 'scoreUpdate',
+            targetPlayer: id,
+            score: delta,
+            roomId: this.roomId
+        });
+
+        this.sendMessage({
+            type: 'stickyHit',
+            playerId: id,
+            roomId: this.roomId
+        });
+
         this.stickyActive[id] = true;
 
-        if(player.score >= score){
-            player.score -= score;
-        }
         if(this.powerUpActive[id]){
             this.powerUpActive[id] = false;
             this.stickyActive[id] = false;
         }
-
-        if(id === "player1") this.scoreQuoka.setText(player.score);
-        else this.scoreNarval.setText(player.score);
 
         this.stickySpawnTimer[id] = this.time.delayedCall(2000, () => {
             this.stickyActive[id] = false;
@@ -962,6 +958,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
     // Recoge el residuo y da la puntuación correcta
     collect(object, playerNumber, score) {
         if(!object.active) return;
+        object.active = false;
         
         this.sendMessage({
             type: 'delObjects',
@@ -977,21 +974,15 @@ export class MultiplayerGameScene extends Phaser.Scene {
         const id = playerNumber === 1 ? "player1" : "player2";
     
         const multiplier = this.powerUpActive[id] ? 2 : 1;
-    
-        player.score += score * multiplier;
-    
-        if(id === "player1") {
-            this.scoreQuoka.setText(player.score.toString());
-        } else {
-            this.scoreNarval.setText(player.score.toString());
-        }
         
+        //player.score += score * multiplier;
+    
         console.log(`Enviando puntuación al servidor: ${player.score}`);
-
+        const delta = score * multiplier;
         this.sendMessage({
             type: 'scoreUpdate',
             playerRole: this.playerRole,
-            score: player.score,
+            score: delta,
             roomId: this.roomId
         });
 
@@ -1031,7 +1022,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         
         this.players.get(playerId).setSprite("down");
     }
-    
+    /*
     getWinner() {
         const p1Score = this.players.get("player1").score;
         const p2Score = this.players.get("player2").score;
@@ -1039,21 +1030,27 @@ export class MultiplayerGameScene extends Phaser.Scene {
         if(p1Score > p2Score) return "player1";
         else if(p2Score > p1Score) return "player2";
         return "draw";
-    }
+    }*/
 
     endGame(winner = null, player1Score = null, player2Score = null) {
         if (this.gameEnded) return;
         
         this.gameEnded = true;
         
+        this.throwSticky
         console.log('[END GAME] Winner:', winner, 'Scores:', player1Score, player2Score);
-        
-        // Si no se proporciona ganador o puntuaciones, usar las locales como fallback
-        if (winner === null || player1Score === null || player2Score === null) {
-            console.warn('[END GAME] Usando puntuaciones locales como fallback');
-            player1Score = this.players.get("player1").score;
-            player2Score = this.players.get("player2").score;
-            winner = this.getWinner();
+
+        if (
+            winner === null ||
+            player1Score === null ||
+            player2Score === null
+        ) {
+            console.error('[END GAME] Datos inválidos del servidor', {
+                winner,
+                player1Score,
+                player2Score
+            });
+            return;
         }
         
         // Actualizar las puntuaciones finales en la UI
@@ -1068,15 +1065,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
             this.remoteJugador.sprite.setVelocity(0, 0);
         }
         
-        player1Score = Math.max(
-            player1Score,
-            this.players.get("player1").score
-        );
-        player2Score = Math.max(
-            player2Score,
-            this.players.get("player2").score
-        );
-
         this.scoreQuoka.setText(player1Score.toString());
         this.scoreNarval.setText(player2Score.toString());
 
@@ -1255,13 +1243,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
         player.sprite.y = Phaser.Math.Clamp(player.sprite.y, 115, 555);
         
         this.sendPlayerPosition();
-        if (this.endAt && Date.now() >= this.endAt && !this.gameEnded) {
-            this.sendMessage({
-                type: 'scoreUpdate',
-                score: this.players.get(this.playerRole).score,
-                roomId: this.roomId
-            });
-        }
 
         const brightness = this.plugins.get("Brightness");
         brightness.updateOverlay(this);
