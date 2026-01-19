@@ -108,7 +108,6 @@ export function createGameRoomService() {
               y: data.y,
               direction: data.direction,
               isMoving: data.isMoving,
-              // NUEVO: Reenviar estados
               powerUpActive: data.powerUpActive,
               stickyActive: data.stickyActive
           }));

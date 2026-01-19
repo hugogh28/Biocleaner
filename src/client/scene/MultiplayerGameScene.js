@@ -570,7 +570,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
                     if (data.direction && this.remoteJugador.setSprite) {
                         this.remoteJugador.setSprite(data.direction, data.isMoving);
                     }
-                    // NUEVO: Sincronizar estados
+                    //Sincronizar estados
                     if (data.powerUpActive !== undefined) {
                         const playerId = this.playerRole === 'player1' ? 'player2' : 'player1';
                         this.powerUpActive[playerId] = data.powerUpActive;
@@ -590,7 +590,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
                 this.scoreNarval.setText(data.player2Score.toString());
                 break;
 
-            // NUEVO: Sincronizar efectos de powerUp
+            //Sincronizar efectos de powerUp
             case 'powerUpPickup':
                 const powerUpPlayerId = data.playerId;
                 this.powerUpActive[powerUpPlayerId] = true;
@@ -606,7 +606,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
                 this.players.get(powerUpPlayerId).setSprite("down");
                 break;
 
-            // NUEVO: Sincronizar efectos de sticky
+            //Sincronizar efectos de sticky
             case 'stickyHit':
                 const stickyPlayerId = data.playerId;
                 this.stickyActive[stickyPlayerId] = true;
@@ -984,7 +984,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
         const id = playerNumber === 1 ? "player1" : "player2";
         
-        // NUEVO: Enviar evento de sticky hit al servidor
 
         this.sendMessage({
             type: 'delObjects',
@@ -1086,7 +1085,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
         this.powerUpSound.play();
 
-        // NUEVO: Enviar evento de powerUp pickup al servidor
+        //Enviar evento de powerUp pickup al servidor
         this.sendMessage({
             type: 'powerUpPickup',
             playerId: playerId,
@@ -1115,15 +1114,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
         
         this.players.get(playerId).setSprite("down");
     }
-    /*
-    getWinner() {
-        const p1Score = this.players.get("player1").score;
-        const p2Score = this.players.get("player2").score;
-        
-        if(p1Score > p2Score) return "player1";
-        else if(p2Score > p1Score) return "player2";
-        return "draw";
-    }*/
 
     endGame(winner = null, player1Score = null, player2Score = null) {
         if (this.gameEnded) return;
@@ -1147,8 +1137,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
         }
         
         // Actualizar las puntuaciones finales en la UI
-        //this.scoreQuoka.setText(player1Score.toString());
-        //this.scoreNarval.setText(player2Score.toString());
         
         // Detener física y movimiento
         if (this.localJugador && this.localJugador.sprite) {
@@ -1180,29 +1168,8 @@ export class MultiplayerGameScene extends Phaser.Scene {
             this.tiempoMuerto.play();
         }
 
-        // Determinar si el jugador local ganó
-        const isWinner = (winner === 'player1' && this.playerRole === 'player1') ||
-                        (winner === 'player2' && this.playerRole === 'player2');
-        const isDraw = winner === 'draw';
-
-        let winnerText, color;
-        if (isDraw) {
-            winnerText = '¡Empate!';
-            color = '#ffff00';
-        } else {
-            winnerText = isWinner ? '¡Ganaste!' : '¡Perdiste!';
-            color = isWinner ? '#00ff00' : '#ff0000';
-        }
-
         // Crear overlay semi-transparente
         const overlay = this.add.rectangle(400, 300, 800, 600, 0x000000, 0.7);
-
-        // Texto de resultado principal
-        this.add.text(400, 200, winnerText, {
-            fontFamily: 'aaaaa',
-            fontSize: '64px',
-            color: color
-        }).setOrigin(0.5).setDepth(100);
 
         // Puntuación final
         this.add.text(400, 280, `Puntuación Final`, {
@@ -1240,7 +1207,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
         this.add.text(400, 250, 'Opponent Disconnected', {
             fontFamily:'aaaaa',
-            fontSize: '48px',
+            fontSize: '38px',
             color: '#ff0000'
         }).setOrigin(0.5);
 
@@ -1249,7 +1216,8 @@ export class MultiplayerGameScene extends Phaser.Scene {
 
     createMenuButton() {
         const menuBtn = this.add.text(400, 400, 'Volver al Menú Principal', {
-            fontSize: '32px',
+            fontFamily:'aaaaa',
+            fontSize: '16px',
             color: '#ffffff',
         }).setOrigin(0.5)
         .setInteractive({ useHandCursor: true })
@@ -1278,6 +1246,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
     }
 
     update() {
+        if (this.gameEnded) return;
         if (this.endAt && this.timerText) {
             const remaining = Math.max(
                 0,
@@ -1327,7 +1296,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         
         // Guardar la dirección actual Y el estado de movimiento
         this.lastDirection = currentDirection;
-        this.lastIsMoving = isMoving;  // NUEVO: Guardar isMoving
+        this.lastIsMoving = isMoving;  //Guardar isMoving
         
         if (this.playerRole === 'player1') {
             player.sprite.x = Phaser.Math.Clamp(player.sprite.x, 0, 400);
@@ -1353,7 +1322,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
                 y: this.localJugador.sprite.y,
                 direction: this.lastDirection || 'down',
                 isMoving: this.lastIsMoving !== undefined ? this.lastIsMoving : false,
-                // NUEVO: Incluir estados
+                //Incluir estados
                 powerUpActive: this.powerUpActive[myPlayerId],
                 stickyActive: this.stickyActive[myPlayerId]
             };

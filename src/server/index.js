@@ -247,7 +247,6 @@ wss.on('connection', (ws) => {
       case 'leaveQueue':
         matchmakingService.leaveQueue(ws);
         break;
-      ///////////////NUEVO
       case 'syncObjects':
         gameRoomService.handleObjectsPosition(ws,data);
         break;
@@ -255,7 +254,6 @@ wss.on('connection', (ws) => {
       case 'delObjects':
         gameRoomService.handleDeleteObjects(ws,data);
         break;
-      ////////////////////
       case 'playerMove':
         gameRoomService.handlePlayerMove(ws, data);
         break;

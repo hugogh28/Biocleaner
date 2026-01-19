@@ -6,7 +6,7 @@ export class Personajes {
         this.score = 0;
         this.baseSpeed = 300;
         
-        // NUEVO: Variables para controlar animaciones
+        //Variables para controlar animaciones
         this.lastDirection = null;
         this.isAnimating = false;
 
@@ -56,7 +56,7 @@ export class Personajes {
                 else if (direction === "right") animKey = "quokka_walk_right";
                 else animKey = "quokka_walk_front";
             } else {
-                // TEXTURAS DE POWER UP (estáticas por ahora)
+                // ANIMACIONES POWER UP
                 if (direction === "up") animKey = "quokka_walk_backP";
                 else if (direction === "down") animKey = "quokka_walk_frontP";
                 else if (direction === "left") animKey = "quokka_walk_leftP";
@@ -72,7 +72,7 @@ export class Personajes {
                 else if (direction === "right") animKey = "narval_walk_right";
                 else animKey = "narval_walk_front";
             } else {
-                // TEXTURAS DE POWER UP (estáticas por ahora)
+                // ANIMACIONES POWER UP
                 if (direction === "up") animKey = "narval_walk_backP";
                 else if (direction === "down") animKey = "narval_walk_frontP";
                 else if (direction === "left") animKey = "narval_walk_leftP";
