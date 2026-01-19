@@ -263,14 +263,18 @@ wss.on('connection', (ws) => {
         gameRoomService.handlePowerUpPickup(ws, data);
         break;
 
-    case 'stickyHit':
+      case 'stickyHit':
         gameRoomService.handleStickyHit(ws, data);
         break;
 
       case 'scoreUpdate':
         gameRoomService.handleScoreUpdate(ws, data);
         break;
-
+      
+      case 'invertControls':
+        gameRoomService.handleInvertedControls(ws,data);
+        break;
+        
       default:
         console.log('[WS] Tipo de mensaje desconocido:', data.type);
     }

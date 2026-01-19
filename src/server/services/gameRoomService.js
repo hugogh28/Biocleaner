@@ -27,6 +27,7 @@ export function createGameRoomService() {
       trashGroup: [],
       powerUpGroup:[],
       spillGroup:[],
+      invertGroup:[],
       active: true,
       endAt
     };
@@ -180,7 +181,7 @@ export function createGameRoomService() {
 
   function handleInvertedControls(ws, data)
   {
-    const currentRoom = rooms.get(ws.roomID);
+    const currentRoom = rooms.get(ws.roomId);
     if(!currentRoom || !currentRoom.active) return;
 
     const msg = {
@@ -227,6 +228,11 @@ export function createGameRoomService() {
           x, y, size, id
         });
         break;
+      case 'invert':
+        currentRoom.invertGroup.push({
+          objectType: 'invert',
+          x,y,size,id
+        });
     }
 
     const msg = {
@@ -234,7 +240,8 @@ export function createGameRoomService() {
       stickyGroup: currentRoom.stickyGroup,
       trashGroup: currentRoom.trashGroup,
       powerUpGroup: currentRoom.powerUpGroup,
-      spillGroup: currentRoom.spillGroup
+      spillGroup: currentRoom.spillGroup,
+      invertGroup: currentRoom.invertGroup
     };
 
     if(currentRoom.player1.ws.readyState === 1) {
@@ -263,6 +270,9 @@ export function createGameRoomService() {
         break;
       case 'spill':
         currentRoom.spillGroup = currentRoom.spillGroup.filter(obj=> obj.id !== id);
+        break;
+      case 'invert':
+        currentRoom.invertGroup = currentRoom.invertGroup.filter(obj => obj.id !== id);
         break;
     }
 

@@ -244,6 +244,13 @@ export class MultiplayerGameScene extends Phaser.Scene {
                 callbackScope: this,
                 loop: true
             });
+
+            this.time.addEvent({
+                delay: 5000, 
+                callback: this.trySpawnInverted,
+                callbackScope: this,
+                loop: true
+            }); 
         }
         
         // Sonido de gaviota
@@ -475,6 +482,11 @@ export class MultiplayerGameScene extends Phaser.Scene {
             'player1': null,
             'player2': null
         };
+
+        this.invertControls = {
+            player1: false,
+            player2: false
+        }
         
         // Initialize scores
         this.localJugador.score = 0;
@@ -694,7 +706,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
             }
         });
 
-        // PowerUps necesitan lógica especial por las diferentes imágenes
         data.powerUpGroup.forEach(obj => {
             const exists = this.powerUpGroup.getChildren().some(child => 
                 child.objectId === obj.id
@@ -719,8 +730,6 @@ export class MultiplayerGameScene extends Phaser.Scene {
             );
         
             if (!exists) {
-                // x <= 400 = lado izquierdo (Quokka/Tierra) = vertido (tierra)
-                // x > 400 = lado derecho (Narval/Agua) = vertido1 (agua)
                 const key = obj.x <= 400 ? 'vertido' : 'vertido1';
                 const sprite = this.physics.add.sprite(obj.x, obj.y, key);
                 sprite.setDisplaySize(obj.size, obj.size);
@@ -732,6 +741,25 @@ export class MultiplayerGameScene extends Phaser.Scene {
             console.log(`[P2 SYNC] Creado spill con sprite ${key} en x=${obj.x}, ID ${obj.id}`);
             }
         });
+
+        data.invertGroup.forEach(obj => {
+            const exists = this.invertGroup.getChildren().some(child => 
+                child.objectId === obj.id
+            );
+            
+            if (!exists) {
+                const key = obj.x <= 400 ? 'powerNarval' : 'powerQuoka';
+                const sprite = this.physics.add.sprite(obj.x, obj.y, key);
+                sprite.setDisplaySize(obj.size, obj.size);
+                sprite.objectId = obj.id;
+                sprite.objectType = 'invert';
+                this.invertGroup.add(sprite);
+                this.addCollisionsForObject(sprite, 'invert');
+                
+                console.log(`[P2 SYNC] Creado powerUp con ID ${obj.id}`);
+            }
+        });
+
     }
 
     addCollisionsForObject(sprite, objectType) {
@@ -755,9 +783,9 @@ export class MultiplayerGameScene extends Phaser.Scene {
                 this.physics.add.overlap(p1, sprite, () => this.pickPowerUp(sprite, "player1"));
                 this.physics.add.overlap(p2, sprite, () => this.pickPowerUp(sprite, "player2"));
                 break;
-            case 'invertControls':
-                this.physics.add.overlap(p1, sprite, () => this.pickInvertedControls(sprite, 'player1'));
-                this.physics.add.overlap(p1, sprite, () => this.pickInvertedControls(sprite, 'player2'))
+            case 'invert':
+                this.physics.add.overlap(p1, sprite, () => this.pickInvertedControls(sprite, "player1"));
+                this.physics.add.overlap(p2, sprite, () => this.pickInvertedControls(sprite, "player2"));
         }
     }
 
@@ -768,7 +796,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
             case 'trash': group = this.trashGroup; break;
             case 'powerUp': group = this.powerUpGroup; break;
             case 'spill': group = this.spillGroup; break;
-            case 'invertControls' : group = this.spillGroup; break;
+            case 'invert' : group = this.invertGroup; break;
         }
         
         if (group) {
@@ -943,7 +971,7 @@ export class MultiplayerGameScene extends Phaser.Scene {
         const p1 = this.players.get("player1").sprite;
         const p2 = this.players.get("player2").sprite;
 
-        let inverted = this.spawn('invertControls', target, 50, 340, 150, 550, 460, 750, 150, 550, "powerNarval", "powerQuoka", 120, this.invertGroup, 15000, p1, p2);
+        let inverted = this.spawn('invert', target, 50, 340, 150, 550, 460, 750, 150, 550, "powerNarval", "powerQuoka", 120, this.invertGroup, 15000, p1, p2);
 
         this.physics.add.overlap(p1, inverted, () => this.pickInvertedControls(inverted, "player1"));
         this.physics.add.overlap(p2, inverted, () => this.pickInvertedControls(inverted, "player2"));
@@ -1001,11 +1029,21 @@ export class MultiplayerGameScene extends Phaser.Scene {
         if(!powerUp.active) return;
         
         powerUp.active = false;
+
+        const targetPlayer = targetId === 'player1' ? 'player2' : 'player1';
+
+        this.sendMessage({
+            type: 'delObjects',
+            objectType: 'invert',
+            id: powerUp.objectId,
+            roomId: this.roomId
+        });        
+
         powerUp.destroy();
 
         this.sendMessage({
             type: 'invertControls',
-            targetPlayer: targetId,
+            targetPlayer: targetPlayer,
             duration: 6000,
             roomId : this.roomId
         })
