@@ -58,7 +58,7 @@ La pantalla estará dividida en dos zonas, la zona izquierda, terrestre, pertene
 
 La vista será de tipo *top-down* para el quokka, mientras que para el narval será de tipo *top*, la necesidad de hacer estos dos tipos de perspectiva es por una simple decisión estética, ya que así el quokka y el narval tendrán un tamaño aparentemente similar, a diferencia de su tamaño real que dista mucho de ser parecido.
 
-El juego es del género arcade competitivo 2D con subgéneros como party game y educativo ambiental. Está orientado para todo tipo de edades, pero es preferente para niños. Está pensado para jugarlo en línea en una web.
+El juego es del género arcade competitivo 2D con subgéneros como party game y educativo ambiental. Está orientado para todo tipo de edades, pero es preferente para niños. Está pensado para jugarlo tanto local como en línea en una web.
 
 
 ### Diagrama de flujo
@@ -204,7 +204,13 @@ No existen colisiones entre jugadores, pero si colisionan con:
 <img src="public/assets/Items/bayas.png" width=256 height=256>
 <img src="public/assets/Items/pez.png" width=256 height=256>
 </p>
- 
+
+- ### Carambolas
+   Como forma de dar una mayor interacción entre ambos jugadores, existe el ítem denominado como "carambola". Este comparte apariencia con los potenciadores, pero hay algo de vital importancia que los diferencia, mientras que en los potenciadores las bayas van al quokka y el pescado al narval, el objeto "carambola", aparecerá de forma contraria, de modo que para el jugador que controla al quokka aparecerán pescados que podrá recoger, provocando así la inversión de los controles del jugador que controla al narval.
+  <p float="left">
+  <img src="public/assets/Items/pez.png" width=256 height=256>
+  <img src="public/assets/Items/bayas.png" width=256 height=256>
+  </p>
 - #### Pringue
   Al igual que los potenciadores tendrá una probabilidad baja de aparecer, aunque a diferencia de estos, tendrá un funcionamiento mucho más fijo, es decir, no dependerá tanto del puntaje de los jugadores para efectuar su aparición.
   Dicho pringue será lanzado al rival al ser recogido tal y como se haría con cualquier otro objeto.
