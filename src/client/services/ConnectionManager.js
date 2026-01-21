@@ -4,16 +4,16 @@
  */
 export class ConnectionManager {
   constructor() {
-    this.connectedCount = 0;
-    this.isConnected = false;
-    this.lastCheckTime = 0;
+    this.connectedCount = 1;
+    this.isConnected = true;
+    this.lastCheckTime = Date.now();
     this.checkInterval = 2000; // Comprobar cada 2 segundos
     this.listeners = [];
     this.sessionId = this.generateSessionId();
     this.intervalId = null;
 
     // Iniciar el polling automático
-    this.startPolling();
+    // this.startPolling();
   }
 
   /**

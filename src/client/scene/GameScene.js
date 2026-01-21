@@ -327,13 +327,14 @@ export class GameScene extends Phaser.Scene{
             }
         });
 
-
+        /*
         this.connectionListener = (data) => {
             if(!data.connected && this.scene.isActive()){
                 this.onConnectionLost();
             }
         };
         connectionManager.addListener(this.connectionListener);
+        */
                 
     }
 

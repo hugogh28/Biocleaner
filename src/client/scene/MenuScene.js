@@ -69,7 +69,7 @@ export class MenuScene extends Phaser.Scene {
         const localBtn = this.add.image(350, 200, 'botonJugar').setOrigin(0.5)     //Botón que lleva a la pantalla de juego
         .setInteractive({useHandCursor: true})
         .on('pointerdown', () => {
-            this.scene.start('LocaloOnlineSeleccion');
+            this.scene.start('GameScene');
         });
 
         
