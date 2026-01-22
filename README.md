@@ -258,3 +258,11 @@ Al ser además este un juego similar a los que existen en Internet en formato we
 
 Siguiendo este plan el equipo logrará llegar al público objetivo. A futuro se podrían implementar otras estrategias, aunque siempre de forma complementaria y tratando de priorizar en todo momento aquellas que se tiene conocimiento de su eficacia.
 
+###Plataformas de publicación
+
+Itch.io : https://hugogh28.itch.io/biocleaner
+Newgrounds: https://www.newgrounds.com/portal/view/1015720
+Game Jolt: https://gamejolt.com/games/biocleaner/1045094
+Github: https://squeakyboy.github.io/Biocleaner-Build/
+
+Aún pendiente de aceptación => Game Arter: https://www.gamearter.com/game/biocleaner/
