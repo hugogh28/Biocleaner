@@ -262,7 +262,7 @@ Siguiendo este plan el equipo logrará llegar al público objetivo. A futuro se 
 
 Itch.io : https://hugogh28.itch.io/biocleaner
 Newgrounds: https://www.newgrounds.com/portal/view/1015720
-Game Jolt: https://gamejolt.com/games/biocleaner/1045094
+Gamejolt: https://gamejolt.com/games/biocleaner/1045094
 Github: https://squeakyboy.github.io/Biocleaner-Build/
 
-Aún pendiente de aceptación => Game Arter: https://www.gamearter.com/game/biocleaner/
+Aún pendiente de aceptación => Gamearter: https://www.gamearter.com/game/biocleaner/
